@@ -1,0 +1,33 @@
+
+
+        
+  .offcanvas.offcanvas-categorias {
+    background: #f6f4f4;
+  }
+  .offcanvas-categorias .categoria-link {
+    color: #000 !important; /* forzar negro dentro del offcanvas */
+        padding: 10px 15px;
+        display: block;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        transition: background 0.2s, color 0.2s;
+    }
+    .offcanvas-categorias .categoria-link:hover {
+        background: orange;
+    color: #000;
+    }
+    .categoria-link {
+        color: #222;
+        padding: 10px 15px;
+        display: block;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        font-weight: 500;
+        transition: background 0.2s, color 0.2s;
+    }
+    .categoria-link:hover {
+    background: #829dff;
+    color: #111;
+    }
