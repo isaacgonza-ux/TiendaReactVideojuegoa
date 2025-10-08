@@ -5,6 +5,7 @@ import Home from "./pages/Home.jsx";
 import Footer from "./components/Footer.jsx";
 import MenuLateral from "./components/MenuLateral.jsx";
 import Contacto from "./pages/Contacto.jsx";
+import Catalogo from "./pages/Catalogo.jsx";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
     <BrowserRouter>
       {/* <Menu/> */}
       {/* <MenuLateral/> */}
-      <Contacto/>
+      <Catalogo/>
      
       
       {/* <Routes> */}
