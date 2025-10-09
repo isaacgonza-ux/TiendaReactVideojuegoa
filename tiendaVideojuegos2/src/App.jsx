@@ -6,22 +6,23 @@ import Footer from "./components/Footer.jsx";
 import MenuLateral from "./components/MenuLateral.jsx";
 import Contacto from "./pages/Contacto.jsx";
 import Catalogo from "./pages/Catalogo.jsx";
+import Nosotros from "./pages/Nosotros.jsx";
 
 function App() {
   return (
     
     <BrowserRouter>
-      {/* <Menu/> */}
-      {/* <MenuLateral/> */}
-      <Catalogo/>
+       <Menu/> 
+       <MenuLateral/> 
+      
      
       
-      {/* <Routes> */}
-        {/* <Route path="/" element ={<Home/>}/> */}
+      <Routes> 
+        <Route path="/" element ={<Home/>}/> 
         {/* <Route path="/Contacto" element={<Contacto/>}/> */}
         
         {/* <Footer/> */}
-      {/* </Routes> */}
+      </Routes> 
      
     </BrowserRouter>
   );

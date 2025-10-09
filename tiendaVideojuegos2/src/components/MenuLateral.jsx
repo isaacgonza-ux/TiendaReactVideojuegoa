@@ -50,17 +50,17 @@ export default function MenuLateral() {
           <ul className="list-unstyled mb-0">
             <li>
               <a href="Productos.html" className="categoria-link">
-                <i className="fas fa-gamepad me-2 text-warning"></i>PS3
+                <i className="bi bi-controller me-2 text-warning"></i>PS3
               </a>
             </li>
             <li>
               <a href="Productos.html" className="categoria-link">
-                <i className="fas fa-gamepad me-2 text-warning"></i>PS4
+                <i className="bi bi-controller me-2 text-warning"></i>PS4
               </a>
             </li>
             <li>
               <a href="Productos.html" className="categoria-link">
-                <i className="fas fa-gamepad me-2 text-warning"></i>PS5
+                <i className="fab fa-playstation me-2 text-warning"></i>PS5
               </a>
             </li>
             <li>
