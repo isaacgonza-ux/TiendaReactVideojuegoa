@@ -3,7 +3,7 @@ import React from "react";
 import ProductCard2 from "../components/ProductCard2";
 import productos from "../data/Productos";
 
-export default function Catalogo() {
+export default function catalogo() {
   return (
     <div className="container my-5 bg-white text-dark">
       <h2 className="text-center text-warning mb-4">

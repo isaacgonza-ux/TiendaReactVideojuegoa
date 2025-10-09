@@ -1,5 +1,6 @@
 import React from "react";
 import '../index.css';
+import { Link } from "react-router-dom";
 
 function Nosotros() {
     return (
@@ -64,7 +65,7 @@ function Nosotros() {
     <section className="py-5 text-center">
         <div className="container">
         <h2 className="mb-4">¿Quieres saber más?</h2>
-        <a href="contacto.html" className="btn btn-primary btn-lg">Contáctanos</a>
+        <Link to ="/contacto" className="btn btn-primary btn-lg">Contáctanos</Link>
         </div>
     </section>
    </div>

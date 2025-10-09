@@ -1,5 +1,6 @@
 
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -32,14 +33,14 @@ export default function Footer() {
               Santiago, Chile
             </small>
             <div>
-              <a href="Nosotros.html" style={{ color: "orange" }}>Nosotros</a>
+              <Link to="nosotros" style={{ color: "orange" }}>Nosotros</Link>
             </div>
           </div>
 
           {/* Contacto y redes sociales */}
           <div className="col-md-4 text-center text-md-end">
             <h6>
-              <a href="contacto.html" className="text-warning text-decoration-none">Contacto</a>
+              <Link to="/contacto" className="text-warning text-decoration-none">Contacto</Link>
             </h6>
             <small>
               <i className="fas fa-envelope"></i> contacto@infinityplay.cl<br />

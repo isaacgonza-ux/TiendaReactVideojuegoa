@@ -1,5 +1,5 @@
-import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
 import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Menu from "./components/Menu.jsx";
 import Home from "./pages/Home.jsx";
 import Footer from "./components/Footer.jsx";
@@ -10,20 +10,18 @@ import Nosotros from "./pages/Nosotros.jsx";
 
 function App() {
   return (
-    
     <BrowserRouter>
-       <Menu/> 
-       <MenuLateral/> 
-      
-     
-      
-      <Routes> 
-        <Route path="/" element ={<Home/>}/> 
-        {/* <Route path="/Contacto" element={<Contacto/>}/> */}
-        
-        {/* <Footer/> */}
-      </Routes> 
-     
+      <Menu />
+      <MenuLateral />
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+         <Route path="/contacto" element={<Contacto/>}/> 
+        <Route path="/catalogo" element={<Catalogo />} />
+        <Route path="/nosotros" element={<Nosotros />} />
+      </Routes>
+
+      <Footer />
     </BrowserRouter>
   );
 }

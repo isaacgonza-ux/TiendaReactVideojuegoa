@@ -1,6 +1,7 @@
 
 
 import React from "react";
+import { Link } from "react-router-dom";
 // Bootstrap and FontAwesome are imported globally in main.jsx
 
 
@@ -47,7 +48,7 @@ const Header = () => {
               </li>
 
               <li className="nav-item">
-                <a className="nav-link" href="index.html">Tienda</a>
+                <Link to={"/"} className="nav-link" href="index.html">Tienda</Link>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#">Comunidad</a>

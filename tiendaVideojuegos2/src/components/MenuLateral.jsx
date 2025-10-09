@@ -1,7 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import CategoryLink from './CategoryLink';
 import '../css/MenuLateral.css';
 
+
 export default function MenuLateral() {
+  // use CategoryLink component for category navigation which closes the offcanvas and navigates
     return (
       /* Menu lateral (Offcanvas) */
       <div
@@ -49,44 +53,44 @@ export default function MenuLateral() {
 
           <ul className="list-unstyled mb-0">
             <li>
-              <a href="Productos.html" className="categoria-link">
-                <i className="bi bi-controller me-2 text-warning"></i>PS3
-              </a>
+              <CategoryLink to="/catalogo" className="categoria-link">
+                <i className="bi bi-joystick me-2 text-warning"></i>PS3
+              </CategoryLink>
             </li>
             <li>
-              <a href="Productos.html" className="categoria-link">
+              <CategoryLink to="/catalogo" className="categoria-link">
                 <i className="bi bi-controller me-2 text-warning"></i>PS4
-              </a>
+              </CategoryLink>
             </li>
             <li>
-              <a href="Productos.html" className="categoria-link">
-                <i className="fab fa-playstation me-2 text-warning"></i>PS5
-              </a>
+              <CategoryLink to="/catalogo" className="categoria-link">
+                <i className="bi bi-playstation me-2 text-warning"></i>PS5
+              </CategoryLink>
             </li>
             <li>
-              <a href="Productos.html" className="categoria-link">
-                <i className="fas fa-desktop me-2 text-warning"></i>PC
-              </a>
+              <CategoryLink to="/catalogo" className="categoria-link">
+                <i className="bi bi-pc-display me-2 text-warning"></i>PC
+              </CategoryLink>
             </li>
             <li>
-              <a href="Productos.html" className="categoria-link">
-                <i className="fab fa-xbox me-2 text-success"></i>XBOX
-              </a>
+              <CategoryLink to="/catalogo" className="categoria-link">
+                <i className="bi bi-xbox me-2 text-success"></i>XBOX
+              </CategoryLink>
             </li>
             <li>
-              <a href="Productos.html" className="categoria-link">
-                <i className="fas fa-gamepad me-2 text-danger"></i>NINTENDO
-              </a>
+              <CategoryLink to="/catalogo" className="categoria-link">
+                <i className="bi bi-nintendo-switch me-2 text-danger"></i>NINTENDO
+              </CategoryLink>
             </li>
             <li><hr className="my-2" /></li>
             <li>
               <a href="#" className="categoria-link">
-                <i className="fas fa-gift me-2 text-primary"></i>GIFT CARD
+                <i className="bi bi-credit-card-2-front-fill me-2 text-primary"></i>GIFT CARD
               </a>
             </li>
             <li>
               <a href="#" className="categoria-link">
-                <i className="fas fa-bolt me-2 text-warning"></i>RECARGAS
+                <i className="bi bi-wallet-fill me-2 text-warning"></i>RECARGAS
               </a>
             </li>
             <li>
@@ -96,7 +100,7 @@ export default function MenuLateral() {
             </li>
             <li>
               <a href="Descuentos.html" className="categoria-link">
-                <i className="fas fa-box-open me-2 text-info"></i>DESCUENTOS
+                <i className="bi bi-currency-dollar me-2 text-info"></i>DESCUENTOS
               </a>
             </li>
             <li>
@@ -106,7 +110,7 @@ export default function MenuLateral() {
             </li>
             <li>
               <a href="#" className="categoria-link">
-                <i className="fas fa-trophy me-2 text-warning"></i>PREMIOS
+                <i className="bi bi-trophy-fill me-2 text-warning"></i>PREMIOS
               </a>
             </li>
           </ul>
