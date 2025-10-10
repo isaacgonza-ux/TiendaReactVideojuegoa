@@ -27,19 +27,24 @@ a:hover {
 
 body {
   margin: 0;
-  /* Use normal block flow to avoid flex-based overflow issues after migration to React */
+  /* Utilice el flujo de bloque normal para evitar problemas de desbordamiento basados en flex después de la migración a React */
   min-width: 320px;
   min-height: 100vh;
 }
 
-/* Quick fix: prevent horizontal overflow introduced during migration to React */
+/* olución rápida: evitar el desbordamiento horizontal introducido durante la migración a React */
 html, body {
   overflow-x: hidden;
 }
 
-/* Debugging tip: to find the element causing horizontal overflow, open DevTools and run:
+/*
+
+Consejo de Depuración: Encontrar el Elemento con Desbordamiento
+Para identificar rápidamente el elemento que está causando el desbordamiento horizontal 
+(horizontal overflow), abra las Herramientas de Desarrollador (DevTools) de su navegador
+ (normalmente presionando F12 o Ctrl+Shift+I) y ejecute el siguiente comando en la consola:
    [...document.querySelectorAll('*')].filter(el => el.scrollWidth > document.documentElement.clientWidth)
-   This returns elements wider than the viewport. Adjust/remove styles on the offending element.
+   Este código devuelve una lista de todos los elementos del DOM cuyo ancho de desplazamiento (scrollWidth) es mayor que el ancho visible del viewport (document.documentElement.clientWidth).
 */
 
 h1 {
