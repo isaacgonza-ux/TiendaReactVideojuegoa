@@ -1,5 +1,6 @@
 
 import React from "react";
+import { Link } from 'react-router-dom';
 
 export default function ProductCard({ product }) {
   return (
@@ -17,12 +18,9 @@ export default function ProductCard({ product }) {
             🛒 Comprar
           </button>
           <div className="d-flex justify-content-between">
-            <button
-              className="btn btn-outline-dark btn-sm"
-              onClick={() => window.location.href = product.detallesLink}
-            >
+            <Link to={product.detallesLink} className="btn btn-outline-dark btn-sm">
               Detalles
-            </button>
+            </Link>
             <button className="btn btn-outline-dark btn-sm">Añadir</button>
           </div>
         </div>

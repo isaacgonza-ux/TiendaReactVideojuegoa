@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-// Bootstrap and FontAwesome are imported globally in main.jsx
+
 
 
 const Header = () => {
@@ -60,7 +60,7 @@ const Header = () => {
                 <a className="nav-link" href="#">Opiniones</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Premios</a>
+                <a className="nav-link" href="#">Descuentos</a>
               </li>
             </ul>
 
@@ -77,7 +77,7 @@ const Header = () => {
             </form>
 
             {/* Redes sociales */}
-            <div className="d-flex align-items-center me-3">
+            <div className="d-flex align-items-center me-3 social-icons">
               <a href="#" className="text-light me-2">
                 <i className="bi bi-whatsapp"></i>
               </a>

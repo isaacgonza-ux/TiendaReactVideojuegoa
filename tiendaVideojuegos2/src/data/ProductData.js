@@ -74,7 +74,7 @@ export const ofertas = [
     oldPrice: "$144,500 CLP",
     newPrice: "$28,900 CLP",
     carritoLink: "Carrito.html",
-    detallesLink: "DetalleProductoGow.html"
+    detallesLink: "/gow-ragnarok"
   }
 ];
 

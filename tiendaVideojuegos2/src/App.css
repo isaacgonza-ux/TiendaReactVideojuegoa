@@ -113,6 +113,17 @@ header{
 
     }
 
+
+  .social-icons a {
+  color: #e7e709; /* color por defecto, blanco */
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #00ff99; /* color al pasar el mouse */
+}
+
+
     
 
       
