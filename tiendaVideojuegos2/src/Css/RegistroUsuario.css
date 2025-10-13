@@ -1,0 +1,82 @@
+/* Fondo de la página de registro */
+.registro-fondo {
+    background-image: url('/Img/fondo-inicio-sesion.jpg'); /* Cambia la ruta si usas otra imagen */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    width: 100vw;
+}
+
+/* Elimina el fondo y el flex del body para no afectar otras páginas */
+body {
+    background-color: #f8f9fa;
+    margin: 0;
+}
+
+/* Contenedor del formulario */
+.form-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 350px;
+    width: 100%;
+}
+
+/* Estilo para el mensaje de descuento */
+.discount-message {
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.discount-message .discount-text {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #9b4dca;
+    margin-right: 10px;
+}
+
+.discount-message .discount-icon {
+    font-size: 1.2rem;
+    margin-left: 10px;
+}
+
+/* Estilo del botón amarillo */
+.btn-yellow {
+    background-color: #ffc107;
+    color: white;
+    font-size: 1rem;
+    padding: 8px;
+}
+
+.btn-yellow:hover {
+    background-color: #e0a800;
+    color: white;
+}
+
+/* Estilo del botón cancelar */
+.btn-cancel {
+    background-color: transparent;
+    border: 1px solid #6c757d;
+    color: #6c757d;
+    font-size: 0.9rem;
+    padding: 6px;
+}
+
+.btn-cancel:hover {
+    background-color: #e0e0e0;
+}
+
+/* Estilo de los campos de entrada */
+.form-control {
+    font-size: 1rem;
+    padding: 8px;
+}
