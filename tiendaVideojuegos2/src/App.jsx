@@ -10,6 +10,9 @@ import Nosotros from "./pages/Nosotros.jsx";
 import InicioSesion from "./pages/InicioSesion.jsx";
 import RegistroUsuario from "./pages/RegistroUsuario.jsx"; 
 import Descuentos from "./pages/Descuentos.jsx"; 
+import SidebarOffCanvas from "./components/SidebarOffCanvas";
+import TitleTypeWriter from "./components/TitleTypeWriter";
+import ProductsList from "./components/ProductsList";
 
 function App() {
   return (
@@ -24,6 +27,8 @@ function App() {
         {/* <Route path="/nosotros" element={<Nosotros />} /> */}
         {/* <Route path="/inicioSesion" element={<InicioSesion />} /> */}
         {/* <Route path="/registroUsuario" element={<RegistroUsuario />} /> */}
+        <SidebarOffCanvas />
+        <TitleTypeWriter />
         <Descuentos />
       </Routes>
 
