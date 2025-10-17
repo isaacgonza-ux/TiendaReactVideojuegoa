@@ -5,6 +5,7 @@ import "../Css/InicioSesion.css"; // Asegúrate de tener este archivo CSS
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isAdminLogged, setIsAdminLogged] = useState(false);
   const navigate = useNavigate(); // Para redirigir
 
   const handleSubmit = (e) => {
@@ -15,9 +16,16 @@ export default function Login() {
       return;
     }
 
-    // Aquí podrías agregar lógica de autenticación real
-    // Si todo está correcto:
-    navigate("/adminProd");
+    if(email === "admin@tiendagamer.com" && password === "admin") {
+      alert("✅ Inicio de sesión exitoso. ¡Bienvenido, Admin!");
+     setIsAdminLogged(true);
+      navigate("/admin");
+      
+    }else{
+      alert("❌ Usuario o contraseña incorrectos. Inténtalo de nuevo.");
+    }
+
+    
   };
 
   return (

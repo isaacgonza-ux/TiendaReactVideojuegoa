@@ -4,6 +4,8 @@ import CategoryLink from './CategoryLink';
 import '../css/MenuLateral.css';
 
 
+
+
 export default function MenuLateral() {
   // use CategoryLink component for category navigation which closes the offcanvas and navigates
     return (
@@ -44,10 +46,9 @@ export default function MenuLateral() {
               className="rounded-circle me-3"
             />
             <div>
-              <div className="fw-bold">Invitado</div>
-              <a href="InicioSesion.html" className="btn btn-sm btn-warning mt-1">
-                Iniciar sesión
-              </a>
+             <Link to="/inicioSesion" className="text-decoration-none text-warning fw-bold">
+                Invitado
+              </Link>
             </div>
           </div>
 
