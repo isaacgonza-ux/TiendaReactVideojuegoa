@@ -27,6 +27,7 @@ export default function Admin() {
   // carga inicial desde localStorage
   useEffect(() => {
     const raw = localStorage.getItem(STORAGE_KEY);
+    console.log("Cargando desde localStorage")
     if (raw) {
       try {
         setProducts(JSON.parse(raw));
@@ -40,6 +41,7 @@ export default function Admin() {
 
   // guardar en localStorage cuando cambien products
   useEffect(() => {
+    console.log("Guardando en localStorage")
     localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
   }, [products]);
 
