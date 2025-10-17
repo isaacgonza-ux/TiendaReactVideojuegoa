@@ -18,4 +18,5 @@ export const noticias = [
     img: "https://tierragamer.com/wp-content/uploads/2025/08/ea-sports-fc-26-detalles-modo-carrera.webp",
     link: "blogFc26.html"
   }
+  
 ];
