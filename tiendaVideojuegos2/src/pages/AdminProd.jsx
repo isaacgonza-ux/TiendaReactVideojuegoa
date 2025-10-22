@@ -26,11 +26,11 @@ export default function Admin () {
 
   // carga inicial desde localStorage
   useEffect(() => {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const productosGuardados = localStorage.getItem(STORAGE_KEY);
     console.log("Cargando desde localStorage")
-    if (raw) {
+    if (productosGuardados) {
       try {
-        setProducts(JSON.parse(raw));
+        setProducts(JSON.parse(productosGuardados));
       } catch {
         setProducts(sampleProducts);
       }
@@ -160,8 +160,8 @@ export default function Admin () {
             className="btn btn-secondary w-100"
             onClick={() => {
               // listar = simplemente recargar de storage (ya está sincronizado).
-              const raw = localStorage.getItem(STORAGE_KEY);
-              if (raw) setProducts(JSON.parse(raw));
+              const productosGuardados = localStorage.getItem(STORAGE_KEY);
+              if (productosGuardados) setProducts(JSON.parse(productosGuardados));
               else setProducts(sampleProducts);
             }}
           >

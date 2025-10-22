@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Si usas react-router-dom
 import "../Css/InicioSesion.css"; // Asegúrate de tener este archivo CSS
 
-export default function Login() {
+export default function Login({ setIsAdminLogged }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isAdminLogged, setIsAdminLogged] = useState(false);
   const navigate = useNavigate(); // Para redirigir
 
   const handleSubmit = (e) => {
