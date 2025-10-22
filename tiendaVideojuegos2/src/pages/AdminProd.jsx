@@ -13,7 +13,7 @@ const sampleProducts = [
   { id: 2, titulo: "Red Dead Redemption 2", precio: 59.99, categoria: "Videojuego" },
 ];
 
-export default function Admin() {
+export default function Admin () {
   // lista de productos
   const [products, setProducts] = useState([]);
 
