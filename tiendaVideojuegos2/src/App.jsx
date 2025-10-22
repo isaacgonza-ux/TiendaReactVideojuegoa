@@ -24,14 +24,14 @@ function App() {
 
       <Routes>
 
-        <Route path="/" element={<Home />} />
-          <Route path="/gow-ragnarok" element={<D_GowRagnarok/>} />
-        <Route path="/contacto" element={<Contacto/>}/> 
-        <Route path="/catalogo" element={<Catalogo />} />
-        <Route path="/nosotros" element={<Nosotros />} />
-        <Route path="/inicioSesion" element={<InicioSesion setIsAdminLogged={setIsAdminLogged} />} />
-        <Route path="/registrousuario" element={<RegistroUsuario />} />
-        <Route path= "/admin" element={isAdminLogged ? <AdminProd /> : <InicioSesion setIsAdminLogged={setIsAdminLogged} />}/>
+        {/* <Route path="/" element={<Home />} /> */}
+          {/* <Route path="/gow-ragnarok" element={<D_GowRagnarok/>} /> */}
+        {/* <Route path="/contacto" element={<Contacto/>}/>  */}
+        {/* <Route path="/catalogo" element={<Catalogo />} /> */}
+        {/* <Route path="/nosotros" element={<Nosotros />} /> */}
+        {/* <Route path="/inicioSesion" element={<InicioSesion setIsAdminLogged={setIsAdminLogged} />} /> */}
+        {/* <Route path="/registrousuario" element={<RegistroUsuario />} /> */}
+        <Route path="/" element={<AdminProd/>}/>
         {/* <Route path="/descuentos" element={<Descuentos />} /> */}
 
         
