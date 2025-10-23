@@ -25,7 +25,7 @@ export const estrenos = [
     oldPrice: "$144,500 CLP",
     newPrice: "$28,900 CLP",
     carritoLink: "Carrito.html",
-    detallesLink: "D_Fc26.html"
+    detallesLink: "/fc26"
   },
   {
     id: 4,

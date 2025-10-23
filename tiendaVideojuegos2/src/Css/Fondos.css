@@ -36,11 +36,30 @@
         color: #fff; /* Asegura que el texto sea legible sobre el fondo */
     }
 
+
     .fondo-DeathStranding2{
         background-image: url('https://cdn.wccftech.com/wp-content/uploads/2025/02/death-stranding-2-on-the-beach-HD-1920x1080.jpeg');
+
+
+
+.fondo-Gtavl{
+        background-image: url('https://www.rockstargames.com/VI/_next/static/media/Jason_and_Lucia_02_With_Logos_landscape.93ab5523.jpg');
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
         background-repeat: no-repeat;
         color: #fff; /* Asegura que el texto sea legible sobre el fondo */
+}
+
+.fondo-Fc26{
+        background-image: url('img/ea-sports-portadafc26.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        color: #fff; /* Asegura que el texto sea legible sobre el fondo */
+
     }
+
+    }
+

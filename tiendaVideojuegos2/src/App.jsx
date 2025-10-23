@@ -21,6 +21,7 @@ import { CartDrawer } from './components/CartDrawer';
 import Pago from "./pages/Pago.jsx";
 import PagoError from "./pages/PagoError.jsx";
 import PagoExitoso from "./pages/PagoExitoso.jsx";
+import D_Fc26 from './pagesDetailsProduct/D_Fc26.jsx';
 
 
 
@@ -39,8 +40,11 @@ function App() {
 
 
          <Route path="/" element={<Home />} /> *
+
             <Route path="/gow-ragnarok" element={<D_GowRagnarok/>} /> 
             <Route path="/deathstranding2" element={<D_DeathStranding2/>} /> 
+            <Route path="/fc26" element={<D_Fc26/>} />
+
          <Route path="/contacto" element={<Contacto/>}/>  
          <Route path="/catalogo" element={<Catalogo />} /> 
         {/* <Route path="/nosotros" element={<Nosotros />} /> */}
