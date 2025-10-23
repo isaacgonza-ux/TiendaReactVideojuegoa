@@ -34,7 +34,15 @@ export default function ProductCard2({ img, titulo, precio, detalles, id }) {
   const { addToCart } = useCart();
 
   const handleAdd = () => {
-    addToCart({ id, img, titulo, precio: parseFloat(precio.replace("$", "").replace(",", "")), detalles });
+    const parsePrice = (val) => {
+      if (typeof val === 'number') return val;
+      if (!val) return 0;
+      const cleaned = String(val).replace(/[^0-9]/g, '');
+      const n = parseInt(cleaned, 10);
+      return isNaN(n) ? 0 : n;
+    };
+
+    addToCart({ id, title: titulo, image: img, price: parsePrice(precio), detalles });
   };
 
   return (
@@ -44,8 +52,8 @@ export default function ProductCard2({ img, titulo, precio, detalles, id }) {
         <h5 className="card-title">{titulo}</h5>
         <p className="card-text">{detalles}</p>
         <p className="card-text fw-bold">{precio}</p>
-        <button className="btn btn-warning" onClick={handleAdd}>
-          Agregar al carrito
+        <button className="btn btn-warning "  onClick={handleAdd}>
+          🛒 Comprar
         </button>
       </div>
     </div>

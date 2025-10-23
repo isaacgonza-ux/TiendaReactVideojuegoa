@@ -11,13 +11,15 @@ import Nosotros from "./pages/Nosotros.jsx";
 import D_GowRagnarok from './pagesDetailsProduct/D_GowRagnarok.jsx';
 import InicioSesion from "./pages/InicioSesion.jsx";
 import RegistroUsuario from "./pages/RegistroUsuario.jsx"; 
-//import Descuentos from "./pages/Descuentos.jsx"; 
+import Descuentos from "./pages/Descuentos.jsx"; 
 import AdminProd from "./pages/AdminProd.jsx";
 import AdminUser from "./pages/AdminUser.jsx";
 import AdminPanel from "./pages/AdminPanel.jsx";
 import { CartProvider } from './components/CartContext';
 import { CartDrawer } from './components/CartDrawer';
 import Pago from "./pages/Pago.jsx";
+import PagoError from "./pages/PagoError.jsx";
+import PagoExitoso from "./pages/PagoExitoso.jsx";
 
 
 
@@ -29,30 +31,30 @@ function App() {
   return (
     <CartProvider>
     <BrowserRouter>
-      <Menu />
-      <MenuLateral />
-       <button onClick={toggleCart}>🛒 Ver Carrito</button>
+  <Menu toggleCart={toggleCart} />
+  <MenuLateral />
 
       <Routes>
 
 
-        <Route path="/" element={<Home />} />
-          <Route path="/gow-ragnarok" element={<D_GowRagnarok/>} />
-        <Route path="/contacto" element={<Contacto/>}/> 
-        <Route path="/catalogo" element={<Catalogo />} />
-        <Route path="/nosotros" element={<Nosotros />} />
-        <Route path="/inicioSesion" element={<InicioSesion setIsAdminLogged={setIsAdminLogged} />} />
-        <Route path="/registrousuario" element={<RegistroUsuario />} />
+         <Route path="/" element={<Home />} /> *
+          {/* <Route path="/gow-ragnarok" element={<D_GowRagnarok/>} /> */}
+         <Route path="/contacto" element={<Contacto/>}/>  
+         <Route path="/catalogo" element={<Catalogo />} /> 
+        {/* <Route path="/nosotros" element={<Nosotros />} /> */}
+        {/* <Route path="/inicioSesion" element={<InicioSesion setIsAdminLogged={setIsAdminLogged} />} /> */}
+        {/* <Route path="/registrousuario" element={<RegistroUsuario />} /> */}
         <Route path="/pago" element={<Pago />} />
+        <Route path="/pagoExito" element={<PagoExitoso />} />
+        <Route path="/pagoError" element={<PagoError />} />
         
-         {/* <Route path="/descuentos" element={<Descuentos />} />  */}
+          <Route path="/descuentos" element={<Descuentos />} />  
 
            {/* Rutas protegidas */}
-         <Route
-          path="/admin/*" element={isAdminLogged ? ( <AdminPanel />) : (<Navigate to="/inicioSesion" replace />)}/>
+         {/* <Route path="/admin/*" element={isAdminLogged ? ( <AdminPanel />) : (<Navigate to="/inicioSesion" replace />)}/> */}
 
         {/* Redirección por defecto en caso de error 404*/}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
 
 
         

@@ -2,24 +2,24 @@
 const productos = [
   {
     id: 1,
-    titulo: "Red Dead Redemption 2",
+    titulo: "Red Dead Redemption2",
     precio: 15990,
     img: "/img/red.png",
-    detalles: "D_Tlou1.html"
+    detalles: ""
   },
   {
     id: 2,
     titulo: "The Last of Us Part 1",
     precio: 22990,
     img: "/img/thelast.png",
-    detalles: "D_Tlou1.html"
+    detalles: ""
   },
   {
     id: 3,
     titulo: "The Last of Us Part II",
     precio: 18990,
     img: "/img/thelast2.png",
-    detalles: "D_Tlou2.html"
+    detalles: ""
   },
   {
     id: 4,

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 
 
-const Header = () => {
+const Header = ({ toggleCart }) => {
   return (
     <header>
       {/* Navbar */}
@@ -93,9 +93,9 @@ const Header = () => {
             </div>
 
             {/* Carrito */}
-            <a href="Carrito.html" className="btn btn-warning">
+            <button type="button" className="btn btn-warning" onClick={toggleCart}>
               🛒 Carrito
-            </a>
+            </button>
           </div>
         </div>
       </nav>

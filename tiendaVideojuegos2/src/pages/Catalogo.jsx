@@ -14,6 +14,7 @@ export default function catalogo() {
         {productos.map((p) => (
           <ProductCard2
             key={p.id}
+            id={p.id}
             img={p.img}
             titulo={p.titulo}
             precio={`$${p.precio.toLocaleString()}`}

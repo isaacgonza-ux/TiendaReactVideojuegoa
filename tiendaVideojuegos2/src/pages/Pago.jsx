@@ -1,9 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/Pago.css";
+import { useCart } from "../components/CartContext";
 
 export default function Pago() {
   const [metodoSeleccionado, setMetodoSeleccionado] = useState("");
+  const navigate = useNavigate();
+  const { cartItems, total } = useCart();
   const [producto] = useState({
     nombre: "God of War (PC) Steam Key LATAM",
     tipo: "Producto digital",
@@ -56,7 +60,20 @@ export default function Pago() {
       alert("Por favor selecciona un método de pago");
       return;
     }
+
     alert(`Método seleccionado: ${metodoSeleccionado}`);
+
+    // Simulación de procesamiento de pago
+    alert("💳 Procesando tu pago...");
+    setTimeout(() => {
+      const pagoExitoso = Math.random() > 0.3; // 70% éxito simulado
+
+      if (pagoExitoso) {
+        navigate("/pagoExito");
+      } else {
+        navigate("/pagoError");
+      }
+    }, 2000);
   };
 
   return (
@@ -97,38 +114,73 @@ export default function Pago() {
         <div className="col-md-6">
           <div className="summary-card">
             <h5 className="mb-3">Resumen de compra</h5>
-            <div className="d-flex align-items-center mb-3">
-              <img
-                src={producto.imagen}
-                alt={producto.nombre}
-                width="80"
-                className="me-3 rounded"
-              />
-              <div>
-                <strong>{producto.nombre}</strong>
-                <br />
-                <small>{producto.tipo}</small>
-                <br />
-                <span>{producto.precio.toLocaleString()} CLP</span>
-              </div>
-            </div>
-            <hr />
-            <div className="d-flex justify-content-between">
-              <span>Subtotal</span>
-              <span>{producto.precio.toLocaleString()} CLP</span>
-            </div>
-            <div className="d-flex justify-content-between">
-              <span>Tarifa de servicio</span>
-              <span>--</span>
-            </div>
-            <hr />
-            <div className="d-flex justify-content-between">
-              <strong>Total:</strong>
-              <strong>{producto.precio.toLocaleString()} CLP</strong>
-            </div>
-            <p className="cashback mt-2">
-              de Cashback: {producto.cashback.toLocaleString()} CLP
-            </p>
+              {cartItems.length === 0 ? (
+                <>
+                  <div className="d-flex align-items-center mb-3">
+                    <img
+                      src={producto.imagen}
+                      alt={producto.nombre}
+                      width="80"
+                      className="me-3 rounded"
+                    />
+                    <div>
+                      <strong>{producto.nombre}</strong>
+                      <br />
+                      <small>{producto.tipo}</small>
+                      <br />
+                      <span>{producto.precio.toLocaleString()} CLP</span>
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="d-flex justify-content-between">
+                    <span>Subtotal</span>
+                    <span>{producto.precio.toLocaleString()} CLP</span>
+                  </div>
+                  <div className="d-flex justify-content-between">
+                    <span>Tarifa de servicio</span>
+                    <span>--</span>
+                  </div>
+                  <hr />
+                  <div className="d-flex justify-content-between">
+                    <strong>Total:</strong>
+                    <strong>{producto.precio.toLocaleString()} CLP</strong>
+                  </div>
+                  <p className="cashback mt-2">
+                    de Cashback: {producto.cashback.toLocaleString()} CLP
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div>
+                    {cartItems.map((it) => (
+                      <div key={it.id} className="d-flex align-items-center mb-2">
+                        <img src={it.image} alt={it.title} width="60" className="me-3 rounded" />
+                        <div className="flex-grow-1">
+                          <strong>{it.title}</strong>
+                          <div>{it.quantity} x {Number(it.price).toLocaleString()} CLP</div>
+                        </div>
+                        <div className="text-end">
+                          <strong>{(Number(it.price) * (it.quantity || 0)).toLocaleString()} CLP</strong>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <hr />
+                  <div className="d-flex justify-content-between">
+                    <span>Subtotal</span>
+                    <span>{Number(total).toLocaleString()} CLP</span>
+                  </div>
+                  <div className="d-flex justify-content-between">
+                    <span>Tarifa de servicio</span>
+                    <span>--</span>
+                  </div>
+                  <hr />
+                  <div className="d-flex justify-content-between">
+                    <strong>Total:</strong>
+                    <strong>{Number(total).toLocaleString()} CLP</strong>
+                  </div>
+                </>
+              )}
             <button className="btn btn-continue mt-3" onClick={handleContinuar}>
               Continuar
             </button>
@@ -175,4 +227,5 @@ export default function Pago() {
       </footer>
     </div>
   );
-}
+};
+

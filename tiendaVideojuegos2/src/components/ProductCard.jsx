@@ -1,8 +1,10 @@
 
 import React from "react";
 import { Link } from 'react-router-dom';
+import { useCart } from './CartContext';
 
 export default function ProductCard({ product }) {
+  const { addToCart } = useCart();
   return (
     <div className="col-12 col-sm-6 col-md-4 col-lg-3">
       <div className="card h-100 shadow">
@@ -13,7 +15,7 @@ export default function ProductCard({ product }) {
           <p className="fw-bold fs-5 text-success">{product.newPrice}</p>
           <button
             className="btn btn-warning w-100 mb-2"
-            onClick={() => window.location.href = product.carritoLink}
+            onClick={() => addToCart(product)}
           >
             🛒 Comprar
           </button>
@@ -21,7 +23,7 @@ export default function ProductCard({ product }) {
             <Link to={product.detallesLink} className="btn btn-outline-dark btn-sm">
               Detalles
             </Link>
-            <button className="btn btn-outline-dark btn-sm">Añadir</button>
+            <button className="btn btn-outline-dark btn-sm" onClick={() => addToCart(product)}>Añadir</button>
           </div>
         </div>
       </div>
