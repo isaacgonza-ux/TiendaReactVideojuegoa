@@ -1,7 +1,7 @@
 
-import React from "react";
 import ProductCard2 from "../components/ProductCard2";
 import productos from "../data/Productos";
+
 
 export default function catalogo() {
   return (

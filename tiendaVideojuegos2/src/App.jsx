@@ -1,6 +1,8 @@
 
+
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 import Menu from "./components/Menu.jsx";
 import Home from "./pages/Home.jsx";
 import Footer from "./components/Footer.jsx";
@@ -15,16 +17,25 @@ import RegistroUsuario from "./pages/RegistroUsuario.jsx";
 import AdminProd from "./pages/AdminProd.jsx";
 import AdminUser from "./pages/AdminUser.jsx";
 import AdminPanel from "./pages/AdminPanel.jsx";
+import { CartProvider } from './components/CartContext';
+import { CartDrawer } from './components/CartDrawer';
+
 
 
 function App() {
    const [isAdminLogged, setIsAdminLogged] = useState(false); 
+  const [isCartOpen, setCartOpen] = useState(false);
+  const toggleCart = () => setCartOpen(!isCartOpen);
+
   return (
+    <CartProvider>
     <BrowserRouter>
       <Menu />
       <MenuLateral />
+       <button onClick={toggleCart}>🛒 Ver Carrito</button>
 
       <Routes>
+
 
         <Route path="/" element={<Home />} />
           <Route path="/gow-ragnarok" element={<D_GowRagnarok/>} />
@@ -47,8 +58,12 @@ function App() {
         
       </Routes>
 
+    
+
+      <CartDrawer isOpen={isCartOpen} toggleCart={toggleCart} />
       <Footer />
     </BrowserRouter>
+    </CartProvider>
   );
 }
 
