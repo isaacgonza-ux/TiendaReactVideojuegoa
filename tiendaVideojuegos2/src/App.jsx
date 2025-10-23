@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
@@ -19,6 +17,7 @@ import AdminUser from "./pages/AdminUser.jsx";
 import AdminPanel from "./pages/AdminPanel.jsx";
 import { CartProvider } from './components/CartContext';
 import { CartDrawer } from './components/CartDrawer';
+import Pago from "./pages/Pago.jsx";
 
 
 
@@ -44,6 +43,7 @@ function App() {
         <Route path="/nosotros" element={<Nosotros />} />
         <Route path="/inicioSesion" element={<InicioSesion setIsAdminLogged={setIsAdminLogged} />} />
         <Route path="/registrousuario" element={<RegistroUsuario />} />
+        <Route path="/pago" element={<Pago />} />
         
          {/* <Route path="/descuentos" element={<Descuentos />} />  */}
 
