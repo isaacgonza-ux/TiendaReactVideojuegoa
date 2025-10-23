@@ -7,7 +7,7 @@ export const estrenos = [
     oldPrice: "$124,500 CLP",
     newPrice: "$24,900 CLP",
     carritoLink: "Carrito.html",
-    detallesLink: "D_DeathStranding.html"
+    detallesLink: "/deathstranding2"
   },
   {
     id: 2,

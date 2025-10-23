@@ -9,6 +9,7 @@ import Contacto from "./pages/Contacto.jsx";
 import Catalogo from "./pages/Catalogo.jsx";
 import Nosotros from "./pages/Nosotros.jsx";
 import D_GowRagnarok from './pagesDetailsProduct/D_GowRagnarok.jsx';
+import D_DeathStranding2 from './pagesDetailsProduct/D_DeathStranding2.jsx';
 import InicioSesion from "./pages/InicioSesion.jsx";
 import RegistroUsuario from "./pages/RegistroUsuario.jsx"; 
 import Descuentos from "./pages/Descuentos.jsx"; 
@@ -38,7 +39,8 @@ function App() {
 
 
          <Route path="/" element={<Home />} /> *
-          {/* <Route path="/gow-ragnarok" element={<D_GowRagnarok/>} /> */}
+            <Route path="/gow-ragnarok" element={<D_GowRagnarok/>} /> 
+            <Route path="/deathstranding2" element={<D_DeathStranding2/>} /> 
          <Route path="/contacto" element={<Contacto/>}/>  
          <Route path="/catalogo" element={<Catalogo />} /> 
         {/* <Route path="/nosotros" element={<Nosotros />} /> */}

@@ -35,3 +35,12 @@
         background-repeat: no-repeat;
         color: #fff; /* Asegura que el texto sea legible sobre el fondo */
     }
+
+    .fondo-DeathStranding2{
+        background-image: url('https://cdn.wccftech.com/wp-content/uploads/2025/02/death-stranding-2-on-the-beach-HD-1920x1080.jpeg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        color: #fff; /* Asegura que el texto sea legible sobre el fondo */
+    }
