@@ -35,3 +35,23 @@
         background-repeat: no-repeat;
         color: #fff; /* Asegura que el texto sea legible sobre el fondo */
     }
+
+
+
+
+
+
+
+
+
+
+
+
+.fondo-Fc26{
+        background-image: url('img/ea-sports-portadafc26.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        color: #fff; /* Asegura que el texto sea legible sobre el fondo */
+    }
