@@ -5,7 +5,7 @@ import "../css/NewsSection.css";
 
 export default function NewsSection() {
   return (
-    <section className="container my-5">
+    <section className="container my-5" data-testid="news-section">
       <h2 className="text-start text-warning mb-4">Noticias</h2>
       <div className="row g-4">
         {noticias.map((news) => (

@@ -31,7 +31,7 @@ export default function Carrusel() {
   ];
 
   return (
-    <div
+    <div data-testid="carrusel"
       id="portadaCarrusel"
       className="carousel slide"
       data-bs-ride="carousel"
