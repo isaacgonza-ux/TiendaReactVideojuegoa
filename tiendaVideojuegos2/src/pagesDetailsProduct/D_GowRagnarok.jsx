@@ -1,3 +1,9 @@
+/*
+    Página detalle: D_GowRagnarok
+    Propósito: Página de producto detallada para "God of War Ragnarök".
+    Contenido: encabezado, información del producto, carrusel de imágenes, descripción, advertencias y videos.
+    Uso: solo presentacional — muestra contenido estático y multimedia.
+*/
 import React from 'react';
 import CarruselSplide from '../components/CarruselSplide';
 import '../css/Fondos.css'

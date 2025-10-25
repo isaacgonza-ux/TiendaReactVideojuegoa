@@ -1,6 +1,13 @@
+/*
+  Página: InicioSesion
+  Propósito: Formulario de login para usuarios y administrador.
+  Comportamiento: valida campos simples; si las credenciales son de admin
+  activa `setIsAdminLogged(true)` y redirige al panel de administrador.
+  Nota: actualmente la autenticación es simulada (hard-coded) para demo.
+*/
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Si usas react-router-dom
-import "../Css/InicioSesion.css"; // Asegúrate de tener este archivo CSS
+import { useNavigate } from "react-router-dom"; 
+import "../css/InicioSesion.css"; 
 
 export default function Login({ setIsAdminLogged }) {
   const [email, setEmail] = useState("");

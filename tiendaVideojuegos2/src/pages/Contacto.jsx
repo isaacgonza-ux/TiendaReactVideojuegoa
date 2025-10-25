@@ -1,3 +1,10 @@
+/*
+  Página: Contacto
+  Propósito: Formulario de contacto con validación en el cliente.
+  Estado: usa useState para manejar `formData`, `errors`, `touched` y `successMsg`.
+  Validaciones: nombre, email, teléfono, asunto, mensaje y consentimiento.
+  Comportamiento: al enviar valida campos; si todo está bien simula envío y muestra mensaje de éxito.
+*/
 import "../css/Contacto.css";
 import React, { useState } from "react";
 

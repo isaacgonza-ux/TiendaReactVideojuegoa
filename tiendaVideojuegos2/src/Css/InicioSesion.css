@@ -1,12 +1,4 @@
-/*fondo*/
-    .fondo-iniciar-Sesion {
-        background-image: url('/Img/fondo-inicio-sesion.jpg'); /* Asegúrate de que la ruta sea correcta */
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        background-repeat: no-repeat;
-        color: #080000; /* Asegura que el texto sea legible sobre el fondo */
-    }
+
 
     /*Efecto oscuro*/
     .body-dark::before {
@@ -29,4 +21,29 @@
         1px -1px 0 black,
         -1px  1px 0 black,
         1px  1px 0 black;
+}
+
+/* Fondo para la página de inicio de sesión */
+.fondo-iniciar-Sesion {
+    background-image: url('/img/fondo-stray.jpg'); /* usa una imagen existente en public/img */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Overlay para mejorar contraste del formulario */
+.fondo-iniciar-Sesion::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    pointer-events: none;
+}
+
+.fondo-iniciar-Sesion > .card {
+    position: relative;
+    z-index: 2;
 }

@@ -1,3 +1,19 @@
+/*
+  Component: CarruselSplide
+  Purpose: Reusable horizontal scroller based on Splide.js.
+  Props:
+    - images: array of image URLs (default: []).
+  Behavior: If `images` is empty returns null. Otherwise renders a Splide slider.
+  Notes: Options set for non-autoplay, free-drag experience.
+*/
+/*
+  Componente: CarruselSplide
+  Propósito: Mostrar un scroller horizontal reutilizable usando Splide.js.
+  Props:
+    - images: array de URLs de imagen (por defecto: []).
+  Comportamiento: si no hay imágenes retorna null; si las hay, renderiza el slider.
+  Nota: opciones configuradas para arrastre libre y sin autoplay.
+*/
 import React from "react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";

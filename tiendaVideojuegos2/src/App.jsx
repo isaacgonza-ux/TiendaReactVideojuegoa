@@ -22,6 +22,11 @@ import Pago from "./pages/Pago.jsx";
 import PagoError from "./pages/PagoError.jsx";
 import PagoExitoso from "./pages/PagoExitoso.jsx";
 import D_Fc26 from './pagesDetailsProduct/D_Fc26.jsx';
+import D_Gtavl from './pagesDetailsProduct/D_Gtavl.jsx';
+import Checkout from './pages/Checkout.jsx';
+import AdminOrders from './pages/AdminOrders.jsx';
+import B_Battlefield from "./Blog/B_Battlefield.jsx";
+
 
 
 
@@ -33,8 +38,10 @@ function App() {
   return (
     <CartProvider>
     <BrowserRouter>
+    
   <Menu toggleCart={toggleCart} />
   <MenuLateral />
+  
 
       <Routes>
 
@@ -44,23 +51,28 @@ function App() {
             <Route path="/gow-ragnarok" element={<D_GowRagnarok/>} /> 
             <Route path="/deathstranding2" element={<D_DeathStranding2/>} /> 
             <Route path="/fc26" element={<D_Fc26/>} />
+            <Route path="gta-vl" element={<D_Gtavl/>} />
+
+            <Route path="/blog-battlefield" element={<B_Battlefield/>} />
 
          <Route path="/contacto" element={<Contacto/>}/>  
          <Route path="/catalogo" element={<Catalogo />} /> 
-        {/* <Route path="/nosotros" element={<Nosotros />} /> */}
-        {/* <Route path="/inicioSesion" element={<InicioSesion setIsAdminLogged={setIsAdminLogged} />} /> */}
-        {/* <Route path="/registrousuario" element={<RegistroUsuario />} /> */}
-        <Route path="/pago" element={<Pago />} />
+         <Route path="/nosotros" element={<Nosotros />} /> 
+        <Route path="/inicioSesion" element={<InicioSesion setIsAdminLogged={setIsAdminLogged} />} /> 
+        <Route path="/registrousuario" element={<RegistroUsuario />} /> 
+  <Route path="/checkout" element={<Checkout />} />
+  <Route path="/pago" element={<Pago />} />
         <Route path="/pagoExito" element={<PagoExitoso />} />
         <Route path="/pagoError" element={<PagoError />} />
         
           <Route path="/descuentos" element={<Descuentos />} />  
 
            {/* Rutas protegidas */}
-         {/* <Route path="/admin/*" element={isAdminLogged ? ( <AdminPanel />) : (<Navigate to="/inicioSesion" replace />)}/> */}
+          <Route path="/admin/*" element={isAdminLogged ? ( <AdminPanel />) : (<Navigate to="/inicioSesion" replace />)}/> 
+          <Route path="/admin/orders" element={isAdminLogged ? (<AdminOrders isAdminLogged={isAdminLogged} />) : (<Navigate to="/inicioSesion" replace />)} />
 
         {/* Redirección por defecto en caso de error 404*/}
-        {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+        <Route path="*" element={<Navigate to="/" replace />} /> 
 
 
         

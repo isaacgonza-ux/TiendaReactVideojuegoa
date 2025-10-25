@@ -96,7 +96,7 @@ export const masVendidos = [
     oldPrice: "$144,500 CLP",
     newPrice: "$28,900 CLP",
     carritoLink: "Carrito.html",
-    detallesLink: "D_Gtavl.html"
+    detallesLink: "gta-vl"
   },
   {
     id: 3,

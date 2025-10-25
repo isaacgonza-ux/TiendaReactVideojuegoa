@@ -1,3 +1,8 @@
+/*
+  Página: PagoError
+  Propósito: Mostrar mensaje de error si la transacción falla.
+  Comportamiento: ofrece opciones para reintentar o volver al inicio.
+*/
 import React from "react";
 import { Link } from "react-router-dom";
 import "../css/PagoResultado.css"; 

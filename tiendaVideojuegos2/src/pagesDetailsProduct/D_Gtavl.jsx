@@ -1,3 +1,9 @@
+/*
+    Página detalle: D_Gtavl
+    Propósito: Página de producto detallada para "Grand Theft Auto VI" (ejemplo).
+    Contenido: información del juego, carrusel de imágenes y vídeos de gameplay.
+    Uso: presentacional, contiene contenido estático multimedia.
+*/
 import React from 'react';
 import CarruselSplide from '../components/CarruselSplide';
 import '../css/Fondos.css'
@@ -13,7 +19,7 @@ const images = [
 
 export default function D_Gtavl() {
     return (
-        <div className='fondo-gow-ragnarok dark-bg overlay-dark'>
+        <div className='fondo-Gtavl dark-bg overlay-dark'>
              {/* <!-- Encabezado con imagen --> */}
             <section className="container-fluid p-0">
             <img src="https://www.rockstargames.com/VI/_next/image?url=%2FVI%2F_next%2Fstatic%2Fmedia%2FJason_and_Lucia_01_landscape.0e2a6544.jpg&w=1920&q=75" className="img-fluid mx-auto d-block"  style={{ clipPath: 'inset(0 0 20% 0)' }} alt="God of War Ragnarök"/>

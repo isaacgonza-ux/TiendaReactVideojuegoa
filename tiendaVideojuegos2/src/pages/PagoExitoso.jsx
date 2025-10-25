@@ -1,3 +1,9 @@
+/*
+  Página: PagoExitoso
+  Propósito: Mostrar mensaje de éxito después de una transacción exitosa.
+  Comportamiento: ofrece enlaces para volver al catálogo o al inicio.
+  Entrada: ninguna; se asume que la orden ya se procesó y el carrito fue vaciado.
+*/
 import React from "react";
 import { Link } from "react-router-dom";
 import "../css/PagoResultado.css"; 

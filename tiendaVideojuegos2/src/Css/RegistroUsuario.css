@@ -1,6 +1,6 @@
 /* Fondo de la página de registro */
 .registro-fondo {
-    background-image: url('/Img/fondo-inicio-sesion.jpg'); /* Cambia la ruta si usas otra imagen */
+    background-image: url('/Img/fondo-stray'); /* Cambia la ruta si usas otra imagen */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;

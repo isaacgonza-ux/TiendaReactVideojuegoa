@@ -1,3 +1,9 @@
+/*
+  Componente: NewsSection
+  Propósito: Mostrar una cuadrícula de noticias/entradas (imagen + overlay) en Home.
+  Props: ninguno (importa el arreglo `noticias` desde data/NewsData).
+  Comportamiento: cada tarjeta es un enlace que lleva a la URL de la noticia.
+*/
 import React from "react";
 import { noticias } from "../data/NewsData";
 import "../css/NewsSection.css";

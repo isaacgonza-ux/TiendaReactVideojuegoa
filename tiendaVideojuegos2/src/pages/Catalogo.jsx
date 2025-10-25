@@ -1,4 +1,10 @@
 
+/*
+  Página: Catálogo
+  Propósito: Muestra una lista completa de productos (grid) usando `ProductCard2`.
+  Entrada: importa el array `productos` desde data/Productos.
+  Salida: grid responsivo con tarjetas de producto. Cada tarjeta permite añadir al carrito.
+*/
 import ProductCard2 from "../components/ProductCard2";
 import productos from "../data/Productos";
 

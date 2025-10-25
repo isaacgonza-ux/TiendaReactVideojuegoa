@@ -4,7 +4,7 @@ export const noticias = [
     id: 1,
     title: "Battlefield 6 es tan bueno que ha resucitado a la 'oveja negra de la saga'",
     img: "https://areajugones.sport.es/wp-content/uploads/2025/07/battlefield-6-copia-1560x880.jpg.webp",
-    link: "BlogBtg6.html"
+    link: "/blog-battlefield"
   },
   {
     id: 2,

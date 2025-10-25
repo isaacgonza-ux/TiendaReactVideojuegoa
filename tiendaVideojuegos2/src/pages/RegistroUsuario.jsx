@@ -1,3 +1,10 @@
+/*
+  Página: RegistroUsuario
+  Propósito: Formulario para crear una cuenta nueva (registro de usuario).
+  Comportamiento: valida que los campos estén completos y que las contraseñas coincidan.
+  Resultado: actualmente muestra un alert de éxito y redirige a la página principal.
+  Nota: lógica de registro es simulada (no hay backend).
+*/
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Css/RegistroUsuario.css";

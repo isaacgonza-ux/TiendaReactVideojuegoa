@@ -1,4 +1,12 @@
 
+/*
+  Componente: ProductCard
+  Propósito: Tarjeta de producto compacta usada en la página Home (Estrenos, Ofertas, Más vendidos).
+  Props:
+    - product: objeto con campos como { id, title, img, oldPrice, newPrice, detallesLink }
+  Comportamiento: muestra imagen, título, precios y botones para comprar/añadir; usa useCart para agregar al carrito.
+  Nota: presentacional y pensado para listas pequeñas en Home.
+*/
 import React from "react";
 import { Link } from 'react-router-dom';
 import { useCart } from './CartContext';

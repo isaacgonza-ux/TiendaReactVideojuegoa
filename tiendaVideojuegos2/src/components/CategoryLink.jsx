@@ -1,3 +1,15 @@
+/*
+  Componente: CategoryLink
+  Propósito: Enlace que cierra un offcanvas de Bootstrap antes de navegar internamente.
+  Props:
+    - to: ruta de destino
+    - children: contenido del enlace
+    - offcanvasId: id del offcanvas a cerrar (por defecto 'offcanvasCategorias')
+    - className: clases CSS adicionales
+  Comportamiento: intenta usar la instancia de Bootstrap para ocultar el offcanvas
+  y espera el evento 'hidden.bs.offcanvas' antes de llamar a navigate(to). Tiene
+  un fallback si la instancia de Bootstrap no está disponible.
+*/
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 

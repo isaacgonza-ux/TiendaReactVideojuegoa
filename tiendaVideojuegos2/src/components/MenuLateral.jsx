@@ -1,3 +1,10 @@
+
+/*
+  Componente: MenuLateral (Offcanvas de Categorías)
+  Propósito: Mostrar un panel lateral con categorías y enlaces relacionados.
+  Comportamiento: utiliza `CategoryLink` para que el offcanvas se cierre antes de navegar.
+  Nota: markup preparado para integrarse con Bootstrap offcanvas.
+*/
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CategoryLink from './CategoryLink';

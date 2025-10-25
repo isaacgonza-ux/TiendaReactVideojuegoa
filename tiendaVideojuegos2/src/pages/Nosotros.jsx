@@ -1,3 +1,9 @@
+/*
+    Página: Nosotros
+    Propósito: Mostrar información de la empresa, equipo y valores.
+    Contenido: secciones estáticas (hero, quiénes somos, equipo, valores, contacto).
+    Entrada: ninguna; componente presentacional.
+*/
 import React from "react";
 import '../index.css';
 import { Link } from "react-router-dom";

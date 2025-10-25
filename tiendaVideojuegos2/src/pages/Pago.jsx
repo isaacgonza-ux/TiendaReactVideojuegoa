@@ -1,3 +1,11 @@
+/*
+  Página: Pago
+  Propósito: Mostrar métodos de pago disponibles y resumen de compra.
+  Entradas: usa `useCart` para obtener `cartItems` y `total`.
+  Comportamiento: selección de método de pago, simulación de procesamiento,
+  creación de un objeto `order` y persistencia en localStorage en caso de éxito.
+  Resultado: limpia el carrito y redirige a /pagoExito o /pagoError.
+*/
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,7 +15,7 @@ import { useCart } from "../components/CartContext";
 export default function Pago() {
   const [metodoSeleccionado, setMetodoSeleccionado] = useState("");
   const navigate = useNavigate();
-  const { cartItems, total } = useCart();
+  const { cartItems, total, clearCart } = useCart();
   const [producto] = useState({
     nombre: "God of War (PC) Steam Key LATAM",
     tipo: "Producto digital",
@@ -69,6 +77,26 @@ export default function Pago() {
       const pagoExitoso = Math.random() > 0.3; // 70% éxito simulado
 
       if (pagoExitoso) {
+        // create order record and persist it for admin
+        try {
+          const checkout = JSON.parse(localStorage.getItem('checkoutData') || '{}');
+          const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+          const order = {
+            id: Date.now(),
+            date: new Date().toISOString(),
+            items: cartItems,
+            total: total,
+            checkout,
+            status: 'paid'
+          };
+          orders.push(order);
+          localStorage.setItem('orders', JSON.stringify(orders));
+        } catch (err) {
+          console.warn('Error saving order', err);
+        }
+
+        // clear cart after successful order
+        clearCart();
         navigate("/pagoExito");
       } else {
         navigate("/pagoError");

@@ -1,3 +1,26 @@
+/**
+ * CartDrawer.jsx
+ * ----------------
+ * Componente que muestra el carrito en un panel deslizable (drawer).
+ * Idioma: Español (Latino)
+ *
+ * Propósito:
+ * - Mostrar los artículos actualmente en el carrito (desde `CartContext`).
+ * - Permitir cambiar la cantidad, eliminar ítems y proceder al checkout.
+ *
+ * Props:
+ * - isOpen: boolean -> controla si el drawer está abierto o cerrado.
+ * - toggleCart: function -> callback para abrir/cerrar el drawer.
+ *
+ * Comportamiento / efectos:
+ * - Consume `useCart()` para leer `cartItems`, `removeFromCart`, `updateQuantity` y `total`.
+ * - Al presionar "Pagar" valida que haya artículos y navega a `/checkout` pasando el total en el estado.
+ * - No modifica directamente el almacenamiento local; la lógica de persistencia está en `CartContext`.
+ *
+ * Notas de implementación:
+ * - Los precios se formatean usando Intl (CLP por defecto) y se convierten con Number(...) en caso de strings.
+ * - Mantener funciones puras y no forzar efectos secundarios aquí (ej.: limpiar carrito) — eso se hace en el flujo de pago.
+ */
 
 import { useCart } from './CartContext';
 import '../css/Carrito.css';
@@ -19,7 +42,7 @@ export const CartDrawer = ({ isOpen, toggleCart }) => {
       return;
     }
     
-    navigate("/pago", { state: { total } });
+    navigate("/checkout", { state: { total } });
   };
 
   return (

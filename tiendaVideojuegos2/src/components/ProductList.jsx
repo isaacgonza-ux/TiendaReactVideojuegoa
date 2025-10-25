@@ -1,3 +1,9 @@
+/*
+  Componente: ProductList
+  Propósito: Lista sencilla de productos (usada para demo o páginas de administración).
+  Comportamiento: renderiza items simples con imagen, título y botón para agregar al carrito.
+  Nota: usa `useCart` para la acción de agregar.
+*/
 // components/ProductList.jsx
 import productos from '../data/Productos'
 import { useCart } from './CartContext';

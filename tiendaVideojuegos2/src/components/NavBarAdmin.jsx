@@ -1,4 +1,10 @@
 
+/*
+  Componente: NavBarAdmin
+  Propósito: Barra de navegación para el panel de administración. Muestra enlaces a secciones
+  como Productos y Usuarios y resalta la sección activa según la ruta actual.
+  Props: ninguno (usa useLocation para detectar la ruta).
+*/
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 

@@ -1,3 +1,11 @@
+/*
+    Página: Home
+    Propósito: Página principal que muestra el carrusel, secciones de productos
+    (Estrenos, Ofertas, Más vendidos) y la sección de noticias.
+    Entrada: importa arrays de productos desde data/ProductData.
+    Salida: JSX que renderiza listas de `ProductCard` y `NewsSection`.
+    Nota: Componente sin estado local; puro presentacional.
+*/
 import React from "react";
 import Carrusel from "../components/Carrusel";
 import ProductCard from "../components/ProductCard";

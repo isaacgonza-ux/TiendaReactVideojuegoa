@@ -1,4 +1,17 @@
-// components/CartContext.jsx
+
+/*
+  Componente: CartContext (Provider + hook)
+  Propósito: Mantener el estado del carrito en toda la aplicación.
+  API expuesta (useCart):
+    - cartItems: arreglo de items { id, title, price, image, quantity }
+    - addToCart(product): agrega o incrementa un producto
+    - removeFromCart(id): elimina un producto por id
+    - updateQuantity(id, quantity): actualiza la cantidad de un item
+    - total: total derivado (número)
+    - clearCart(): vacía el carrito
+  Persistencia: guarda/lee `cart` en localStorage.
+  Nota: normaliza varias formas de datos (precio en strings con símbolos, distintos campos de imagen, etc.).
+*/
 import { createContext, useContext, useState, useEffect, useMemo } from 'react';
 
 const CartContext = createContext();
@@ -58,8 +71,12 @@ export const CartProvider = ({ children }) => {
     return cartItems.reduce((acc, item) => acc + (Number(item.price) || 0) * (item.quantity || 0), 0);
   }, [cartItems]);
 
+  const clearCart = () => {
+    setCartItems([]);
+  };
+
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, total }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, total, clearCart }}>
       {children}
     </CartContext.Provider>
   );

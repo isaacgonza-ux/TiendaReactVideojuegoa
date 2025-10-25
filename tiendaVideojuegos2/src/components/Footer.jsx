@@ -1,10 +1,15 @@
 
+/*
+  Componente: Footer
+  Propósito: Pie de página con información de la tienda, contacto y enlaces sociales.
+  Props: ninguno (componente presentacional usado en el layout principal).
+*/
 import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="bg-dark text-light py-4 mt-5">
+  <footer className="bg-dark text-light py-4">
       <div className="container">
         <div className="row align-items-center">
 
@@ -43,14 +48,22 @@ export default function Footer() {
               <Link to="/contacto" className="text-warning text-decoration-none">Contacto</Link>
             </h6>
             <small>
-              <i className="fas fa-envelope"></i> contacto@infinityplay.cl<br />
-              <i className="fas fa-phone"></i> +56 9 1234 5678
+              <i className="bi bi-envelope"></i> contacto@infinityplay.cl<br />
+              <i className="bi bi-phone"></i> +56 9 1234 5678
             </small>
             <div className="mt-2">
-              <a href="#" className="text-light me-3 fs-4"><i className="fab fa-facebook"></i></a>
-              <a href="#" className="text-light me-3 fs-4"><i className="fab fa-instagram"></i></a>
-              <a href="#" className="text-light me-3 fs-4"><i className="fab fa-whatsapp"></i></a>
-              <a href="#" className="text-light fs-4"><i className="fab fa-youtube"></i></a>
+                <a href="#" className="text-light me-2">
+                  <i className="bi bi-whatsapp"></i>
+                </a>
+                <a href="#" className="text-light me-2">
+                  <i className="bi bi-facebook"></i>
+                </a>
+                <a href="#" className="text-light me-2">
+                  <i className="bi bi-instagram"></i>
+                </a>
+                <a href="#" className="text-light">
+                  <i className="bi bi-youtube"></i>
+                </a>
             </div>
           </div>
 

@@ -1,5 +1,12 @@
 
 
+/*
+  Componente: Menu (Header)
+  Propósito: Barra de navegación principal con marca, enlaces, buscador y botón de carrito.
+  Props:
+    - toggleCart: función que abre/cierra el drawer del carrito (pasada desde App).
+  Comportamiento: usa markup de Bootstrap para ser responsive; la mayoría de links usan react-router.
+*/
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -48,7 +55,7 @@ const Header = ({ toggleCart }) => {
               </li>
 
               <li className="nav-item">
-                <Link to={"/"} className="nav-link" href="index.html">Tienda</Link>
+                <Link to={"/"} className="nav-link">Tienda</Link>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="#">Comunidad</a>
@@ -57,10 +64,10 @@ const Header = ({ toggleCart }) => {
                 <a className="nav-link" href="#">Noticias</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Opiniones</a>
+                 <Link to={"/catalogo"} className="nav-link">Catalogo</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Descuentos</a>
+                  <Link to={"/descuentos"} className="nav-link">Descuentos</Link>
               </li>
             </ul>
 

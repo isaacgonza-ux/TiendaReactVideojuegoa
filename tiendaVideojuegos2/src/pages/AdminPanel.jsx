@@ -21,6 +21,11 @@ export default function AdminPanel() {
               👥 Usuarios
             </Link>
           </li>
+          <li className="nav-item">
+            <Link to="/admin/orders" className="nav-link">
+              📦 Órdenes
+            </Link>
+          </li>
         </ul>
       </nav>
 

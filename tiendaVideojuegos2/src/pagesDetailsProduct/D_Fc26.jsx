@@ -1,3 +1,9 @@
+/*
+    Página detalle: D_Fc26
+    Propósito: Página de producto detallada para "Fc26" (ej. FIFA/EA Sports).
+    Contenido: imagen principal, detalles del producto, carrusel y vídeos.
+    Nota: contenido estático para mostrar información del producto.
+*/
 import React from 'react';
 import CarruselSplide from '../components/CarruselSplide';
 import '../css/Fondos.css'

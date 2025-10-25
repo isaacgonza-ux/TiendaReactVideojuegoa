@@ -1,3 +1,9 @@
+/*
+    Página detalle: D_DeathStranding2
+    Propósito: Página de producto detallada para "Death Stranding 2".
+    Contenido: encabezado con imagen, información del producto, carrusel, descripción y vídeos.
+    Nota: componente presentacional, no requiere props.
+*/
 import React from 'react';
 import CarruselSplide from '../components/CarruselSplide';
 import '../css/Fondos.css'
