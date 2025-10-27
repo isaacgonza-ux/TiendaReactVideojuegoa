@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-/**
- * Admin (CRUD) - componente auto-contenido
+/*
+ * Administración de productos (CRUD) - componente auto-contenido
  *
  * Usa localStorage para persistencia simple.
  */
@@ -54,18 +54,23 @@ export default function Admin () {
   const handleAdd = (e) => {
     e.preventDefault();
     // validaciones simples
+    //Verifica que el título no este vacío
     if (!form.titulo.trim()) return alert("Título es obligatorio");
-    const precioNum = parseFloat(form.precio);
-    if (isNaN(precioNum)) return alert("Precio inválido");
-    const nextId = products.length ? Math.max(...products.map(p => p.id)) + 1 : 1;
+    const precioNum = parseFloat(form.precio); //Convierte el precio a número decimal  
+    if (isNaN(precioNum)) return alert("Precio inválido"); //Verifica que el precio sea un número válido
+    const nextId = products.length ? Math.max(...products.map(p => p.id)) + 1 : 1; //Genera un ID único para el nuevo producto
+
+    // crea nuevo producto
     const newProduct = {
       id: nextId,
       titulo: form.titulo.trim(),
       precio: Number(precioNum.toFixed(2)),
       categoria: form.categoria.trim() || "Sin categoría",
     };
-    setProducts((p) => [newProduct, ...p]);
-    setForm({ titulo: "", precio: "", categoria: "" });
+
+  
+    setProducts((p) => [newProduct, ...p]); //Agrega el nuevo producto al inicio de la lista
+    setForm({ titulo: "", precio: "", categoria: "" }); //Resetea el formulario después de agregar
   };
 
   // iniciar edición

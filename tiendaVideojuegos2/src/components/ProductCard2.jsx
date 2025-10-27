@@ -48,7 +48,7 @@ import { useCart } from "./CartContext";
 import { Link } from 'react-router-dom';
 
 export default function ProductCard2({ img, titulo, precio, detalles, id }) {
-  const { addToCart } = useCart();
+  const { addToCart } = useCart();  // Hook para acciones del carrito
 
   const handleAdd = () => {
     const parsePrice = (val) => {

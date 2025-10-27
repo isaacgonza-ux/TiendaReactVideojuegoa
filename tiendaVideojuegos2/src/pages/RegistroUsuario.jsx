@@ -12,33 +12,34 @@ import "../Css/RegistroUsuario.css";
 export default function RegistroUsuario() {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({  // Estado local para los datos del formulario
     email: "",
     name: "",
     password: "",
     confirmPassword: "",
   });
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [id]: value,
+  const handleChange = (e) => {  // Maneja cambios en los inputs
+    const { id, value } = e.target;  // Desestructura id y value del input
+    setFormData((prevData) => ({  // Actualiza el estado del formulario
+      ...prevData,  // Mantiene los demás campos
+      [id]: value,  // Actualiza el campo correspondiente
     }));
   };
 
+
+  // Maneja el envío del formulario
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault();  // Previene el envío por defecto
 
-    const { email, name, password, confirmPassword } = formData;
-
+    const { email, name, password, confirmPassword } = formData;  // Desestructura los datos del formulario
     // Validaciones básicas
-    if (!email || !name || !password || !confirmPassword) {
+    if (!email || !name || !password || !confirmPassword) {  //Si algún campo está vacío
       alert("⚠️ Por favor completa todos los campos.");
       return;
     }
 
-    if (password !== confirmPassword) {
+    if (password !== confirmPassword) {  // Si las contraseñas no coinciden
       alert("❌ Las contraseñas no coinciden.");
       return;
     }
@@ -52,6 +53,8 @@ export default function RegistroUsuario() {
     navigate("/"); // Vuelve a inicio de sesión
   };
 
+
+  //Diseño del formulario de registro
   return (
      <div className="registro-fondo d-flex justify-content-center align-items-center vh-100">
     <div className="form-container p-4 mx-auto mt-5 shadow rounded" style={{ maxWidth: "400px", backgroundColor: "white" }}>

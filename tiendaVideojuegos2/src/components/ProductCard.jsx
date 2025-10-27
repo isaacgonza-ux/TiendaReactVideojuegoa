@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { useCart } from './CartContext';
 
 export default function ProductCard({ product }) {
-  const { addToCart } = useCart();
+  const { addToCart } = useCart(); // Hook para acciones del carrito
   return (
     <div className="col-12 col-sm-6 col-md-4 col-lg-3">
       <div className="card h-100 shadow">

@@ -19,33 +19,33 @@ export default function CategoryLink({ to, children, offcanvasId = 'offcanvasCat
   function handleClick(e) {
     e.preventDefault();
 
-    const el = document.getElementById(offcanvasId);
-    if (!el) {
+    const el = document.getElementById(offcanvasId); // Obtener el elemento del offcanvas
+    if (!el) { // Si no existe, navegar directamente
       navigate(to);
       return;
     }
 
-    // Get existing Bootstrap instance or create one
+    // Intentar obtener la instancia de Bootstrap Offcanvas o crear una nueva
     const bs = window.bootstrap?.Offcanvas.getInstance(el) || (window.bootstrap ? new window.bootstrap.Offcanvas(el) : null);
 
     const onHidden = () => {
-      el.removeEventListener('hidden.bs.offcanvas', onHidden);
+      el.removeEventListener('hidden.bs.offcanvas', onHidden);  // Limpiar el listener
       navigate(to);
     };
 
-    // If we have an instance, hide and wait for event
+    // si tenemos una instancia, ocultar y esperar el evento
     if (bs) {
-      el.addEventListener('hidden.bs.offcanvas', onHidden);
+      el.addEventListener('hidden.bs.offcanvas', onHidden); // Añadir listener para cuando se oculte
       bs.hide();
     } else {
-      // fallback: try to clean up backdrop and classes, then navigate
+      //Intentar limpiar el DOM manualmente como fallback
       el.classList.remove('show');
-      // remove any backdrop elements left behind
+     //eliminar cualquier backdrop que quede
       const backdrops = document.querySelectorAll('.offcanvas-backdrop, .modal-backdrop');
       backdrops.forEach(b => b.parentNode && b.parentNode.removeChild(b));
-      // remove modal/open classes from body if present
+      // eliminar clases modal-open del body
       document.body.classList.remove('modal-open');
-      // small delay to let DOM settle
+      // pequeño retraso para que el DOM se estabilice
       setTimeout(() => navigate(to), 80);
     }
   }

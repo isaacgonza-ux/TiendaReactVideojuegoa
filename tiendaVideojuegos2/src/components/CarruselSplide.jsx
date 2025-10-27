@@ -19,8 +19,8 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 import "../css/CarruselSplide.css";
 
-export default function CarruselSplide({ images = [] }) {
-  if (!images || images.length === 0) return null;
+export default function CarruselSplide({ images = [] }) {  
+  if (!images || images.length === 0) return null;   // No renderiza si no hay imágenes
 
   return (
     <section aria-label="Beautiful Images" className="splide-wrapper">
@@ -38,12 +38,12 @@ export default function CarruselSplide({ images = [] }) {
           
         }}
       >
-        {images.map((src, index) => (
-          <SplideSlide key={index}>
-            <img src={src} alt={`slide-${index}`} className="carrusel-img" />
-          </SplideSlide>
+        {images.map((src, index) => (  // Mapea las imágenes recibidas
+          <SplideSlide key={index}>  // Usa el índice como key
+            <img src={src} alt={`slide-${index}`} className="carrusel-img" />  {/* Imagen con clase para estilos */}
+          </SplideSlide>  
         ))}
-      </Splide>
+      </Splide> 
     </section>
   );
 }

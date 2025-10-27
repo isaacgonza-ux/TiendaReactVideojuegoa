@@ -23,8 +23,8 @@ function Home(){
             <section className="container my-5">
                 <h2 className="text-center text-warning mb-4">Estrenos</h2>
                 <div className="row g-4">
-                {estrenos.map((product) => (
-                    <ProductCard key={product.id} product={product} />
+                {estrenos.map((product) => (  // Mapea y renderiza cada producto
+                    <ProductCard key={product.id} product={product} />  // Usa ProductCard para cada producto
                 ))}
                 </div>
             </section>
@@ -51,7 +51,7 @@ function Home(){
             
             
             {/* Noticias */}
-            <NewsSection/>
+            <NewsSection/>   
 
 
 

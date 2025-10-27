@@ -77,7 +77,7 @@ export default function Pago() {
       const pagoExitoso = Math.random() > 0.3; // 70% éxito simulado
 
       if (pagoExitoso) {
-        // create order record and persist it for admin
+        // crear y guardar orden en localStorage
         try {
           const checkout = JSON.parse(localStorage.getItem('checkoutData') || '{}');
           const orders = JSON.parse(localStorage.getItem('orders') || '[]');
@@ -95,7 +95,7 @@ export default function Pago() {
           console.warn('Error saving order', err);
         }
 
-        // clear cart after successful order
+        // limpiar carrito y redirigir a éxito
         clearCart();
         navigate("/pagoExito");
       } else {
@@ -104,6 +104,7 @@ export default function Pago() {
     }, 2000);
   };
 
+  // Diseño de la página de pago
   return (
     <div className="container py-5">
       <div className="row">
@@ -111,13 +112,13 @@ export default function Pago() {
         <div className="col-md-6">
           <h4 className="mb-4 text-primary">Selecciona tu método de pago</h4>
 
-          {metodosPago.map((metodo) => (
-            <div
-              key={metodo.id}
+          {metodosPago.map((metodo) => (  // Itera sobre los métodos de pago
+            <div 
+              key={metodo.id}  // Usa el id como key
               className={`payment-option ${
-                metodoSeleccionado === metodo.id ? "selected" : ""
+                metodoSeleccionado === metodo.id ? "selected" : ""  // Resalta si está seleccionado
               }`}
-              onClick={() => setMetodoSeleccionado(metodo.id)}
+              onClick={() => setMetodoSeleccionado(metodo.id)}  // Maneja selección
             >
               <img src={metodo.imagen} alt={metodo.nombre} width="80" />
               <div className="flex-grow-1 ms-3">
@@ -196,7 +197,7 @@ export default function Pago() {
                   <hr />
                   <div className="d-flex justify-content-between">
                     <span>Subtotal</span>
-                    <span>{Number(total).toLocaleString()} CLP</span>
+                    <span>{Number(total).toLocaleString()} CLP</span> 
                   </div>
                   <div className="d-flex justify-content-between">
                     <span>Tarifa de servicio</span>
@@ -205,7 +206,7 @@ export default function Pago() {
                   <hr />
                   <div className="d-flex justify-content-between">
                     <strong>Total:</strong>
-                    <strong>{Number(total).toLocaleString()} CLP</strong>
+                    <strong>{Number(total).toLocaleString()} CLP</strong>  
                   </div>
                 </>
               )}

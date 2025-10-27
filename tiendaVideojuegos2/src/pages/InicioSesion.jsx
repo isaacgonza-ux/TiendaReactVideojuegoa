@@ -9,23 +9,23 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; 
 import "../css/InicioSesion.css"; 
 
-export default function Login({ setIsAdminLogged }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function Login({ setIsAdminLogged }) { // Recibe prop para actualizar estado de admin
+  const [email, setEmail] = useState("");  // Estado local para el email
+  const [password, setPassword] = useState(""); // Estado local para la contraseña
   const navigate = useNavigate(); // Para redirigir
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (e) => {   // Maneja el envío del formulario
+    e.preventDefault();   // Previene el envío por defecto
 
-    if (email.trim() === "" || password.trim() === "") {
+    if (email.trim() === "" || password.trim() === "") {  //Validación simple de campos vacíos
       alert("⚠️ Por favor completa todos los campos.");
       return;
     }
 
-    if(email === "admin@tiendagamer.com" && password === "admin") {
+    if(email === "admin@tiendagamer.com" && password === "admin") {  //Validación de credenciales 
       alert("✅ Inicio de sesión exitoso. ¡Bienvenido, Admin!");
-     setIsAdminLogged(true);
-      navigate("/admin");
+     setIsAdminLogged(true);  // Actualiza el estado del admin y permite el acceso
+      navigate("/admin"); 
       
     }else{
       alert("❌ Usuario o contraseña incorrectos. Inténtalo de nuevo.");
@@ -48,7 +48,7 @@ export default function Login({ setIsAdminLogged }) {
               id="email"
               placeholder="communitymember@sage.com"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}  // Actualiza el estado del email
               required
             />
           </div>
@@ -62,7 +62,7 @@ export default function Login({ setIsAdminLogged }) {
               id="password"
               placeholder="********"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}   // Actualiza el estado de la contraseña
               required
             />
           </div>

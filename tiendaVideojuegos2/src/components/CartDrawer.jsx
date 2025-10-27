@@ -2,7 +2,7 @@
  * CartDrawer.jsx
  * ----------------
  * Componente que muestra el carrito en un panel deslizable (drawer).
- * Idioma: Español (Latino)
+ * 
  *
  * Propósito:
  * - Mostrar los artículos actualmente en el carrito (desde `CartContext`).
@@ -32,21 +32,21 @@ export const CartDrawer = ({ isOpen, toggleCart }) => {
 
   // Función para formatear precios
   const format = (n) => {
-    return n.toLocaleString(undefined, { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 });
+    return n.toLocaleString(undefined, { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 }); // Formatea como CLP
   };
 
   // Función para manejar el pago
   const handleCheckout = () => {
-    if (cartItems.length === 0) {
+    if (cartItems.length === 0) { //Si el carrito está vacío, muestra alerta
       alert("Tu carrito está vacío.");
       return;
     }
     
-    navigate("/checkout", { state: { total } });
+    navigate("/checkout", { state: { total } });  // Navega a checkout pasando el total
   };
 
   return (
-    <div className={`cart-drawer ${isOpen ? 'open' : ''}`}>
+    <div className={`cart-drawer ${isOpen ? 'open' : ''}`}>  {/* Aplica clase 'open' si isOpen es true */}
       <button className="close-btn" onClick={toggleCart}>✖</button>
       <h2>🛒 Tu Carrito</h2>
 

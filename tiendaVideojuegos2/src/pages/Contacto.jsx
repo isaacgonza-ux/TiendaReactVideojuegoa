@@ -24,45 +24,45 @@ export default function Contacto() {
   const [successMsg, setSuccessMsg] = useState("");
 
   // Expresiones regulares
-  const nameRegex = /^[a-zA-ZÀ-ÿ\s]{2,50}$/;
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const phoneRegex = /^\+?[0-9\s\-]{7,15}$/;
+  const nameRegex = /^[a-zA-ZÀ-ÿ\s]{2,50}$/;  // Letras y espacios, 2-50 caracteres
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;  // Formato básico de email
+  const phoneRegex = /^\+?[0-9\s\-]{7,15}$/;  // Números, espacios, guiones, 7-15 caracteres
 
   // Manejo de cambio en inputs
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
+    const { name, value, type, checked } = e.target;  // Desestructura name, value, type y checked
+    setFormData({ // Actualiza el estado del formulario
+      ...formData,  // Mantiene los demás campos
+      [name]: type === "checkbox" ? checked : value,  // Actualiza según tipo de input
+    });  
   };
 
   // Manejo de "blur" para marcar campos como tocados
   const handleBlur = (e) => {
     const { name } = e.target;
-    setTouched({
-      ...touched,
-      [name]: true,
+    setTouched({ 
+      ...touched, // Mantiene los demás campos
+      [name]: true, // Marca el campo actual como tocado
     });
-    validateField(name);
+    validateField(name);  // Valida el campo actual
   };
 
   // Validar un solo campo
   const validateField = (field) => {
-    let message = "";
+    let message = "";  // Mensaje de error inicial vacío
 
     switch (field) {
       case "name":
-        if (!formData.name) message = "El nombre es obligatorio";
-        else if (!nameRegex.test(formData.name))
+        if (!formData.name) message = "El nombre es obligatorio";  
+        else if (!nameRegex.test(formData.name)) // Validación solo letras y espacios
           message = "El nombre debe tener 2-50 caracteres y solo letras y espacios";
         break;
       case "email":
-        if (!formData.email) message = "El correo es obligatorio";
+        if (!formData.email) message = "El correo es obligatorio";  // Validación de campo vacío
         else if (!emailRegex.test(formData.email)) message = "Introduce un correo válido";
         break;
       case "phone":
-        if (formData.phone && !phoneRegex.test(formData.phone)) message = "Número inválido";
+        if (formData.phone && !phoneRegex.test(formData.phone)) message = "Número inválido";  
         break;
       case "subject":
         if (!formData.subject) message = "Selecciona un asunto";
@@ -72,22 +72,22 @@ export default function Contacto() {
         else if (formData.message.length < 20)
           message = "Debe tener al menos 20 caracteres";
         break;
-      case "consent":
+      case "consent":  //validación checkbox
         if (!formData.consent) message = "Debes aceptar antes de continuar";
         break;
       default:
         break;
     }
 
-    setErrors((prev) => ({
-      ...prev,
-      [field]: message,
+    setErrors((prev) => ({  // Actualiza el estado de errores
+      ...prev, // Mantiene los demás campos
+      [field]: message,  // Actualiza el mensaje del campo actual
     }));
   };
 
   // Validar todo el formulario
   const validate = () => {
-    ["name", "email", "phone", "subject", "message", "consent"].forEach(validateField);
+    ["name", "email", "phone", "subject", "message", "consent"].forEach(validateField);  
     return Object.values(errors).every((e) => e === "");
   };
 
@@ -105,9 +105,9 @@ export default function Contacto() {
 
     validate();
 
-    if (Object.values(errors).every((e) => e === "")) {
+    if (Object.values(errors).every((e) => e === "")) {  // Si no hay errores
       setSuccessMsg("Enviando mensaje...");
-      setTimeout(() => {
+      setTimeout(() => { // Simula tiempo de envío
         setSuccessMsg("¡Mensaje enviado! Te responderemos en menos de 24h.");
         setFormData({
           name: "",
@@ -117,9 +117,9 @@ export default function Contacto() {
           message: "",
           consent: false,
         });
-        setErrors({});
-        setTouched({});
-      }, 1000);
+        setErrors({}); // Limpia errores
+        setTouched({}); // Limpia campos tocados
+      }, 1000);  // Simula retardo de 1 segundo
     }
   };
 

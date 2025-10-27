@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
 
+
+//Administración de usuarios (CRUD) - componente auto-contenido
+/*
+ * - Usa localStorage para persistencia .
+ */
+
+
 const STORAGE_KEY = "admin_users_v1";
 
 const sampleUsers = [
@@ -14,60 +21,67 @@ export default function AdminUsuarios() {
   const [editForm, setEditForm] = useState({ nombre: "", email: "", rol: "" });
 
   useEffect(() => {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(STORAGE_KEY); //busca los usuarios guardados en localStorage
+
+    //pregunta si hay datos guardados
     if (raw) {
       try {
-        setUsers(JSON.parse(raw));
+        setUsers(JSON.parse(raw)); //intenta parsear(convertir datos de un formato a otro) y cargar los datos guardados
       } catch {
-        setUsers(sampleUsers);
+        setUsers(sampleUsers); //si hay un error al parsear, carga los datos de ejemplo
       }
     } else {
-      setUsers(sampleUsers);
+      setUsers(sampleUsers); //si no hay datos, carga los de ejemplo
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(users)); //guarda los usuarios en localStorage cada vez que se actualizan
   }, [users]);
 
-  // 🔹 Manejadores formulario agregar
-  const handleFormChange = (e) => {
-    const { name, value } = e.target;
-    setForm((s) => ({ ...s, [name]: value }));
+  // 🔹 Manejadores formulario agregar usuarios
+  const handleFormChange = (e) => { 
+    const { name, value } = e.target; //obtiene el nombre y valor del campo que se está modificando
+    setForm((s) => ({ ...s, [name]: value })); //actualiza el estado del formulario con el nuevo valor
   };
+
 
   const handleAdd = (e) => {
     e.preventDefault();
-    if (!form.nombre.trim() || !form.email.trim()) return alert("Nombre y email son obligatorios.");
-    const nextId = users.length ? Math.max(...users.map(u => u.id)) + 1 : 1;
-    const newUser = { id: nextId, ...form };
-    setUsers((u) => [newUser, ...u]);
-    setForm({ nombre: "", email: "", rol: "" });
+    if (!form.nombre.trim() || !form.email.trim()) return alert("Nombre y email son obligatorios."); //valida que no esten vaciós
+    const nextId = users.length ? Math.max(...users.map(u => u.id)) + 1 : 1;  //genera un ID único para el nuevo usuario
+    const newUser = { id: nextId, ...form };      //crea el nuevo usuario con el ID y los datos del formulario
+    setUsers((u) => [newUser, ...u]);             //agrega el nuevo usuario al estado de usuarios
+    setForm({ nombre: "", email: "", rol: "" }); //resetea el formulario
   };
 
   // 🔹 Editar usuario
   const startEdit = (user) => {
-    setEditingId(user.id);
-    setEditForm({ nombre: user.nombre, email: user.email, rol: user.rol });
+    setEditingId(user.id); //establece el ID del usuario que se va a editar
+    setEditForm({ nombre: user.nombre, email: user.email, rol: user.rol }); //carga los datos del usuario en el formulario de edición
   };
 
-  const cancelEdit = () => {
-    setEditingId(null);
+  // Cancela la edición
+  const cancelEdit = () => { 
+    setEditingId(null); 
     setEditForm({ nombre: "", email: "", rol: "" });
   };
 
+  // Maneja los cambios en el formulario de edición
   const handleEditChange = (e) => {
-    const { name, value } = e.target;
-    setEditForm((s) => ({ ...s, [name]: value }));
+    const { name, value } = e.target;               //obtiene el nombre y valor del campo que se está modificando
+    setEditForm((s) => ({ ...s, [name]: value })); //actualiza el estado del formulario de edición con el nuevo valor
   };
 
+
+  // Guarda los cambios realizados en la edición
   const saveEdit = (e) => {
-    e.preventDefault();
-    setUsers((list) =>
-      list.map((u) =>
-        u.id === editingId
-          ? { ...u, ...editForm }
-          : u
+    e.preventDefault(); //previene el envío del formulario
+    setUsers((list) =>  //actualiza la lista de usuarios
+      list.map((u) =>   //itera sobre cada usuario
+        u.id === editingId   //si el ID del usuario coincide con el ID que se está editando
+          ? { ...u, ...editForm }  //actualiza los datos del usuario con los del formulario de edición
+          : u                     //si no coincide, deja el usuario sin cambios
       )
     );
     cancelEdit();
@@ -75,14 +89,14 @@ export default function AdminUsuarios() {
 
   // 🔹 Eliminar
   const handleDelete = (id) => {
-    if (!window.confirm("¿Eliminar usuario?")) return;
-    setUsers((list) => list.filter((u) => u.id !== id));
+    if (!window.confirm("¿Eliminar usuario?")) return;   //pregunta por confirmación antes de eliminar
+    setUsers((list) => list.filter((u) => u.id !== id));  //elimina el usuario con el ID especificado
   };
 
   // 🔹 Vaciar todo
   const handleClearAll = () => {
-    if (!window.confirm("¿Vaciar todos los usuarios?")) return;
-    setUsers([]);
+    if (!window.confirm("¿Vaciar todos los usuarios?")) return;  //pregunta por confirmación antes de vaciar
+    setUsers([]);  //vacía la lista de usuarios
   };
 
   return (
@@ -97,8 +111,8 @@ export default function AdminUsuarios() {
             className="form-control"
             placeholder="Nombre completo"
             name="nombre"
-            value={form.nombre}
-            onChange={handleFormChange}
+            value={form.nombre}  //conecta el valor del input 
+            onChange={handleFormChange}  //maneja los cambios en el input
           />
         </div>
         <div className="col-md-4">
@@ -176,7 +190,7 @@ export default function AdminUsuarios() {
       {/* Controles */}
       <div className="mb-3 d-flex justify-content-between">
         <div>
-          <strong>Total:</strong> {users.length}
+          <strong>Total:</strong> {users.length} {/*muestra el total de usuarios*/}
         </div>
         <div className="d-flex gap-2">
           <button className="btn btn-danger btn-sm" onClick={handleClearAll}>
@@ -204,14 +218,14 @@ export default function AdminUsuarios() {
             </tr>
           </thead>
           <tbody>
-            {users.length === 0 && (
+            {users.length === 0 && (  //si no hay usuarios, muestra un mensaje
               <tr>
                 <td colSpan="5" className="text-center">
                   No hay usuarios
                 </td>
               </tr>
             )}
-            {users.map((u) => (
+            {users.map((u) => (  //itera sobre la lista de usuarios y muestra cada uno en una fila
               <tr key={u.id}>
                 <td>{u.id}</td>
                 <td>{u.nombre}</td>
@@ -219,10 +233,10 @@ export default function AdminUsuarios() {
                 <td>{u.rol}</td>
                 <td>
                   <div className="d-flex gap-2">
-                    <button className="btn btn-warning btn-sm" onClick={() => startEdit(u)}>
+                    <button className="btn btn-warning btn-sm" onClick={() => startEdit(u)}>  {/*inicia la edición del usuario*/}
                       Editar
                     </button>
-                    <button className="btn btn-danger btn-sm" onClick={() => handleDelete(u.id)}>
+                    <button className="btn btn-danger btn-sm" onClick={() => handleDelete(u.id)}>  {/*elimina el usuario*/}
                       Eliminar
                     </button>
                   </div>

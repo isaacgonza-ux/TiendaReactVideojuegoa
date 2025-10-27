@@ -21,35 +21,35 @@ export default function Checkout() {
     telefono: '',
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({});  // Estado para errores de validación
 
-  const validate = () => {
-    const e = {};
-    if (!form.nombre.trim()) e.nombre = 'Nombre es requerido';
+  const validate = () => {  // Función de validación simple
+    const e = {};  // Objeto para errores
+    if (!form.nombre.trim()) e.nombre = 'Nombre es requerido'; 
     if (!form.apellido.trim()) e.apellido = 'Apellido es requerido';
     if (!form.email.trim()) e.email = 'Email es requerido';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Email inválido';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Email inválido'; //Validación básica de email regex
     if (!form.direccion.trim()) e.direccion = 'Dirección requerida';
     if (!form.ciudad.trim()) e.ciudad = 'Ciudad requerida';
     if (!form.telefono.trim()) e.telefono = 'Teléfono requerido';
     else if (!/^\d{7,}$/.test(form.telefono.replace(/\s+/g, ''))) e.telefono = 'Teléfono inválido (mínimo 7 dígitos)';
     if (form.postal && !/^\d{4,10}$/.test(form.postal)) e.postal = 'Código postal inválido';
     setErrors(e);
-    return Object.keys(e).length === 0;
+    return Object.keys(e).length === 0; // Devuelve true si no hay errores
   };
 
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setForm((prev) => ({ ...prev, [id]: value }));
+  const handleChange = (e) => { // Maneja cambios en los inputs
+    const { id, value } = e.target; // Desestructura id y value del input
+    setForm((prev) => ({ ...prev, [id]: value })); // Actualiza el estado del formulario
   };
 
-  const handleSubmit = (ev) => {
-    ev.preventDefault();
-    if (!validate()) return;
+  const handleSubmit = (ev) => {  // Maneja el envío del formulario
+    ev.preventDefault(); // Previene el envío por defecto
+    if (!validate()) return; // Si no pasa la validación, no continúa
     // guardar datos de checkout y navegar a pago
     try {
-      localStorage.setItem('checkoutData', JSON.stringify(form));
-    } catch (err) {
+      localStorage.setItem('checkoutData', JSON.stringify(form));  // Guarda los datos en localStorage
+    } catch (err) { // Maneja error al guardar
       console.warn('No se pudo guardar checkoutData', err);
     }
     navigate('/pago');

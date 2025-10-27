@@ -52,10 +52,10 @@ export default function Carrusel() {
       data-bs-interval="2000" // cambia de slide cada 2 segundos
     >
       <div className="carousel-inner">
-        {slides.map((slide, index) => (
+        {slides.map((slide, index) => (  // Itera sobre los slides
           <div
-            key={slide.id}
-            className={`carousel-item ${index === 0 ? "active" : ""}`}
+            key={slide.id}  // Usa el id como key para mostrar la imagen
+            className={`carousel-item ${index === 0 ? "active" : ""}`}  // activa el primer slide
           >
             <Link to={slide.link}>
               <img
