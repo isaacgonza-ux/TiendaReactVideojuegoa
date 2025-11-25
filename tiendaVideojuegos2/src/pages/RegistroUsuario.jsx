@@ -11,10 +11,12 @@ import "../Css/RegistroUsuario.css";
 
 export default function RegistroUsuario() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({  // Estado local para los datos del formulario
     email: "",
     name: "",
+    username: "",
     password: "",
     confirmPassword: "",
   });
@@ -29,12 +31,12 @@ export default function RegistroUsuario() {
 
 
   // Maneja el envío del formulario
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();  // Previene el envío por defecto
 
-    const { email, name, password, confirmPassword } = formData;  // Desestructura los datos del formulario
+    const { email, name, username, password, confirmPassword } = formData;  // Desestructura los datos del formulario
     // Validaciones básicas
-    if (!email || !name || !password || !confirmPassword) {  //Si algún campo está vacío
+    if (!email || !name || !username || !password || !confirmPassword) {  //Si algún campo está vacío
       alert("⚠️ Por favor completa todos los campos.");
       return;
     }
@@ -44,13 +46,64 @@ export default function RegistroUsuario() {
       return;
     }
 
-    // Si todo está correcto, redirige (simulado)
-    alert("✅ Registro exitoso. ¡Bienvenido!");
-    navigate("/"); // redirige a inicio de sesión o página principal
+     if (password.length < 6) {  // Si la contraseña es muy corta
+      alert("⚠️ La contraseña debe tener al menos 8 caracteres.");
+      setLoading(false);
+      return;
+    }
+
+     if (username.length < 3) {
+      alert("⚠️ El username debe tener al menos 3 caracteres.");
+      setLoading(false);
+      return;
+    }
+ try {
+      console.log("📤 [Registro] Enviando datos:", { email, name, username });
+
+      const response = await fetch("http://localhost:8080/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          name: name,
+          username: username,
+          password: password,
+        }),
+      });
+
+      const data = await response.json();
+      console.log("📥 [Registro] Respuesta:", data);
+
+      if (!response.ok) {
+        throw new Error(data.message || "Error al registrarse");
+      }
+
+      // Registro exitoso - Guardar tokens automáticamente
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      alert("✅ Registro exitoso! Bienvenido " + data.user.name);
+
+      // Redirigir según el rol (aunque por defecto será USER)
+      if (data.user.role === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+
+    } catch (error) {
+      console.error("❌ [Registro] Error:", error);
+      alert("❌ " + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCancel = () => {
-    navigate("/"); // Vuelve a inicio de sesión
+    navigate("/inicioSesion");
   };
 
 
@@ -91,6 +144,22 @@ export default function RegistroUsuario() {
             id="name"
             placeholder="Juan"
             value={formData.name}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+
+
+         {/* NombreUsuario */}
+        <div className="mb-2">
+          <label htmlFor="username" className="form-label">Nombre de  Usuario</label>
+          <input
+            type="text"
+            className="form-control"
+            id="username"
+            placeholder="Juan"
+            value={formData.username}
             onChange={handleChange}
             required
           />

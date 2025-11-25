@@ -9,28 +9,62 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; 
 import "../css/InicioSesion.css"; 
 
-export default function Login({ setIsAdminLogged }) { // Recibe prop para actualizar estado de admin
+export default function Login() { 
   const [email, setEmail] = useState("");  // Estado local para el email
   const [password, setPassword] = useState(""); // Estado local para la contraseña
   const navigate = useNavigate(); // Para redirigir
 
-  const handleSubmit = (e) => {   // Maneja el envío del formulario
+  const handleSubmit = async(e) => {   // Maneja el envío del formulario
     e.preventDefault();   // Previene el envío por defecto
 
     if (email.trim() === "" || password.trim() === "") {  //Validación simple de campos vacíos
       alert("⚠️ Por favor completa todos los campos.");
       return;
     }
+try {
+    const response = await fetch("http://localhost:8080/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email,   
+        password: password
+      }),
+    });
+    
 
-    if(email === "admin@tiendagamer.com" && password === "admin") {  //Validación de credenciales 
-      alert("✅ Inicio de sesión exitoso. ¡Bienvenido, Admin!");
-     setIsAdminLogged(true);  // Actualiza el estado del admin y permite el acceso
-      navigate("/admin"); 
-      
-    }else{
-      alert("❌ Usuario o contraseña incorrectos. Inténtalo de nuevo.");
+    if (!response.ok) {
+      const errorData = await response.json();
+      alert(`❌ ${errorData.message || 'Usuario o contraseña incorrectos'}`);
+      return;
     }
 
+    const data = await response.json();
+    console.log("✅ [Login] Respuesta completa:", data);
+    console.log("✅ [Login] Usuario:", data.user);
+    console.log("✅ [Login] Role:", data.user.role);
+
+    // Guarda el token
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("role", data.user.role);
+      localStorage.setItem("username", data.user.username);
+
+    alert("✅ Inicio de sesión exitoso!");
+
+    // Si el usuario es admin
+    if (data.user.role === 'ADMIN') {
+        console.log("🎯 [Login] Navegando a /admin");
+        navigate("/admin");
+      } else {
+        console.log("🎯 [Login] Navegando a /");
+        navigate("/");
+      }
+
+  } catch (error) {
+    alert("⚠️ Error al conectar con el servidor.");
+    console.error("❌ [Login] Error:", error);
+  }
     
   };
 
