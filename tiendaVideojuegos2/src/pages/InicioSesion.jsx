@@ -14,14 +14,15 @@ export default function Login() {
   const [password, setPassword] = useState(""); // Estado local para la contraseña
   const navigate = useNavigate(); // Para redirigir
 
-  const handleSubmit = async(e) => {   // Maneja el envío del formulario
-    e.preventDefault();   // Previene el envío por defecto
+ const handleSubmit = async(e) => {
+  e.preventDefault();
 
-    if (email.trim() === "" || password.trim() === "") {  //Validación simple de campos vacíos
-      alert("⚠️ Por favor completa todos los campos.");
-      return;
-    }
-try {
+  if (email.trim() === "" || password.trim() === "") {
+    alert("⚠️ Por favor completa todos los campos.");
+    return;
+  }
+
+  try {
     const response = await fetch("http://localhost:8080/auth/login", {
       method: "POST",
       headers: {
@@ -33,7 +34,6 @@ try {
       }),
     });
     
-
     if (!response.ok) {
       const errorData = await response.json();
       alert(`❌ ${errorData.message || 'Usuario o contraseña incorrectos'}`);
@@ -41,32 +41,35 @@ try {
     }
 
     const data = await response.json();
-    console.log("✅ [Login] Respuesta completa:", data);
-    console.log("✅ [Login] Usuario:", data.user);
-    console.log("✅ [Login] Role:", data.user.role);
+    console.log("✅ Respuesta completa del servidor:", data);
+    console.log("✅ Usuario:", data.user);
+    console.log("✅ Role:", data.user.role);
 
-    // Guarda el token
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("role", data.user.role);
-      localStorage.setItem("username", data.user.username);
+    // Guardar en localStorage
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("refreshToken", data.refreshToken);
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    console.log("✅ Guardado en localStorage");
+    console.log("Token guardado:", localStorage.getItem("token"));
+    console.log("User guardado:", localStorage.getItem("user"));
 
     alert("✅ Inicio de sesión exitoso!");
 
-    // Si el usuario es admin
-    if (data.user.role === 'ADMIN') {
-        console.log("🎯 [Login] Navegando a /admin");
-        navigate("/admin");
-      } else {
-        console.log("🎯 [Login] Navegando a /");
-        navigate("/");
-      }
+    // Redirigir según el rol
+    if (data.user.role === "ADMIN") {
+      console.log("🎯 Redirigiendo a /admin");
+      navigate("/admin");
+    } else {
+      console.log("🎯 Redirigiendo a /");
+      navigate("/");
+    }
 
   } catch (error) {
     alert("⚠️ Error al conectar con el servidor.");
-    console.error("❌ [Login] Error:", error);
+    console.error("Error completo:", error);
   }
-    
-  };
+};
 
   return (
       <div className="fondo-iniciar-Sesion d-flex justify-content-center align-items-center vh-100">
