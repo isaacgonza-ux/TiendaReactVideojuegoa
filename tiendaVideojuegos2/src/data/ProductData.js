@@ -1,4 +1,103 @@
 
+
+
+
+// Datos completos del juego (esto podría venir de tu base de datos o un archivo JS expandido)
+export const deathStrandingData = {
+    title: "Death Stranding 2",
+    publisher: "Sony Interactive Entertainment",
+    platform: "PS5",
+    releaseDate: "11/11/2025", // Ajusté la fecha según contexto futuro
+    price: "US$69.99",
+    backgroundClass: "fondo-DeathStranding2", // Clase CSS definida en Fondos.css
+    mainImage: "https://www.kojimaproductions.jp/sites/default/files/2024-02/ds2_sop2024_screenshot013.jpg",
+    carouselImages: [
+        'https://cdn.mos.cms.futurecdn.net/FN8BJYqowTe423mb3nZDzb.jpg',
+        'https://www.kojimaproductions.jp/sites/default/files/2025-03/ds2_sxsw2025_screenshots009.jpg',
+        'https://images2.alphacoders.com/135/thumb-1920-1350293.jpeg',
+        'https://gaming-cdn.com/images/products/13292/screenshot/death-stranding-2-on-the-beach-pc-steam-wallpaper-1.jpg?v=1750685513'
+    ],
+    description: "Death Stranding 2: On the Beach. La esperada secuela del innovador juego de Hideo Kojima. Acompaña nuevamente a Sam Porter Bridges...",
+    features: [
+        "🎮 Offline activado",
+        "🚫 Online no disponible",
+        "🎮 Compatible con vibración y gatillo DualSense",
+        "⚡ Mejorado para PS5 Pro"
+    ],
+    warnings: [
+        "🔴 Desmembramiento y sangre",
+        "🗣️ Lenguaje fuerte",
+        "⚔️ Violencia intensa"
+    ],
+    videos: [
+        { url: "https://www.youtube.com/embed/etOOO9Sq7u8", title: "Tráiler oficial" },
+        { url: "https://www.youtube.com/embed/MT5m5NKtq-Q", title: "La historia" }
+    ]
+};
+
+
+
+
+export const gowRagnarokData = {
+  title: "God of War Ragnarök",
+  publisher: "Sony Santa Monica",
+  platform: "PS5 / PS4",
+  releaseDate: "09/11/2022",
+  price: "US$59.99",
+  backgroundClass: "fondo-gow-ragnarok", // Coincide con tu CSS
+  mainImage: "https://image.api.playstation.com/vulcan/ap/rnd/202207/1210/4xJ8XB3bi888QTLZYdl7Oi0s.png",
+  carouselImages: [
+     "https://gmedia.playstation.com/is/image/SIEPDC/god-of-war-ragnarok-screenshot-03-en-07sep21?$1600px$",
+        "https://gmedia.playstation.com/is/image/SIEPDC/god-of-war-ragnarok-screenshot-05-en-07sep21?$1600px$",
+        "https://image.api.playstation.com/vulcan/ap/rnd/202207/1210/6z1wzR7vJ5a8yW3xK9tU4s.png"
+  ],
+  description: "Kratos y Atreus deben viajar a cada uno de los nueve reinos en busca de respuestas mientras las fuerzas asgardianas se preparan para la batalla profetizada.",
+  features: ["🎮 Un jugador", "⚡ 60 FPS"],
+  warnings: ["⚔️ Violencia Extrema", "🗣️ Lenguaje Fuerte"],
+  videos: [{ url: "https://www.youtube.com/embed/hfJ4Km46A-0", title: "Tráiler Padre e Hijo" },
+        { url: "https://www.youtube.com/embed/EE-4GvjKcfs", title: "Tráiler de Lanzamiento" }]
+};
+
+export const fc26Data = {
+  title: "EA Sports FC 26",
+  publisher: "Electronic Arts",
+  platform: "PS5 / Xbox / PC",
+  releaseDate: "Septiembre 2025",
+  price: "US$69.99",
+  backgroundClass: "fondo-Fc26", // Coincide con tu CSS
+  mainImage: "img/ea-sports-portadafc26.jpg", // Asegúrate que esta ruta sea correcta
+  carouselImages: [
+        'https://drop-assets.ea.com/images/38KPvJkmt87CQ4QEDcdsrG/548bb708b526d0981f8eac4dd4c595fa/FC26_Rev_Musiala_Gameplay_16x9.jpg?im=AspectCrop=(16,9),xPosition=0.5,yPosition=0.5;Resize=(2560)&q=80',
+    'https://drop-assets.ea.com/images/6vOqtTlihMFZMgQWakZNVY/93892e54e4f5fa0c3c10d393a58256de/FC26_Zlatan_Archetype_Lores_Clean_16x9.jpg?im=AspectCrop=(16,9),xPosition=0.5572916666666666,yPosition=0.47962962962962963;Resize=(2560)&q=80',
+    'https://drop-assets.ea.com/images/3tGdbsLcRXbmbXL5sPvJOt/ce47f4ca25baa40ab2cbe225be51ae7d/FC26_Rev_VVD_FUT_16x9.jpg?im=AspectCrop=(16,9),xPosition=0.4,yPosition=0.3472222222222222;Resize=(2560)&q=80',
+    'https://drop-assets.ea.com/images/2KVQq4lSBcPUJct6DEjdic/c06c2dc0e4ffc9a213fd1e8d8a7c2e72/FC26_Rev_Stadium_Clubs_16x9.jpg?im=AspectCrop=(16,9),xPosition=0.5,yPosition=0.5;Resize=(2560)&q=80'
+  ],
+  description: "FC 26 te sumerge en la experiencia definitiva del fútbol con gráficos impresionantes, jugabilidad realista y modos de juego innovadores. Crea tu equipo soñado en el modo Ultimate Team, compite en ligas y torneos, y vive la emoción del fútbol en cada pase, tiro y gol. Con actualizaciones constantes y eventos en vivo, FC 26 ofrece una experiencia dinámica que mantiene a los jugadores comprometidos durante todo el año.",
+  features: ["🎮 Multijugador Online", "🏆 Ultimate Team"],
+  videos: [
+        { url: "https://www.youtube.com/embed/1ooNXhzMBv4", title: "Tráiler Reveal (Referencia)" },
+        { url: "https://www.youtube.com/embed/EabAJc-2F5k", title: "Gameplay Oficial (Referencia)" }]
+};
+
+export const gtaVlData = {
+  title: "Grand Theft Auto VI",
+  publisher: "Rockstar Games",
+  platform: "PS5 / Xbox Series X",
+  releaseDate: "2025",
+  price: "US$79.99",
+  backgroundClass: "fondo-Gtavl", // Coincide con tu CSS
+  mainImage: "https://www.rockstargames.com/VI/_next/static/media/Jason_and_Lucia_02_With_Logos_landscape.93ab5523.jpg",
+  carouselImages: [],
+  description: "Bienvenido a Vice City. La historia de amor y crimen de Lucía y Jason en el mundo abierto más grande jamás creado.",
+  features: ["🌎 Mundo Abierto", "🔫 Acción"],
+  warnings: ["🔴 Contenido Adulto", "⚔️ Violencia"],
+  videos: [
+       { url: "https://www.youtube.com/embed/QdBZY2fkU-0", title: "Tráiler 1" }
+  ]
+};
+
+
+
 export const estrenos = [
   {
     id: 1,
