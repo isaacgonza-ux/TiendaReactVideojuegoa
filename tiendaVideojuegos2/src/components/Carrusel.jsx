@@ -1,10 +1,4 @@
-/*
-  Component: Carrusel
-  Purpose: Simple Bootstrap-based carousel shown on the Home page.
-  Props: none (data is defined locally inside the component).
-  Behavior: Renders a list of slides; each slide is a Link to a category/page.
-  Notes: presentational only.
-*/
+
 /*
   Componente: Carrusel
   Propósito: Mostrar un carrusel simple en la página principal con slides promocionales.

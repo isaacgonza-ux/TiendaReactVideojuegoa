@@ -23,6 +23,7 @@ import React from "react";
 import { Link, Routes, Route, Navigate } from "react-router-dom";
 import AdminProd from "../pages/AdminProd";
 import AdminUser from "../pages/AdminUser";
+import AdminOrders from "../pages/AdminOrders";
 
 export default function AdminPanel() {
   return (
