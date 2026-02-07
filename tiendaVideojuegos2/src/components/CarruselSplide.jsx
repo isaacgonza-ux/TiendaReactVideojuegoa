@@ -39,7 +39,7 @@ export default function CarruselSplide({ images = [] }) {
         }}
       >
         {images.map((src, index) => (  // Mapea las imágenes recibidas
-          <SplideSlide key={index}>  // Usa el índice como key
+          <SplideSlide key={index}>  {/*Usa el índice como key*/}
             <img src={src} alt={`slide-${index}`} className="carrusel-img" />  {/* Imagen con clase para estilos */}
           </SplideSlide>  
         ))}

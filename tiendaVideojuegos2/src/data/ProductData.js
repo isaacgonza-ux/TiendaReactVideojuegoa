@@ -7,7 +7,7 @@ export const estrenos = [
     oldPrice: "$124,500 CLP",
     newPrice: "$24,900 CLP",
     carritoLink: "Carrito.html",
-    detallesLink: "/deathstranding2"
+     detallesLink: "/deathstranding2"
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ export const estrenos = [
     oldPrice: "$144,500 CLP",
     newPrice: "$28,900 CLP",
     carritoLink: "Carrito.html",
-    detallesLink: "/fc26"
+     detallesLink: "/fc26"
   },
   {
     id: 4,
@@ -96,7 +96,7 @@ export const masVendidos = [
     oldPrice: "$144,500 CLP",
     newPrice: "$28,900 CLP",
     carritoLink: "Carrito.html",
-    detallesLink: "gta-vl"
+     detallesLink: "/gta-vl"
   },
   {
     id: 3,

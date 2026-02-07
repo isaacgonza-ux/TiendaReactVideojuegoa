@@ -14,41 +14,41 @@ export default function Login() {
   const [password, setPassword] = useState(""); // Estado local para la contraseña
   const navigate = useNavigate(); // Para redirigir
 
- const handleSubmit = async(e) => {
-  e.preventDefault();
+ const handleSubmit = async(e) => { // Maneja el envío del formulario
+  e.preventDefault(); // Previene el envío por defecto
 
-  if (email.trim() === "" || password.trim() === "") {
+  if (email.trim() === "" || password.trim() === "") { // Validación básica
     alert("⚠️ Por favor completa todos los campos.");
-    return;
+    return; // Detiene la ejecución si hay campos vacíos
   }
 
   try {
-    const response = await fetch("http://localhost:8080/auth/login", {
+    const response = await fetch("http://localhost:8080/auth/login", { // Llama al endpoint de login
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
+      body: JSON.stringify({ // Envía email y contraseña en el cuerpo
         email: email,   
         password: password
       }),
     });
     
-    if (!response.ok) {
-      const errorData = await response.json();
-      alert(`❌ ${errorData.message || 'Usuario o contraseña incorrectos'}`);
-      return;
+    if (!response.ok) { // Si la respuesta no es OK
+      const errorData = await response.json(); // Extrae el mensaje de error
+      alert(`❌ ${errorData.message || 'Usuario o contraseña incorrectos'}`); // Muestra el mensaje de error
+      return; // Detiene la ejecución
     }
 
-    const data = await response.json();
+    const data = await response.json(); // Extrae los datos de la respuesta
     console.log("✅ Respuesta completa del servidor:", data);
     console.log("✅ Usuario:", data.user);
     console.log("✅ Role:", data.user.role);
 
     // Guardar en localStorage
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("refreshToken", data.refreshToken);
-    localStorage.setItem("user", JSON.stringify(data.user));
+    localStorage.setItem("token", data.token); // Guardar token de acceso
+    localStorage.setItem("refreshToken", data.refreshToken); // Guardar token de refresco
+    localStorage.setItem("user", JSON.stringify(data.user)); // Guardar datos del usuario
 
     console.log("✅ Guardado en localStorage");
     console.log("Token guardado:", localStorage.getItem("token"));

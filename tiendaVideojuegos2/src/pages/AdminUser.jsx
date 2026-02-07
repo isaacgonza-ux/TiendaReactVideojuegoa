@@ -16,22 +16,25 @@ const API_URL = "http://localhost:8080/admin"; // URL base de la API
 const token = localStorage.getItem("token"); // Obtener el token del localStorage
 
 
- //cargar usuarios
-
+ 
+// Función asíncrona que obtiene la lista de usuarios del servidor
  const loadUsers = async () => {
     try {
+        // Hace una petición GET al endpoint de usuarios
       const res = await fetch(`${API_URL}/get_users`, {
+         // Configura los headers de la petición
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,    // Envía el token JWT para autenticar la petición
         },
       });
 
+       // Verifica si la respuesta HTTP no fue exitosa 
         if (!res.ok) {
-        throw new Error("Error al cargar usuarios");
+        throw new Error("Error al cargar usuarios"); // Lanza un error para ser capturado en el catch
       }
 
-       const data = await res.json();
-      setUsers(data);
+       const data = await res.json();   // Convierte la respuesta JSON en un objeto JavaScript
+      setUsers(data); // Actualiza el estado con la lista de usuarios recibida
 
     } catch (err) {
       console.error("❌ Error cargando usuarios:", err);
@@ -39,22 +42,23 @@ const token = localStorage.getItem("token"); // Obtener el token del localStorag
     }
   };
 
+  // Hook que ejecuta código cuando el componente se monta
   useEffect(() => {
-    loadUsers();
-  }, []);
+    loadUsers();  // Llama a la función para cargar usuarios
+  }, []); // Array vacío significa que solo se ejecuta una vez al montar el componente
 
 
    // -----------------------
   //  MANEJAR FORMULARIOS
   // -----------------------
   const handleFormChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target;// Extrae el nombre del campo y su valor del elemento que disparó el evento
     setForm((s) => ({ ...s, [name]: value }));
   };
 
   const handleEditChange = (e) => {
     const { name, value } = e.target;
-    setEditForm((s) => ({ ...s, [name]: value }));
+    setEditForm((s) => ({ ...s, [name]: value }));// Actualiza el estado del formulario manteniendo los valores anteriores y modificando solo el campo cambiado
   };
 
 
@@ -62,19 +66,22 @@ const token = localStorage.getItem("token"); // Obtener el token del localStorag
   //  AGREGAR USUARIO (POST)
   // -----------------------
   const handleAdd = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Evita que el formulario se envíe de forma tradicional
 
+    // Valida que todos los campos estén llenos antes de enviar
      if (!form.username || !form.password || !form.name || !form.email || !form.role) {
       return alert("Todos los campos son obligatorios (incl. contraseña y username).");
     }
 
     try {
+      // Realiza una petición POST al endpoint de creación de usuarios
       const res = await fetch(`${API_URL}/create_users`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json", // Indica que el cuerpo de la petición es JSON
+          Authorization: `Bearer ${token}`, // Envía el token JWT para autenticar la petición
         },
+        // Cuerpo de la petición con los datos del nuevo usuario
        body: JSON.stringify({
           username: form.username,
           password: form.password,
@@ -91,7 +98,7 @@ const token = localStorage.getItem("token"); // Obtener el token del localStorag
 
       if (!res.ok) throw new Error("Error al crear usuario :${res.status} ${res.statusText}");
 
-      await loadUsers();
+      await loadUsers(); // Recarga la lista de usuarios para reflejar el nuevo usuario agregado
       setForm({ username: "", password: "", name: "", email: "", role: "" });// Limpiar formulario  
     } catch (err) {
       console.error("❌ Error agregando usuario:", err);
@@ -103,9 +110,10 @@ const token = localStorage.getItem("token"); // Obtener el token del localStorag
    // -----------------------
   //  EDITAR USUARIO (PUT)
   // -----------------------
+  // Inicia el proceso de edición llenando el formulario con los datos del usuario seleccionado
    const startEdit = (user) => {
-    setEditingId(user.id);
-    setEditForm({
+    setEditingId(user.id); // Guarda el ID del usuario que se está editando
+    setEditForm({ // Llena el formulario de edición con los datos actuales del usuario
       username: user.username || "",
       password: "", // no mostrar password actual; permitir setear nueva
       name: user.name || "",
@@ -114,14 +122,17 @@ const token = localStorage.getItem("token"); // Obtener el token del localStorag
     });
   };
 
+  // Guarda los cambios realizados en el usuario editado
   const saveEdit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
 
+    // Validar campos obligatorios
       if (!editForm.username || !editForm.name || !editForm.email || !editForm.role) {
       return alert("Username, name, email y role son obligatorios.");
     }
 
      try {
+      // Construir el cuerpo de la petición
       const bodyToSend = {
         username: editForm.username,
         name: editForm.name,
@@ -133,6 +144,7 @@ const token = localStorage.getItem("token"); // Obtener el token del localStorag
         bodyToSend.password = editForm.password;
       }
 
+      // Realiza una petición PUT al endpoint de edición de usuarios
       const res = await fetch(`${API_URL}/users/${editingId}`, {
         method: "PUT",
         headers: {
@@ -149,9 +161,9 @@ const token = localStorage.getItem("token"); // Obtener el token del localStorag
         throw new Error(`Error al editar usuario: ${res.status} ${text}`);
       }
 
-      cancelEdit();
-      await loadUsers();
-    } catch (err) {
+      cancelEdit();// Limpiar estado de edición
+      await loadUsers();// Recargar la lista de usuarios para reflejar los cambios
+    } catch (err) { 
       console.error("❌ Error editando usuario:", err);
       alert("Error al guardar cambios. Revisa la consola.");
     }
@@ -167,8 +179,8 @@ const token = localStorage.getItem("token"); // Obtener el token del localStorag
   // -----------------------
   //  ELIMINAR USUARIO (DELETE)
   // -----------------------
-  const handleDelete = async (id) => {
-    if (!window.confirm("¿Eliminar usuario?")) return;
+  const handleDelete = async (id) => { // Recibe el ID del usuario a eliminar
+    if (!window.confirm("¿Eliminar usuario?")) return; // Confirma la acción con el usuario 
 
     try {
       const res = await fetch(`${API_URL}/users/${id}`, {
@@ -194,8 +206,8 @@ const token = localStorage.getItem("token"); // Obtener el token del localStorag
 
 
   return (
-    <div className="container py-5">
-      <h2 className="mb-4">Gestión de Usuarios</h2>
+    <div className="container py-5"> 
+      <h2 className="mb-4">Gestión de Usuarios</h2> 
 
       {/* Formulario agregar */}
       <form className="row g-3 mb-4" onSubmit={handleAdd}>
