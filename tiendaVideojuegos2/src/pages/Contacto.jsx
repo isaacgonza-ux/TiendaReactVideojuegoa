@@ -6,6 +6,7 @@
   Comportamiento: al enviar valida campos; si todo está bien simula envío y muestra mensaje de éxito.
 */
 import "../css/Contacto.css";
+
 import React, { useState } from "react";
 
 export default function Contacto() {
