@@ -9,7 +9,7 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../css/Pago.css";
+import "../css/Pago.css"
 import { useCart } from "../components/CartContext";
 
 export default function Pago() {
