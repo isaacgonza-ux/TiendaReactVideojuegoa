@@ -19,6 +19,7 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
 import "../css/CarruselSplide.css";
 
+
 export default function CarruselSplide({ images = [] }) {  
   if (!images || images.length === 0) return null;   // No renderiza si no hay imágenes
 

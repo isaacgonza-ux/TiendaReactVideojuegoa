@@ -13,6 +13,7 @@ import '../css/MenuLateral.css';
 
 
 
+
 export default function MenuLateral() {
   // use CategoryLink component for category navigation which closes the offcanvas and navigates
     return (
