@@ -5,7 +5,7 @@
   Nota: componente presentacional, usa estilos en ../Css/Battlefield.css.
 */
 import React from "react";
-import "../Css/Battlefield.css";
+import "../css/Battlefield.css";
 import { blogBattlefield } from "../data/Blog_Btf";
 
 export default function Battlefield() {
