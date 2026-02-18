@@ -6,8 +6,10 @@
 */
 import React from 'react';
 import CarruselSplide from '../components/CarruselSplide';
-import '../css/Fondos.css'
-import '../css/CarruselSplide.css'
+import '../css/Fondos.css';
+import '../css/CarruselSplide.css';
+
+
 
 
 const images = [
