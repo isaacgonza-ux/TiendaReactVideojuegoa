@@ -6,7 +6,7 @@
 */
 import React from "react";
 import { Link } from "react-router-dom";
-import "../css/PagoResultado.css"; 
+import "../css/PagoResultado.css";
 
 export default function PagoExitoso() {
   return (
