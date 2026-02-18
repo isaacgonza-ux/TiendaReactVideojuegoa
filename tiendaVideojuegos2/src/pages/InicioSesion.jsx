@@ -7,7 +7,7 @@
 */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; 
-import "../css/InicioSesion.css"; 
+import "../css/InicioSesion.css"
 
 export default function Login() { 
   const [email, setEmail] = useState("");  // Estado local para el email
