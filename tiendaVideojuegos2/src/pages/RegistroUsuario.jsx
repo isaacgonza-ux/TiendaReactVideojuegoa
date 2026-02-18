@@ -7,7 +7,7 @@
 */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../Css/RegistroUsuario.css";
+import "../css/RegistroUsuario.css";
 
 export default function RegistroUsuario() {
   const navigate = useNavigate();
