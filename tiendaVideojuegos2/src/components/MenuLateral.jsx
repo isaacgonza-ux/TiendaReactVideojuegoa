@@ -7,6 +7,7 @@
 */
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import CategoryLink from './CategoryLink';
 import "../css/MenuLateral.css";
 
