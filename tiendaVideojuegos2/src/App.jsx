@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 import Menu from "./components/Menu.jsx";
 import Home from "./pages/Home.jsx";
@@ -32,24 +32,24 @@ import B_Battlefield from "./Blog/B_Battlefield.jsx";
 
 function App() {
   const [isCartOpen, setCartOpen] = useState(false);
+  const [isAdminLogged, setIsAdminLogged] = useState(false);
   const toggleCart = () => setCartOpen(!isCartOpen);
 
-  // Función para verificar si el usuario es admin
-  const isAdmin = () => {
-    const user = localStorage.getItem('user');
-    if (!user) return false;
+  // Componente interno que usa los hooks de router correctamente
+  const AppLayout = () => {
+    const location = useLocation();
+    const prevPathRef = React.useRef(null);
     
-    try {
-      const userData = JSON.parse(user);
-      return userData.role === 'ADMIN';
-    } catch (error) {
-      return false;
-    }
-  };
+    // Cierra el carrito solo cuando la ruta realmente cambia
+    useEffect(() => {
+      if (prevPathRef.current !== null && prevPathRef.current !== location.pathname) {
+        setCartOpen(false);
+      }
+      prevPathRef.current = location.pathname;
+    }, [location.pathname]);
 
-  return (
-    <CartProvider>
-      <BrowserRouter>
+    return (
+      <>
         <Menu toggleCart={toggleCart} />
         <MenuLateral />
 
@@ -60,13 +60,10 @@ function App() {
           <Route path="/deathstranding2" element={<D_DeathStranding2/>} /> 
           <Route path="/fc26" element={<D_Fc26/>} />
           <Route path="/gta-vl" element={<D_Gtavl/>} />
-
-          <Route path="/blog-battlefield" element={<B_Battlefield/>} />
-
           <Route path="/contacto" element={<Contacto/>}/>  
           <Route path="/catalogo" element={<Catalogo />} /> 
           <Route path="/nosotros" element={<Nosotros />} /> 
-          <Route path="/inicioSesion" element={<InicioSesion />} /> 
+          <Route path="/inicioSesion" element={<InicioSesion setIsAdminLogged={setIsAdminLogged} />} /> 
           <Route path="/registrousuario" element={<RegistroUsuario />} /> 
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/pago" element={<Pago />} />
@@ -74,15 +71,12 @@ function App() {
           <Route path="/pagoError" element={<PagoError />} />
           <Route path="/descuentos" element={<Descuentos />} />  
 
-          {/* Rutas protegidas - Verifica desde localStorage */}
+          {/* Rutas protegidas - Verifica el estado isAdminLogged */}
           <Route 
             path="/admin/*" 
-            element={isAdmin() ? <AdminPanel /> : <Navigate to="/inicioSesion" replace />}
+            element={isAdminLogged ? <AdminPanel /> : <Navigate to="/inicioSesion" replace />}
           /> 
-          <Route 
-            path="/admin/orders" 
-            element={isAdmin() ? <AdminOrders /> : <Navigate to="/inicioSesion" replace />}
-          />
+          
 
           {/* Redirección por defecto */}
           <Route path="*" element={<Navigate to="/" replace />} /> 
@@ -90,6 +84,14 @@ function App() {
 
         <CartDrawer isOpen={isCartOpen} toggleCart={toggleCart} />
         <Footer />
+      </>
+    );
+  };
+
+  return (
+    <CartProvider>
+      <BrowserRouter>
+        <AppLayout />
       </BrowserRouter>
     </CartProvider>
   );

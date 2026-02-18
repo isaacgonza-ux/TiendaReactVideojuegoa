@@ -1,107 +1,213 @@
 import React, { useEffect, useState } from "react";
 
 
-//Administración de usuarios (CRUD) - componente auto-contenido
-/*
- * - Usa localStorage para persistencia .
- */
+//Administración de usuarios (CRUD) - componente auto-contenido 
 
 
-const STORAGE_KEY = "admin_users_v1";
 
-const sampleUsers = [
-  { id: 1, nombre: "Juan Pérez", email: "juan@example.com", rol: "Cliente" },
-  { id: 2, nombre: "Admin Tienda", email: "admin@tiendagamer.com", rol: "Administrador" },
-];
 
 export default function AdminUsuarios() {
   const [users, setUsers] = useState([]);
-  const [form, setForm] = useState({ nombre: "", email: "", rol: "" });
+  const [form, setForm] = useState({ username: "", password: "", name: "",email: "", role: ""   });
   const [editingId, setEditingId] = useState(null);
-  const [editForm, setEditForm] = useState({ nombre: "", email: "", rol: "" });
+  const [editForm, setEditForm] = useState({ username: "", password: "", name: "",email: "", role: ""  });
 
-  useEffect(() => {
-    const raw = localStorage.getItem(STORAGE_KEY); //busca los usuarios guardados en localStorage
+const API_URL = "http://localhost:8080/admin"; // URL base de la API 
+const token = localStorage.getItem("token"); // Obtener el token del localStorage
 
-    //pregunta si hay datos guardados
-    if (raw) {
-      try {
-        setUsers(JSON.parse(raw)); //intenta parsear(convertir datos de un formato a otro) y cargar los datos guardados
-      } catch {
-        setUsers(sampleUsers); //si hay un error al parsear, carga los datos de ejemplo
+
+ 
+// Función asíncrona que obtiene la lista de usuarios del servidor
+ const loadUsers = async () => {
+    try {
+        // Hace una petición GET al endpoint de usuarios
+      const res = await fetch(`${API_URL}/get_users`, {
+         // Configura los headers de la petición
+        headers: {
+          Authorization: `Bearer ${token}`,    // Envía el token JWT para autenticar la petición
+        },
+      });
+
+       // Verifica si la respuesta HTTP no fue exitosa 
+        if (!res.ok) {
+        throw new Error("Error al cargar usuarios"); // Lanza un error para ser capturado en el catch
       }
-    } else {
-      setUsers(sampleUsers); //si no hay datos, carga los de ejemplo
+
+       const data = await res.json();   // Convierte la respuesta JSON en un objeto JavaScript
+      setUsers(data); // Actualiza el estado con la lista de usuarios recibida
+
+    } catch (err) {
+      console.error("❌ Error cargando usuarios:", err);
+      alert("Error cargando usuarios.");
     }
-  }, []);
+  };
 
+  // Hook que ejecuta código cuando el componente se monta
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(users)); //guarda los usuarios en localStorage cada vez que se actualizan
-  }, [users]);
+    loadUsers();  // Llama a la función para cargar usuarios
+  }, []); // Array vacío significa que solo se ejecuta una vez al montar el componente
 
-  // 🔹 Manejadores formulario agregar usuarios
-  const handleFormChange = (e) => { 
-    const { name, value } = e.target; //obtiene el nombre y valor del campo que se está modificando
-    setForm((s) => ({ ...s, [name]: value })); //actualiza el estado del formulario con el nuevo valor
+
+   // -----------------------
+  //  MANEJAR FORMULARIOS
+  // -----------------------
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;// Extrae el nombre del campo y su valor del elemento que disparó el evento
+    setForm((s) => ({ ...s, [name]: value }));
   };
 
-
-  const handleAdd = (e) => {
-    e.preventDefault();
-    if (!form.nombre.trim() || !form.email.trim()) return alert("Nombre y email son obligatorios."); //valida que no esten vaciós
-    const nextId = users.length ? Math.max(...users.map(u => u.id)) + 1 : 1;  //genera un ID único para el nuevo usuario
-    const newUser = { id: nextId, ...form };      //crea el nuevo usuario con el ID y los datos del formulario
-    setUsers((u) => [newUser, ...u]);             //agrega el nuevo usuario al estado de usuarios
-    setForm({ nombre: "", email: "", rol: "" }); //resetea el formulario
-  };
-
-  // 🔹 Editar usuario
-  const startEdit = (user) => {
-    setEditingId(user.id); //establece el ID del usuario que se va a editar
-    setEditForm({ nombre: user.nombre, email: user.email, rol: user.rol }); //carga los datos del usuario en el formulario de edición
-  };
-
-  // Cancela la edición
-  const cancelEdit = () => { 
-    setEditingId(null); 
-    setEditForm({ nombre: "", email: "", rol: "" });
-  };
-
-  // Maneja los cambios en el formulario de edición
   const handleEditChange = (e) => {
-    const { name, value } = e.target;               //obtiene el nombre y valor del campo que se está modificando
-    setEditForm((s) => ({ ...s, [name]: value })); //actualiza el estado del formulario de edición con el nuevo valor
+    const { name, value } = e.target;
+    setEditForm((s) => ({ ...s, [name]: value }));// Actualiza el estado del formulario manteniendo los valores anteriores y modificando solo el campo cambiado
   };
 
 
-  // Guarda los cambios realizados en la edición
-  const saveEdit = (e) => {
-    e.preventDefault(); //previene el envío del formulario
-    setUsers((list) =>  //actualiza la lista de usuarios
-      list.map((u) =>   //itera sobre cada usuario
-        u.id === editingId   //si el ID del usuario coincide con el ID que se está editando
-          ? { ...u, ...editForm }  //actualiza los datos del usuario con los del formulario de edición
-          : u                     //si no coincide, deja el usuario sin cambios
-      )
-    );
-    cancelEdit();
+   // -----------------------
+  //  AGREGAR USUARIO (POST)
+  // -----------------------
+  const handleAdd = async (e) => {
+    e.preventDefault(); // Evita que el formulario se envíe de forma tradicional
+
+    // Valida que todos los campos estén llenos antes de enviar
+     if (!form.username || !form.password || !form.name || !form.email || !form.role) {
+      return alert("Todos los campos son obligatorios (incl. contraseña y username).");
+    }
+
+    try {
+      // Realiza una petición POST al endpoint de creación de usuarios
+      const res = await fetch(`${API_URL}/create_users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Indica que el cuerpo de la petición es JSON
+          Authorization: `Bearer ${token}`, // Envía el token JWT para autenticar la petición
+        },
+        // Cuerpo de la petición con los datos del nuevo usuario
+       body: JSON.stringify({
+          username: form.username,
+          password: form.password,
+          name: form.name,
+          email: form.email,
+          role: form.role
+        }),
+      });
+
+      
+      if (res.ok){alert("Usuario creado con éxito");}
+   
+
+
+      if (!res.ok) throw new Error("Error al crear usuario :${res.status} ${res.statusText}");
+
+      await loadUsers(); // Recarga la lista de usuarios para reflejar el nuevo usuario agregado
+      setForm({ username: "", password: "", name: "", email: "", role: "" });// Limpiar formulario  
+    } catch (err) {
+      console.error("❌ Error agregando usuario:", err);
+      alert("No se pudo crear el usuario.");
+    }
   };
 
-  // 🔹 Eliminar
-  const handleDelete = (id) => {
-    if (!window.confirm("¿Eliminar usuario?")) return;   //pregunta por confirmación antes de eliminar
-    setUsers((list) => list.filter((u) => u.id !== id));  //elimina el usuario con el ID especificado
+
+   // -----------------------
+  //  EDITAR USUARIO (PUT)
+  // -----------------------
+  // Inicia el proceso de edición llenando el formulario con los datos del usuario seleccionado
+   const startEdit = (user) => {
+    setEditingId(user.id); // Guarda el ID del usuario que se está editando
+    setEditForm({ // Llena el formulario de edición con los datos actuales del usuario
+      username: user.username || "",
+      password: "", // no mostrar password actual; permitir setear nueva
+      name: user.name || "",
+      email: user.email || "",
+      role: user.role || ""
+    });
   };
 
-  // 🔹 Vaciar todo
-  const handleClearAll = () => {
-    if (!window.confirm("¿Vaciar todos los usuarios?")) return;  //pregunta por confirmación antes de vaciar
-    setUsers([]);  //vacía la lista de usuarios
+  // Guarda los cambios realizados en el usuario editado
+  const saveEdit = async (e) => {
+    e.preventDefault(); 
+
+    // Validar campos obligatorios
+      if (!editForm.username || !editForm.name || !editForm.email || !editForm.role) {
+      return alert("Username, name, email y role son obligatorios.");
+    }
+
+     try {
+      // Construir el cuerpo de la petición
+      const bodyToSend = {
+        username: editForm.username,
+        name: editForm.name,
+        email: editForm.email,
+        role: editForm.role
+      };
+      // si el admin puso nueva contraseña, la incluimos
+      if (editForm.password && editForm.password.trim() !== "") {
+        bodyToSend.password = editForm.password;
+      }
+
+      // Realiza una petición PUT al endpoint de edición de usuarios
+      const res = await fetch(`${API_URL}/users/${editingId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(bodyToSend),
+      });
+
+      if (res.ok){alert("Usuario editado con éxito");}
+
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`Error al editar usuario: ${res.status} ${text}`);
+      }
+
+      cancelEdit();// Limpiar estado de edición
+      await loadUsers();// Recargar la lista de usuarios para reflejar los cambios
+    } catch (err) { 
+      console.error("❌ Error editando usuario:", err);
+      alert("Error al guardar cambios. Revisa la consola.");
+    }
   };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditForm({ username: "", password: "", name: "", email: "", role: "" });
+  };
+
+
+  
+  // -----------------------
+  //  ELIMINAR USUARIO (DELETE)
+  // -----------------------
+  const handleDelete = async (id) => { // Recibe el ID del usuario a eliminar
+    if (!window.confirm("¿Eliminar usuario?")) return; // Confirma la acción con el usuario 
+
+    try {
+      const res = await fetch(`${API_URL}/users/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.ok){alert("Usuario eliminado con éxito");}
+
+      if (!res.ok) throw new Error("Error al eliminar usuario");
+
+      await loadUsers();
+
+    } catch (err) {
+      console.error("❌ Error eliminando usuario:", err);
+      alert("No se pudo eliminar el usuario.");
+    }
+  };
+
+
+
 
   return (
-    <div className="container py-5">
-      <h2 className="mb-4">Gestión de Usuarios</h2>
+    <div className="container py-5"> 
+      <h2 className="mb-4">Gestión de Usuarios</h2> 
 
       {/* Formulario agregar */}
       <form className="row g-3 mb-4" onSubmit={handleAdd}>
@@ -109,19 +215,19 @@ export default function AdminUsuarios() {
           <input
             type="text"
             className="form-control"
-            placeholder="Nombre completo"
-            name="nombre"
-            value={form.nombre}  //conecta el valor del input 
+            placeholder="Username"
+            name="username"
+            value={form.username}  //conecta el valor del input 
             onChange={handleFormChange}  //maneja los cambios en el input
           />
         </div>
         <div className="col-md-4">
           <input
-            type="email"
+            type="password"
             className="form-control"
-            placeholder="Correo electrónico"
-            name="email"
-            value={form.email}
+            placeholder="Contraseña"
+            name="password"
+            value={form.password}
             onChange={handleFormChange}
           />
         </div>
@@ -129,12 +235,39 @@ export default function AdminUsuarios() {
           <input
             type="text"
             className="form-control"
-            placeholder="Rol (ej: Cliente, Admin)"
-            name="rol"
-            value={form.rol}
+            placeholder="Nombre"
+            name="name"
+            value={form.name}
             onChange={handleFormChange}
           />
         </div>
+
+        <div className="col-md-3">
+      <input
+        type="email"
+        className="form-control"
+        placeholder="Email"
+        name="email"
+        value={form.email}
+        onChange={handleFormChange}
+      />
+    </div>
+
+         <div className="col-md-2">
+      <select
+        className="form-control"
+        name="role"
+        value={form.role}
+        onChange={handleFormChange}
+        required
+      >
+        <option value="USER">Usuario</option>
+        <option value="ADMIN">Admin</option>
+      </select>
+    </div>
+
+
+
         <div className="col-md-1 d-flex">
           <button type="submit" className="btn btn-success w-100">
             Agregar
@@ -142,7 +275,7 @@ export default function AdminUsuarios() {
         </div>
       </form>
 
-      {/* Formulario edición */}
+     {/* Formulario edición */}
       {editingId && (
         <form className="row g-3 mb-4 p-3 border rounded" onSubmit={saveEdit}>
           <div className="col-12 d-flex justify-content-between align-items-center">
@@ -152,16 +285,38 @@ export default function AdminUsuarios() {
             </button>
           </div>
 
-          <div className="col-md-4">
+          <div className="col-md-2">
             <input
               type="text"
               className="form-control"
-              name="nombre"
-              value={editForm.nombre}
+              name="username"
+              value={editForm.username}
               onChange={handleEditChange}
             />
           </div>
-          <div className="col-md-4">
+
+          <div className="col-md-2">
+            <input
+              type="password"
+              className="form-control"
+              name="password"
+              placeholder="Nueva contraseña (opcional)"
+              value={editForm.password}
+              onChange={handleEditChange}
+            />
+          </div>
+
+          <div className="col-md-3">
+            <input
+              type="text"
+              className="form-control"
+              name="name"
+              value={editForm.name}
+              onChange={handleEditChange}
+            />
+          </div>
+
+          <div className="col-md-3">
             <input
               type="email"
               className="form-control"
@@ -170,15 +325,20 @@ export default function AdminUsuarios() {
               onChange={handleEditChange}
             />
           </div>
-          <div className="col-md-3">
-            <input
-              type="text"
-              className="form-control"
-              name="rol"
-              value={editForm.rol}
-              onChange={handleEditChange}
-            />
-          </div>
+
+          <div className="col-md-2">
+        <select
+          className="form-control"
+          name="role"
+          value={form.role}
+          onChange={handleFormChange}
+          required
+        >
+          <option value="USER">Usuario</option>
+          <option value="ADMIN">Admin</option>
+        </select>
+      </div>
+
           <div className="col-md-1">
             <button type="submit" className="btn btn-primary w-100">
               Guardar
@@ -188,19 +348,17 @@ export default function AdminUsuarios() {
       )}
 
       {/* Controles */}
-      <div className="mb-3 d-flex justify-content-between">
+      <div className="mb-3 d-flex justify-content-between align-items-center">
         <div>
-          <strong>Total:</strong> {users.length} {/*muestra el total de usuarios*/}
+          <strong>Total:</strong> {users.length}
         </div>
         <div className="d-flex gap-2">
-          <button className="btn btn-danger btn-sm" onClick={handleClearAll}>
-            Vaciar todo
-          </button>
+         
           <button
             className="btn btn-outline-secondary btn-sm"
-            onClick={() => setUsers(sampleUsers)}
+            onClick={() => loadUsers()}
           >
-            Restaurar ejemplo
+            Recargar
           </button>
         </div>
       </div>
@@ -211,38 +369,44 @@ export default function AdminUsuarios() {
           <thead>
             <tr>
               <th>ID</th>
+              <th>Username</th>
               <th>Nombre</th>
               <th>Email</th>
               <th>Rol</th>
               <th>Acciones</th>
             </tr>
           </thead>
+
           <tbody>
-            {users.length === 0 && (  //si no hay usuarios, muestra un mensaje
+            {users.length === 0 && (
               <tr>
-                <td colSpan="5" className="text-center">
+                <td colSpan="6" className="text-center">
                   No hay usuarios
                 </td>
               </tr>
             )}
-            {users.map((u) => (  //itera sobre la lista de usuarios y muestra cada uno en una fila
+
+            {users.map((u) => (
               <tr key={u.id}>
                 <td>{u.id}</td>
-                <td>{u.nombre}</td>
+                <td>{u.username}</td>
+                <td>{u.name}</td>
                 <td>{u.email}</td>
-                <td>{u.rol}</td>
+                <td>{u.role}</td>
+
                 <td>
                   <div className="d-flex gap-2">
-                    <button className="btn btn-warning btn-sm" onClick={() => startEdit(u)}>  {/*inicia la edición del usuario*/}
+                    <button className="btn btn-warning btn-sm" onClick={() => startEdit(u)}>
                       Editar
                     </button>
-                    <button className="btn btn-danger btn-sm" onClick={() => handleDelete(u.id)}>  {/*elimina el usuario*/}
+                    <button className="btn btn-danger btn-sm" onClick={() => handleDelete(u.id)}>
                       Eliminar
                     </button>
                   </div>
                 </td>
               </tr>
             ))}
+
           </tbody>
         </table>
       </div>

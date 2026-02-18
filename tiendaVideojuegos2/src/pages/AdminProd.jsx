@@ -1,90 +1,294 @@
 import React, { useEffect, useState } from "react";
 
-/*
- * Administración de productos (CRUD) - componente auto-contenido
- *
- * Usa localStorage para persistencia simple.
- */
+const API_BASE_URL = "http://localhost:8080/api/v1/productos";
 
-const STORAGE_KEY = "admin_products_v1";
+const api = {
+  getToken() {
+    return (
+      localStorage.getItem("token") ||
+      localStorage.getItem("authToken") ||
+      localStorage.getItem("accessToken") ||
+      null
+    );
+  },
 
-const sampleProducts = [
-  { id: 1, titulo: "God of War Ragnarök", precio: 69.99, categoria: "Videojuego" },
-  { id: 2, titulo: "Red Dead Redemption 2", precio: 59.99, categoria: "Videojuego" },
-];
+  getAuthHeader() {
+    const token = this.getToken();
+    return {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    };
+  },
 
-export default function Admin () {
-  // lista de productos
-  const [products, setProducts] = useState([]);
+  getHeaders() {
+    return {
+      Accept: "application/hal+json, application/json, */*",
+      ...this.getAuthHeader(),
+    };
+  },
 
-  // formulario nuevo producto
-  const [form, setForm] = useState({ titulo: "", precio: "", categoria: "" });
-
-  // edición
-  const [editingId, setEditingId] = useState(null);
-  const [editForm, setEditForm] = useState({ titulo: "", precio: "", categoria: "" });
-
-  // carga inicial desde localStorage
-  useEffect(() => {
-    const productosGuardados = localStorage.getItem(STORAGE_KEY);
-    console.log("Cargando desde localStorage")
-    if (productosGuardados) {
-      try {
-        setProducts(JSON.parse(productosGuardados));
-      } catch {
-        setProducts(sampleProducts);
-      }
-    } else {
-      setProducts(sampleProducts);
+  async handleResponse(res) {
+    const text = await res.text().catch(() => "");
+    let json = null;
+    try {
+      if (text) json = JSON.parse(text);
+    } catch (e) {
+      json = null;
     }
+    return { ok: res.ok, status: res.status, json, text };
+  },
+
+  async getAll() {
+    const res = await fetch(API_BASE_URL, {
+      method: "GET",
+      headers: this.getHeaders(),
+    });
+    const { ok, status, json, text } = await this.handleResponse(res);
+    if (!ok) {
+      console.error("GET /productos error", status, text);
+      if (status === 401) throw new Error("Unauthorized");
+      throw new Error(`Error HTTP ${status}`);
+    }
+    const data = json;
+    console.log("Respuesta HATEOAS completa:", data);
+
+    let productos = [];
+    if (data?._embedded) {
+      const embedded = data._embedded;
+      productos =
+        embedded.productosHateoas ||
+        embedded.productModels ||
+        embedded.productModelList ||
+        embedded.productModel ||
+        embedded.productos ||
+        [];
+      if (Array.isArray(productos) && productos.length > 0 && productos[0].content) {
+        productos = productos.map((it) => it.content);
+      }
+    } else if (Array.isArray(data)) {
+      productos = data;
+    } else if (data?.content) {
+      productos = data.content;
+    }
+
+    console.log("Productos parseados:", productos);
+    return productos.map((item) => ({
+      id: item.id,
+      name: item.name ?? item.titulo ?? "",
+      price: item.price ?? item.precio ?? 0,
+      description: item.description ?? item.descripcion ?? "",
+      stockQuantity: item.stockQuantity ?? item.stock ?? 0,
+      category: item.category ?? "General"
+    }));
+  },
+
+  async create(product) {
+    const body = {
+      name: product.name,
+      description: product.description || "Videojuego",
+      price: product.price,
+      stockQuantity: product.stockQuantity || 100,
+      category: product.category || "General"
+    };
+    console.log("POST /productos - request body:", body);
+    const res = await fetch(API_BASE_URL, {
+      method: "POST",
+      headers: this.getHeaders(),
+      body: JSON.stringify(body),
+    });
+    const { ok, status, json, text } = await this.handleResponse(res);
+    console.log("POST /productos - response", { status, text, json });
+    if (!ok) {
+      console.error("POST /productos error", status, text);
+      if (status === 401) throw new Error("Unauthorized");
+      if (status === 404) throw new Error("NotFound");
+      throw new Error("Error al crear producto");
+    }
+    const data = json;
+    const product_data = data?.content || data;
+    return {
+      id: product_data.id,
+      name: product_data.name,
+      price: product_data.price,
+      description: product_data.description,
+      stockQuantity: product_data.stockQuantity ?? product_data.stock_quantity,
+      category: product_data.category || "General"
+    };
+  },
+
+ async update(id, product) {
+    // Asegurarse de usar siempre la URL del gateway, no las URLs HATEOAS del microservicio
+    const url = `${API_BASE_URL}/${Number(id)}`;
+    
+    const body = {
+      name: product.name,
+      description: product.description || "Videojuego",
+      price: product.price,
+      stockQuantity: product.stockQuantity || 100,
+      category: product.category || "General"
+    };
+    console.log(`PUT ${url} - request body:`, body);
+    const res = await fetch(url, {
+      method: "PUT",
+      headers: this.getHeaders(),
+      body: JSON.stringify(body),
+    });
+    const { ok, status, json, text } = await this.handleResponse(res);
+    console.log(`PUT ${url} - response`, { status, text, json });
+    if (!ok) {
+      console.error(`PUT ${url} error`, status, text);
+      if (status === 401) throw new Error("Unauthorized");
+      if (status === 404) throw new Error("ProductNotFound");
+      throw new Error("Error al actualizar producto");
+    }
+    const data = json;
+    const product_data = data?.content || data;
+    return {
+      id: product_data.id,
+      name: product_data.name,
+      price: product_data.price,
+      description: product_data.description,
+      stockQuantity: product_data.stockQuantity ?? product_data.stock_quantity,
+      category: product_data.category || "General"
+    };
+  },
+
+  async delete(id) {
+    // Asegurarse de usar siempre la URL del gateway
+    const url = `${API_BASE_URL}/${Number(id)}`;
+    console.log(`DELETE ${url}`);
+    const res = await fetch(url, {
+      method: "DELETE",
+      headers: this.getHeaders(),
+    });
+    const { ok, status, text } = await this.handleResponse(res);
+    console.log(`DELETE ${url} - response`, { status, text });
+    if (!ok && status !== 204) {
+      console.error(`DELETE ${url} error`, status, text);
+      if (status === 401) throw new Error("Unauthorized");
+      if (status === 404) throw new Error("ProductNotFound");
+      throw new Error("Error al eliminar producto");
+    }
+  },
+};
+export default function Admin() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const [form, setForm] = useState({ 
+    name: "", 
+    price: "", 
+    description: "", 
+    stockQuantity: "",
+    category: ""
+  });
+  const [editingId, setEditingId] = useState(null);
+  const [editForm, setEditForm] = useState({ 
+    name: "", 
+    price: "", 
+    description: "", 
+    stockQuantity: "",
+    category: ""
+  });
+
+  const categories = [
+    "PlayStation 5",
+    "Xbox Series X",
+    "Xbox Series S",
+    "Nintendo Switch",
+    "PC",
+    "PlayStation 4",
+    "Xbox One",
+    "General"
+  ];
+
+  useEffect(() => {
+    const token = api.getToken();
+    if (!token) {
+      setError("No autorizado. Inicia sesión.");
+      return;
+    }
+    const load = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await api.getAll();
+        setProducts(data);
+      } catch (err) {
+        console.error("Error al cargar:", err);
+        setError(err.message === "Unauthorized" ? "No autorizado. Inicia sesión." : "Error al conectar con el servidor");
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
   }, []);
 
-  // guardar en localStorage cuando cambien products
-  useEffect(() => {
-    console.log("Guardando en localStorage")
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
-  }, [products]);
+  const reloadProducts = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await api.getAll();
+      setProducts(data);
+    } catch (err) {
+      console.error("Error al recargar:", err);
+      setError("Error al recargar productos");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // manejadores formulario agregar
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setForm((s) => ({ ...s, [name]: value }));
   };
 
-  const handleAdd = (e) => {
+  const handleAdd = async (e) => {
     e.preventDefault();
-    // validaciones simples
-    //Verifica que el título no este vacío
-    if (!form.titulo.trim()) return alert("Título es obligatorio");
-    const precioNum = parseFloat(form.precio); //Convierte el precio a número decimal  
-    if (isNaN(precioNum)) return alert("Precio inválido"); //Verifica que el precio sea un número válido
-    const nextId = products.length ? Math.max(...products.map(p => p.id)) + 1 : 1; //Genera un ID único para el nuevo producto
+    if (!form.name.trim()) return alert("Nombre es obligatorio");
+    if (!form.category) return alert("Categoría es obligatoria");
+    const precioNum = parseFloat(form.price);
+    if (isNaN(precioNum)) return alert("Precio inválido");
+    if (!api.getToken()) return setError("No autorizado. Inicia sesión.");
 
-    // crea nuevo producto
-    const newProduct = {
-      id: nextId,
-      titulo: form.titulo.trim(),
-      precio: Number(precioNum.toFixed(2)),
-      categoria: form.categoria.trim() || "Sin categoría",
-    };
-
-  
-    setProducts((p) => [newProduct, ...p]); //Agrega el nuevo producto al inicio de la lista
-    setForm({ titulo: "", precio: "", categoria: "" }); //Resetea el formulario después de agregar
+    try {
+      setLoading(true);
+      setError(null);
+      const newProduct = await api.create({
+        name: form.name.trim(),
+        price: Number(precioNum.toFixed(2)),
+        description: form.description.trim() || "Videojuego",
+        stockQuantity: parseInt(form.stockQuantity) || 100,
+        category: form.category
+      });
+      setProducts((p) => [newProduct, ...p]);
+      setForm({ name: "", price: "", description: "", stockQuantity: "", category: "" });
+    } catch (err) {
+      console.error("Error al agregar:", err);
+      if (err.message === "NotFound") setError("Endpoint no encontrado (404). Revisa rutas en el gateway/backend.");
+      else setError(err.message === "Unauthorized" ? "No autorizado. Inicia sesión." : "Error al agregar producto");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // iniciar edición
   const startEdit = (product) => {
     setEditingId(product.id);
-    setEditForm({ titulo: product.titulo, precio: String(product.precio), categoria: product.categoria });
-    // hacer scroll opcional al formulario de edición
+    setEditForm({
+      name: product.name,
+      price: String(product.price),
+      description: product.description || "",
+      stockQuantity: String(product.stockQuantity || 100),
+      category: product.category || "General"
+    });
     const el = document.getElementById("edit-form");
     if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
   const cancelEdit = () => {
     setEditingId(null);
-    setEditForm({ titulo: "", precio: "", categoria: "" });
+    setEditForm({ name: "", price: "", description: "", stockQuantity: "", category: "" });
   };
 
   const handleEditChange = (e) => {
@@ -92,199 +296,326 @@ export default function Admin () {
     setEditForm((s) => ({ ...s, [name]: value }));
   };
 
-  const saveEdit = (e) => {
+  const saveEdit = async (e) => {
     e.preventDefault();
     if (editingId == null) return;
-    if (!editForm.titulo.trim()) return alert("Título es obligatorio");
-    const precioNum = parseFloat(editForm.precio);
+    if (!editForm.name.trim()) return alert("Nombre es obligatorio");
+    if (!editForm.category) return alert("Categoría es obligatoria");
+    const precioNum = parseFloat(editForm.price);
     if (isNaN(precioNum)) return alert("Precio inválido");
-    setProducts((list) =>
-      list.map((p) =>
-        p.id === editingId
-          ? { ...p, titulo: editForm.titulo.trim(), precio: Number(precioNum.toFixed(2)), categoria: editForm.categoria.trim() || "Sin categoría" }
-          : p
-      )
-    );
-    cancelEdit();
+    if (!api.getToken()) return setError("No autorizado. Inicia sesión.");
+
+    try {
+      setLoading(true);
+      setError(null);
+      const updatedProduct = await api.update(editingId, {
+        name: editForm.name.trim(),
+        price: Number(precioNum.toFixed(2)),
+        description: editForm.description.trim() || "Videojuego",
+        stockQuantity: parseInt(editForm.stockQuantity) || 100,
+        category: editForm.category
+      });
+      setProducts((list) => list.map((p) => (p.id === editingId ? updatedProduct : p)));
+      cancelEdit();
+    } catch (err) {
+      console.error("Error al actualizar:", err);
+      if (err.message === "ProductNotFound") {
+        setError("El producto ya no existe. Recargando lista...");
+        // Recargar la lista completa
+        try {
+          const data = await api.getAll();
+          setProducts(data);
+          cancelEdit();
+        } catch (reloadErr) {
+          setError("Error al recargar productos");
+        }
+      } else if (err.message === "Unauthorized") {
+        setError("No autorizado. Inicia sesión.");
+      } else {
+        setError("Error al actualizar producto");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (!window.confirm("¿Eliminar producto?")) return;
-    setProducts((list) => list.filter((p) => p.id !== id));
-    if (editingId === id) cancelEdit();
+    if (!api.getToken()) return setError("No autorizado. Inicia sesión.");
+
+    try {
+      setLoading(true);
+      setError(null);
+      await api.delete(id);
+      setProducts((list) => list.filter((p) => p.id !== id));
+      if (editingId === id) cancelEdit();
+    } catch (err) {
+      console.error("Error al eliminar:", err);
+      if (err.message === "ProductNotFound") {
+        setError("El producto ya no existe. Recargando lista...");
+        // Recargar la lista y remover de la UI
+        try {
+          const data = await api.getAll();
+          setProducts(data);
+          if (editingId === id) cancelEdit();
+        } catch (reloadErr) {
+          setError("Error al recargar productos");
+        }
+      } else if (err.message === "Unauthorized") {
+        setError("No autorizado. Inicia sesión.");
+      } else {
+        setError("Error al eliminar producto");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleClearAll = () => {
-    if (!window.confirm("Vaciar todos los productos?")) return;
-    setProducts([]);
+  const handleClearAll = async () => {
+    if (!window.confirm("¿Vaciar todos los productos?")) return;
+    if (!api.getToken()) return setError("No autorizado. Inicia sesión.");
+
+    try {
+      setLoading(true);
+      setError(null);
+      for (const product of products) {
+        await api.delete(product.id);
+      }
+      setProducts([]);
+    } catch (err) {
+      console.error("Error al vaciar:", err);
+      setError(err.message === "NotFound" ? "Endpoint no encontrado (404). Revisa rutas en el gateway/backend." : "Error al eliminar productos");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="container py-5">
-      <h2 className="mb-4">Gestión de Videojuegos (Administrador)</h2>
+      <h2 className="mb-4">Gestión de Productos (Administrador)</h2>
 
-      {/* Form: agregar nuevo */}
-      <form className="row g-3 mb-4" onSubmit={handleAdd}>
-        <div className="col-md-4">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Título del juego"
-            name="titulo"
-            value={form.titulo}
-            onChange={handleFormChange}
+      {error && <div className="alert alert-danger">{error}</div>}
+      {loading && <div className="alert alert-info">Procesando...</div>}
+
+      <div className="row g-3 mb-4">
+        <div className="col-md-3">
+          <input 
+            type="text" 
+            className="form-control" 
+            placeholder="Nombre del producto" 
+            name="name" 
+            value={form.name} 
+            onChange={handleFormChange} 
+            disabled={loading} 
           />
         </div>
         <div className="col-md-2">
-          <input
-            type="number"
-            step="0.01"
-            className="form-control"
-            placeholder="Precio"
-            name="precio"
-            value={form.precio}
-            onChange={handleFormChange}
+          <input 
+            type="number" 
+            step="0.01" 
+            className="form-control" 
+            placeholder="Precio" 
+            name="price" 
+            value={form.price} 
+            onChange={handleFormChange} 
+            disabled={loading}
           />
         </div>
-        <div className="col-md-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Categoría"
-            name="categoria"
-            value={form.categoria}
-            onChange={handleFormChange}
+        <div className="col-md-1">
+          <input 
+            type="number" 
+            className="form-control" 
+            placeholder="Stock" 
+            name="stockQuantity" 
+            value={form.stockQuantity} 
+            onChange={handleFormChange} 
+            disabled={loading} 
           />
         </div>
-        <div className="col-md-3 d-flex gap-2">
-          <button type="submit" className="btn btn-success w-100">
+        <div className="col-md-2">
+          <select
+            className="form-select"
+            name="category"
+            value={form.category}
+            onChange={handleFormChange}
+            disabled={loading}
+          >
+            <option value="">Categoría</option>
+            {categories.map(cat => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
+        </div>
+        <div className="col-md-2">
+          <input 
+            type="text" 
+            className="form-control" 
+            placeholder="Descripción" 
+            name="description" 
+            value={form.description} 
+            onChange={handleFormChange} 
+            disabled={loading} 
+          />
+        </div>
+        <div className="col-md-2">
+          <button 
+            className="btn btn-success w-100" 
+            onClick={handleAdd}
+            disabled={loading}
+          >
             Agregar
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary w-100"
-            onClick={() => {
-              // listar = simplemente recargar de storage (ya está sincronizado).
-              const productosGuardados = localStorage.getItem(STORAGE_KEY);
-              if (productosGuardados) setProducts(JSON.parse(productosGuardados));
-              else setProducts(sampleProducts);
-            }}
-          >
-            Listar
-          </button>
-        </div>
-      </form>
-
-      {/* Edit form (visible sólo si editingId) */}
-      {editingId && (
-        <form id="edit-form" className="row g-3 mb-4 p-3 border rounded" onSubmit={saveEdit}>
-          <div className="col-12 d-flex justify-content-between align-items-center">
-            <h5 className="m-0">Editando producto #{editingId}</h5>
-            <button type="button" className="btn btn-sm btn-outline-secondary" onClick={cancelEdit}>
-              Cancelar
-            </button>
-          </div>
-
-          <div className="col-md-5">
-            <input
-              type="text"
-              className="form-control"
-              name="titulo"
-              value={editForm.titulo}
-              onChange={handleEditChange}
-              required
-            />
-          </div>
-          <div className="col-md-3">
-            <input
-              type="number"
-              step="0.01"
-              className="form-control"
-              name="precio"
-              value={editForm.precio}
-              onChange={handleEditChange}
-              required
-            />
-          </div>
-          <div className="col-md-3">
-            <input
-              type="text"
-              className="form-control"
-              name="categoria"
-              value={editForm.categoria}
-              onChange={handleEditChange}
-            />
-          </div>
-          <div className="col-md-1">
-            <button type="submit" className="btn btn-primary w-100">
-              Guardar
-            </button>
-          </div>
-        </form>
-      )}
-
-      {/* Controls */}
-      <div className="mb-3 d-flex justify-content-between">
-        <div>
-          <strong>Total:</strong> {products.length}
-        </div>
-        <div className="d-flex gap-2">
-          <button className="btn btn-danger btn-sm" onClick={handleClearAll}>
-            Vaciar todo
-          </button>
-          <button
-            className="btn btn-outline-secondary btn-sm"
-            onClick={() => {
-              // restaurar ejemplo
-              setProducts(sampleProducts);
-            }}
-          >
-            Restaurar ejemplo
           </button>
         </div>
       </div>
 
-      {/* Tabla */}
+      {editingId && (
+        <div id="edit-form" className="row g-3 mb-4 p-3 border rounded bg-dark">
+          <div className="col-12 d-flex justify-content-between align-items-center">
+            <h5 className="m-0">Editando producto #{editingId}</h5>
+            <button type="button" className="btn btn-sm btn-outline-secondary" onClick={cancelEdit} disabled={loading}>
+              Cancelar
+            </button>
+          </div>
+
+          <div className="col-md-3">
+            <input 
+              type="text" 
+              className="form-control" 
+              name="name" 
+              value={editForm.name} 
+              onChange={handleEditChange} 
+              disabled={loading} 
+            />
+          </div>
+          <div className="col-md-2">
+            <input 
+              type="number" 
+              step="0.01" 
+              className="form-control" 
+              name="price" 
+              value={editForm.price} 
+              onChange={handleEditChange} 
+              disabled={loading} 
+            />
+          </div>
+          <div className="col-md-1">
+            <input 
+              type="number" 
+              className="form-control" 
+              name="stockQuantity" 
+              value={editForm.stockQuantity} 
+              onChange={handleEditChange} 
+              disabled={loading} 
+            />
+          </div>
+          <div className="col-md-2">
+            <select
+              className="form-select"
+              name="category"
+              value={editForm.category}
+              onChange={handleEditChange}
+              disabled={loading}
+            >
+              <option value="">Categoría</option>
+              {categories.map(cat => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
+            </select>
+          </div>
+          <div className="col-md-2">
+            <input 
+              type="text" 
+              className="form-control" 
+              name="description" 
+              value={editForm.description} 
+              onChange={handleEditChange} 
+              disabled={loading} 
+            />
+          </div>
+          <div className="col-md-2">
+            <button 
+              className="btn btn-primary w-100" 
+              onClick={saveEdit}
+              disabled={loading}
+            >
+              Guardar
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="mb-3 d-flex justify-content-between align-items-center">
+        <div><strong>Total:</strong> {products.length} productos</div>
+        <div className="d-flex gap-2">
+          <button 
+            className="btn btn-outline-primary btn-sm" 
+            onClick={reloadProducts}
+            disabled={loading}
+          >
+            🔄 Recargar
+          </button>
+          <button 
+            className="btn btn-outline-danger btn-sm" 
+            onClick={handleClearAll} 
+            disabled={loading || products.length === 0}
+          >
+            Vaciar todos
+          </button>
+        </div>
+      </div>
+
       <div className="table-responsive">
         <table className="table table-dark table-hover align-middle">
           <thead>
             <tr>
               <th style={{ width: 70 }}>ID</th>
-              <th>Título</th>
-              <th style={{ width: 120 }}>Precio</th>
-              <th style={{ width: 160 }}>Categoría</th>
+              <th>Nombre</th>
+              <th style={{ width: 100 }}>Precio</th>
+              <th style={{ width: 70 }}>Stock</th>
+              <th style={{ width: 120 }}>Categoría</th>
+              <th>Descripción</th>
               <th style={{ width: 160 }}>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {products.length === 0 && (
+            {products.length === 0 ? (
               <tr>
-                <td colSpan="5" className="text-center">
-                  No hay productos
+                <td colSpan="7" className="text-center">
+                  {loading ? "Cargando..." : "No hay productos"}
                 </td>
               </tr>
+            ) : (
+              products.map((p) => (
+                <tr key={p.id}>
+                  <td>{p.id}</td>
+                  <td>{p.name}</td>
+                  <td>${Number(p.price).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                  <td>{p.stockQuantity}</td>
+                  <td><span className="badge bg-info">{p.category}</span></td>
+                  <td>{p.description}</td>
+                  <td>
+                    <div className="d-flex gap-2">
+                      <button 
+                        className="btn btn-warning btn-sm" 
+                        onClick={() => startEdit(p)} 
+                        disabled={loading}
+                      >
+                        Editar
+                      </button>
+                      <button 
+                        className="btn btn-danger btn-sm" 
+                        onClick={() => handleDelete(p.id)} 
+                        disabled={loading}
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
             )}
-            {products.map((p) => (
-              <tr key={p.id}>
-                <td>{p.id}</td>
-                <td>{p.titulo}</td>
-                <td>${Number(p.precio).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-                <td>{p.categoria}</td>
-                <td>
-                  <div className="d-flex gap-2">
-                    <button className="btn btn-warning btn-sm" onClick={() => startEdit(p)}>
-                      Editar
-                    </button>
-                    <button className="btn btn-danger btn-sm" onClick={() => handleDelete(p.id)}>
-                      Eliminar
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
           </tbody>
         </table>
       </div>
     </div>
-  );
-}
+  )}

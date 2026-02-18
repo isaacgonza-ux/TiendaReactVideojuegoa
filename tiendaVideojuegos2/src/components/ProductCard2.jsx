@@ -43,12 +43,14 @@
   Comportamiento: parsea el precio (si viene como string), llama a addToCart con un objeto normalizado
   y ofrece un enlace `Link` hacia la página de detalles.
 */
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "./CartContext";
 import { Link } from 'react-router-dom';
+import '../css/ProductCard.css';
 
 export default function ProductCard2({ img, titulo, precio, detalles, id }) {
   const { addToCart } = useCart();  // Hook para acciones del carrito
+  const [isAdded, setIsAdded] = useState(false);
 
   const handleAdd = () => {
     const parsePrice = (val) => {
@@ -60,6 +62,12 @@ export default function ProductCard2({ img, titulo, precio, detalles, id }) {
     };
 
     addToCart({ id, title: titulo, image: img, price: parsePrice(precio), detalles });
+    
+    // Mostrar confirmación con animación
+    setIsAdded(true);
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 2000);
   };
 
   return (
@@ -70,8 +78,8 @@ export default function ProductCard2({ img, titulo, precio, detalles, id }) {
         <p className="card-text">{detalles}</p>
         <p className="card-text fw-bold">{precio}</p>
         <div className="d-flex align-items-center mt-2">
-          <button className="btn btn-warning btn-sm" onClick={handleAdd}>
-            🛒 Comprar
+          <button className={`btn btn-sm transition-btn ${isAdded ? 'btn-success added-animation' : 'btn-warning'}`} onClick={handleAdd} disabled={isAdded}>
+            {isAdded ? '✅ Producto agregado' : '🛒 Comprar'}
           </button>
           {/* detalles a la derecha */}
           <Link to={detalles} className="btn btn-outline-dark btn-sm ms-auto">

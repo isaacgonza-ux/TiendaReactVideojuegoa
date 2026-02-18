@@ -7,12 +7,25 @@
   Comportamiento: muestra imagen, título, precios y botones para comprar/añadir; usa useCart para agregar al carrito.
   Nota: presentacional y pensado para listas pequeñas en Home.
 */
-import React from "react";
+import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import { useCart } from './CartContext';
+import '../css/ProductCard.css';
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart(); // Hook para acciones del carrito
+  const [isAdded, setIsAdded] = useState(false);
+
+  // Manejar click en botón de comprar con animación
+  const handleAddToCart = () => {
+    addToCart(product);
+    setIsAdded(true);
+    
+    // Resetear el estado después de 2 segundos
+    setTimeout(() => {
+      setIsAdded(false);
+    }, 2000);
+  };
   return (
     <div className="col-12 col-sm-6 col-md-4 col-lg-3">
       <div className="card h-100 shadow">
@@ -22,10 +35,11 @@ export default function ProductCard({ product }) {
           <p className="text-muted text-decoration-line-through">{product.oldPrice}</p>
           <p className="fw-bold fs-5 text-success">{product.newPrice}</p>
           <button
-            className="btn btn-warning w-100 mb-2"
-            onClick={() => addToCart(product)}
+            className={`btn w-100 mb-2 transition-btn ${isAdded ? 'btn-success added-animation' : 'btn-warning'}`}
+            onClick={handleAddToCart}
+            disabled={isAdded}
           >
-            🛒 Comprar
+            {isAdded ? '✅ Producto agregado' : '🛒 Comprar'}
           </button>
           <div className="d-flex justify-content-between">
             <Link to={product.detallesLink} className="btn btn-outline-dark btn-sm">
