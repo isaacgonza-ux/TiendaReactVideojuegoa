@@ -1,0 +1,62 @@
+.resultado-container {
+  min-height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.resultado-card {
+  background-color: #fcfbfa;
+  border: 2px solid black;
+  border-radius: 15px;
+  padding: 40px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.resultado-card.success {
+  border-color: green;
+}
+
+.resultado-card.error {
+  border-color: red;
+}
+
+.resultado-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+}
+
+.resultado-titulo {
+  color: purple;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.resultado-texto {
+  color: #333;
+  font-size: 1rem;
+}
+
+.btn-volver,
+.btn-inicio {
+  background-color: goldenrod;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  margin: 0 5px;
+  transition: 0.3s;
+}
+
+.btn-volver:hover,
+.btn-inicio:hover {
+  background-color: darkgoldenrod;
+  color: #fff;
+}

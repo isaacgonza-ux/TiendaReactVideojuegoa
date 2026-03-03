@@ -1,0 +1,21 @@
+
+        .carousel-caption {
+        right: 5% !important;
+        left: auto !important;
+        text-align: right;
+        background: rgba(0,0,0,0.4);
+        border-radius: 10px;
+        padding: 20px 30px;
+        max-width: 40%;
+        top: 50%;
+        transform: translateY(-50%);
+        bottom: auto;
+    }
+
+        .carousel-item img {
+        width: 100% !important;
+        height: 800px;
+        object-fit: cover;
+        object-position: center;
+        background: #111; /* Fondo oscuro para las franjas */
+    }

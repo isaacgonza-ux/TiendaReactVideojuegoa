@@ -1,0 +1,104 @@
+/*
+    Página detalle: D_Gtavl
+    Propósito: Página de producto detallada para "Grand Theft Auto VI" (ejemplo).
+    Contenido: información del juego, carrusel de imágenes y vídeos de gameplay.
+    Uso: presentacional, contiene contenido estático multimedia.
+*/
+import React from 'react';
+import CarruselSplide from '../components/CarruselSplide';
+import '../css/Fondos.css'
+import '../css/CarruselSplide.css'
+
+
+const images = [
+    'https://www.rockstargames.com/VI/_next/image?url=%2FVI%2F_next%2Fstatic%2Fmedia%2FGrassrivers_04.375357e4.jpg&w=1920&q=75',
+    'https://www.rockstargames.com/VI/_next/image?url=%2FVI%2F_next%2Fstatic%2Fmedia%2FLucia_Caminos_02.f833743a.jpg&w=1920&q=75',
+    'https://www.rockstargames.com/VI/_next/image?url=%2FVI%2F_next%2Fstatic%2Fmedia%2FVice_City_09.632112c4.jpg&w=1920&q=75',
+    'https://www.rockstargames.com/VI/_next/image?url=%2FVI%2F_next%2Fstatic%2Fmedia%2FLeonida_Keys_05.cf35e824.jpg&w=1920&q=75'
+];
+
+export default function D_Gtavl() {
+    return (
+        <div className='fondo-Gtavl dark-bg overlay-dark'>
+             {/* <!-- Encabezado con imagen --> */}
+            <section className="container-fluid p-0">
+            <img src="https://www.rockstargames.com/VI/_next/image?url=%2FVI%2F_next%2Fstatic%2Fmedia%2FJason_and_Lucia_01_landscape.0e2a6544.jpg&w=1920&q=75" className="img-fluid mx-auto d-block"  style={{ clipPath: 'inset(0 0 20% 0)' }} alt="God of War Ragnarök"/>
+            </section>
+          
+
+            {/* /*Información producto*/}
+              
+        <section className="container py-4">
+            <div className="row">
+                <div className="col-md-8">
+                    <h1 className="display-5 text-borde-blanco">Grand theft auto vl</h1>
+                    <p className="text-borde-blanco">Sony Interactive Entertainment</p>
+                    <p className="text-borde-blanco"><strong>Disponible para:</strong> PS5</p>
+                    <p className="text-borde-blanco"><strong>Fecha de lanzamiento:</strong> 11/11/2022</p>
+                    <p className="text-borde-blanco"><strong>Precio:</strong> US$69.99</p>
+                    <p className="text-borde-blanco">Suscríbete a PlayStation Plus para acceder a este juego y cientos más</p>
+                        <button className="btn btn-primary">Suscribirse</button>
+                </div>
+                <div className="col-md-4 text-center">
+                <p className="text-borde-blanco"><strong>Modo de juego:</strong></p>
+                <ul className="list-group">
+                    <li className="list-group-item bg-transparent text-white">🎮 Offline activado</li>
+                    <li className="list-group-item bg-transparent text-white">🚫 Online no disponible</li>
+                    <li className="list-group-item bg-transparent text-white">🎮 Compatible con vibración y gatillo DualSense</li>
+                    <li className="list-group-item bg-transparent text-white">⚡ Mejorado para PS5 Pro</li>
+                </ul>
+                </div>
+            </div>
+        </section>
+          <CarruselSplide  images={images} />
+
+            {/* Descripción y contenido adicional */}
+            <section className="container mb-5">
+                <h3 className="mb-3 text-borde-blanco">Descripción</h3>
+                <p className="text-borde-blanco">
+                    Grand Theft Auto VI
+                    La saga más icónica regresa con su entrega más ambiciosa. Explora una ciudad vibrante y dinámica inspirada en Vice City, con un nivel de
+                    detalle sin precedentes. Vive la historia de dos protagonistas en un mundo abierto lleno de acción, crimen y libertad total. Cada decisión 
+                    importa y cada rincón está lleno de oportunidades para dejar tu huella.
+                        </p>
+
+                <h4 className="mt-4 text-borde-blanco">Advertencias de contenido</h4>
+                <ul>
+                    <li className="text-borde-blanco">🔴 Desmembramiento y sangre</li>
+                    <li className="text-borde-blanco">🗣️ Lenguaje fuerte</li>
+                    <li className="text-borde-blanco">⚔️ Violencia intensa</li>
+                </ul>
+            </section>
+
+            {/* Sección de videos */}
+            <section className="container my-5">
+                <h2 className="text-center mb-4 text-borde-blanco">Tráilers y Gameplay Grand theft auto vl</h2>
+                <div className="row g-4">
+
+                    {/* Video 1 */}
+                    <div className="col-md-6">
+                        <div className="ratio ratio-16x9">
+                            <iframe
+                                src="https://www.youtube.com/embed/VQRLujxTm3c"
+                                title="gta vl | Tráiler oficial de presentación"
+                                allowFullScreen
+                            ></iframe>
+                        </div>
+                    </div>
+
+                    {/* Video 2 */}
+                    <div className="col-md-6">
+                        <div className="ratio ratio-16x9">
+                            <iframe
+                                src="https://www.youtube.com/embed/QdBZY2fkU-0"
+                                title="gta vl | La historia en un video"
+                                allowFullScreen
+                            ></iframe>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+    );
+}
