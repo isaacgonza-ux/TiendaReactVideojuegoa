@@ -47,12 +47,8 @@ export default function Login({ setIsAdminLogged }) {
       // Redirigir según el rol
       if (role === "ADMIN") {
         navigate("/admin");
-      }
-      
-      if ( role ==="USER"){
-        navigate("/")
-
-      }else {
+        
+      } else {
         navigate("/");
       }
     } else {
