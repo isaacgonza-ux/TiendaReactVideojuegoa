@@ -36,6 +36,15 @@
         color: #fff; /* Asegura que el texto sea legible sobre el fondo */
     }
 
+    .fondo-gow-2018 {
+        background-image: url('/img/fondogow2018.webp');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        color: #fff; /* Asegura que el texto sea legible sobre el fondo */
+    }
+
 
     .fondo-DeathStranding2{
         background-image: url('https://cdn.wccftech.com/wp-content/uploads/2025/02/death-stranding-2-on-the-beach-HD-1920x1080.jpeg');
@@ -66,6 +75,38 @@
         color: #fff; /* Asegura que el texto sea legible sobre el fondo */
 
     }
+
+      .fondo-Tlas1{
+        background-image: url('/img/tlas1fondo.webp');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        color: #fff; /* Asegura que el texto sea legible sobre el fondo */
+
+    }
+
+        .fondo-Tlas2{
+        background-image: url('/img/tlas2fondo.webp');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        color: #fff; /* Asegura que el texto sea legible sobre el fondo */
+
+    }
+
+    
+        .fondo-Rdr2{
+        background-image: url('/img/rdr2fondo.webp');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        color: #fff; /* Asegura que el texto sea legible sobre el fondo */
+
+    }
+
 
   
 

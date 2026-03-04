@@ -38,7 +38,11 @@ import {
   deathStrandingData, 
  fc26Data,
  gtaVlData,
- gowRagnarokData
+ gowRagnarokData,
+ tlas1Data,
+ tlas2Data,
+ redDeadRedemption2Data,
+ gow2018Data
 } from './data/ProductData'; // Ajusta la ruta si es necesario
 
 
@@ -82,6 +86,12 @@ function App() {
           <Route path="/deathstranding2" element={<ProductDetail {...deathStrandingData} />} /> 
           <Route path="/fc26" element={<ProductDetail {...fc26Data} />} />
           <Route path="/gta-vl" element={<ProductDetail {...gtaVlData} />} />
+          <Route path="/tlas1" element={<ProductDetail {...tlas1Data} />} />
+          <Route path="/red-dead-2" element={<ProductDetail {...redDeadRedemption2Data} />} />
+          <Route path="/god-of-war-2018" element={<ProductDetail {...gow2018Data} />} />
+          <Route path="/tlas2" element={<ProductDetail {...tlas2Data} />} />
+
+
 
           {/* Rutas Generales */}
           <Route path="/contacto" element={<Contacto/>}/>  

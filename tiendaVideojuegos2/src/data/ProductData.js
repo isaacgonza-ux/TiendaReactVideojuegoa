@@ -103,6 +103,104 @@ export const gtaVlData = {
 };
 
 
+export const tlas1Data = {
+  title: "The Last of Us Part I",
+  publisher: "Naughty Dog",
+  platform: "PS5 / Xbox Series X",
+  releaseDate: "2025",
+  price: "US$79.99",
+  backgroundClass: "fondo-Tlas1", 
+  mainImage: "/img/tlas1portada.webp",
+  detallesLink: "/tlas1",
+  carouselImages: ['https://cdn.mos.cms.futurecdn.net/v2/t:0,l:0,cw:1920,ch:1080,q:80,w:1920/F39y9wwLUA3exsUdsQ48TG.jpg',
+                  'https://cdn.mos.cms.futurecdn.net/v2/t:0,l:0,cw:1920,ch:1080,q:80,w:1920/jBpCL5GA9Ptnu3TWmkV2KS.jpg',
+                  'https://images4.alphacoders.com/134/1343213.png',
+                  'https://images8.alphacoders.com/684/684286.jpg'
+
+  ],
+  description: "Un mundo postapocaliptico, seras capaz de sobrevivir en un mundo hermoso, pero peligroso.",
+  features: ["🌎 Mundo Abierto", "🔫 Acción"],
+  warnings: ["🔴 Contenido Adulto", "⚔️ Violencia"],
+  videos: [
+       { url: "https://www.youtube.com/embed/NCXFnb9Fr5o", title: "Tráiler 1" },
+       { url: "https://www.youtube.com/embed/8a3Aga7JJgE", title: "Tráiler 2" }
+  ]
+};
+
+export const tlas2Data = {
+  title: "The Last of Us Part II",
+  publisher: "Naughty Dog",
+  platform: "PS4",
+  releaseDate: "19/06/2020",
+  price: "US$39.99",
+  backgroundClass: "fondo-Tlas2",
+  mainImage: "/img/tlas2portada.webp",
+  detallesLink: "/tlas2",
+  carouselImages: [
+    "https://sm.ign.com/ign_latam/feature/t/the-last-o/the-last-of-us-part-2-remastered-lost-levels-7-cool-details_swjw.jpgg",
+    "https://cdn2.unrealengine.com/the-last-of-us-part-ii-no-return-pc-guide-tips-tricks-for-mastering-the-roguelike-mode-1920x1080-41df46f8471d.jpeg",
+    "https://images4.alphacoders.com/130/1304615.png",
+    "https://wallpapers.com/images/hd/ellie-with-rifle-in-the-last-of-us-4k-0jcnkbz98kg2wcxs.jpg"
+  ],
+  description: "Cinco años después de su peligroso viaje a través de unos Estados Unidos postpandémicos, Ellie y Joel se han asentado en Jackson, Wyoming. Vivir en una próspera comunidad de supervivientes les ha otorgado paz y estabilidad, a pesar de la constante amenaza de los infectados y de otros viajeros más desesperados. A raíz de unos violentos acontecimientos que truncan esa paz, Ellie se embarca en un viaje sin descanso para hacer justicia y pasar página. A medida que va dando caza, uno a uno, a los responsables, tendrá que enfrentarse a las devastadoras consecuencias físicas y emocionales de sus actos.",
+  features: ["Un jugador", "Violencia", "Lenguaje malsonante"],
+  warnings: ["Contenido para adultos", "Violencia explícita"],
+  videos: [
+    { url: "https://www.youtube.com/embed/JdE9U9WW_HM", title: "Tráiler de Lanzamiento" },
+    { url: "https://www.youtube.com/embed/btmN-bWwv0A", title: "Tráiler de Historia" }
+  ]
+};
+
+export const redDeadRedemption2Data = {
+  title: "Red Dead Redemption 2",
+  publisher: "Rockstar Games",
+  platform: "PS4 / Xbox One / PC",
+  releaseDate: "26/10/2018",
+  price: "US$59.99",
+  backgroundClass: "fondo-Rdr2",
+  mainImage: "/img/rdr2portada.webp",
+  detallesLink: "/red-dead-redemption-2",
+  carouselImages: [
+    "https://hips.hearstapps.com/hmg-prod/images/red-dead-redemption-2-1540469227.jpg",
+    "https://assets.nuuvem.com/image/upload/t_screenshot_full/v1/products/5fbd76bbc883e62934046c52/screenshots/p3bveicrfjo2vexqn4ax.jpg",
+    "https://ichef.bbci.co.uk/ace/ws/640/cpsprodpb/16CC9/production/_103958339_mediaitem103958331.jpg.webp",
+    "/img/rd2c.webp"
+  ],
+  description: "América, 1899. El ocaso del Salvaje Oeste ha comenzado y las fuerzas de la ley dan caza a las últimas bandas de forajidos. Los que no se rinden o sucumben, son asesinados. Tras un desastroso atraco fallido en la ciudad de Blackwater, Arthur Morgan y la banda de Van der Linde se ven obligados a huir. Con agentes federales y los mejores cazarrecompensas de la nación pisándoles los talones, la banda deberá atracar, robar y luchar para sobrevivir en su camino por el escabroso territorio del corazón de América. Mientras las divisiones internas aumentan y amenazan con separarlos a todos, Arthur deberá elegir entre sus propios ideales y la lealtad a la banda que lo vio crecer.",
+  features: ["Un jugador", "Mundo abierto", "Modo online"],
+  warnings: ["Violencia", "Contenido para adultos"],
+  videos: [
+    { url: "https://www.youtube.com/embed/MyaYlbizpvs", title: "Tráiler de Lanzamiento" },
+    { url: "https://www.youtube.com/embed/gmA6MrX81z4", title: "Tráiler Oficial" }
+  ]
+};
+
+export const gow2018Data = {
+  title: "God of War",
+  publisher: "Sony Santa Monica",
+  platform: "PS4",
+  releaseDate: "20/04/2018",
+  price: "US$19.99",
+  backgroundClass: "fondo-gow-2018",
+  mainImage: "/img/portadagow2018.webp",
+  detallesLink: "/god-of-war-2018",
+  carouselImages: [
+    "https://wallpapercave.com/wp/wp2680158.jpg",
+    "https://wallpapercave.com/wp/wp2296370.png",
+    "https://wallpapercave.com/wp/wp2680119.jpg",
+    "https://wallpapercave.com/wp/wp2625109.jpg"
+  ],
+  description: "Han pasado años desde que Kratos tomó su venganza contra los Dioses Olímpicos. Habiendo sobrevivido la pelea final contra su padre Zeus, Kratos vive ahora con su joven hijo Atreus en el mundo de los Dioses Nórdicos, una tierra hostil habitada por feroces monstruos y guerreros. Para enseñar a su hijo a sobrevivir en dicho mundo, Kratos deberá dominar la ira que lo ha conducido durante muchos años y aceptar su nuevo rol como padre y mentor.",
+  features: ["Un jugador", "Acción", "Aventura"],
+  warnings: ["Violencia", "Lenguaje malsonante"],
+  videos: [
+    { url: "https://www.youtube.com/embed/K0u_kAWLJOA", title: "Tráiler de E3 2016" },
+    { url: "https://www.youtube.com/embed/gOE2BVRCUkM", title: "Tráiler de Historia" }
+  ]
+};
+
+
+
 
 export const estrenos = [
   {
@@ -152,7 +250,7 @@ export const ofertas = [
     oldPrice: "$124,500 CLP",
     newPrice: "$24,900 CLP",
     carritoLink: "Carrito.html",
-    detallesLink: "D_Tlou1.html"
+    detallesLink: "/tlas1"
   },
   {
     id: 2,
@@ -161,7 +259,7 @@ export const ofertas = [
     oldPrice: "$80,500 CLP",
     newPrice: "$20,00 CLP",
     carritoLink: "Carrito.html",
-    detallesLink: "D_Tlou2.html"
+    detallesLink: "/tlas2"
   },
   {
     id: 3,
@@ -170,7 +268,7 @@ export const ofertas = [
     oldPrice: "$144,500 CLP",
     newPrice: "$28,900 CLP",
     carritoLink: "Carrito.html",
-    detallesLink: "D_Gow1.html"
+    detallesLink: "/god-of-war-2018"
   },
   {
     id: 4,
@@ -192,7 +290,7 @@ export const masVendidos = [
     oldPrice: "$124,500 CLP",
     newPrice: "$24,900 CLP",
     carritoLink: "Carrito.html",
-    detallesLink: "RedDeadRedemption2.html"
+    detallesLink: "/red-dead-2"
   },
   {
     id: 2,
