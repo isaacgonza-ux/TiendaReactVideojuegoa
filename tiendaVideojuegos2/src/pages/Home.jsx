@@ -51,7 +51,11 @@ function Home(){
             
             
             {/* Noticias */}
-            <NewsSection/>   
+            <section id="noticias">
+                <NewsSection/>   
+
+            </section>
+            
 
 
 

@@ -61,7 +61,7 @@ const Header = ({ toggleCart }) => {
                 <a className="nav-link" href="#">Comunidad</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">Noticias</a>
+                <a className="nav-link" href="#noticias">Noticias</a>
               </li>
               <li className="nav-item">
                  <Link to={"/catalogo"} className="nav-link">Catalogo</Link>

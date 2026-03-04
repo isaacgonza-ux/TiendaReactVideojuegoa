@@ -5,8 +5,8 @@
   Nota: componente presentacional, usa estilos en ../Css/Battlefield.css.
 */
 import React from "react";
-import "../css/Battlefield.css";
-import { blogBattlefield } from "../data/Blog_Btf";
+import "../Css/Battlefield.css";
+
 
 export default function Battlefield() {
   return (
@@ -34,7 +34,7 @@ export default function Battlefield() {
           {/* Tarjeta 1 */}
           <div className="col-md-4 feature-card">
             <img
-              src="blog/b2.png"
+              src="/blog/b2.png"
               alt="Gráficos mejorados"
               className="img-fluid"
             />
@@ -49,7 +49,7 @@ export default function Battlefield() {
           {/* Tarjeta 2 */}
           <div className="col-md-4 feature-card">
             <img
-              src="blog/b1.png"
+              src="/blog/b1.png"
               alt="Historia emocional"
               className="img-fluid"
             />
@@ -63,7 +63,7 @@ export default function Battlefield() {
           {/* Tarjeta 3 */}
           <div className="col-md-4 feature-card">
             <img
-              src="blog/b3.png"
+              src="/blog/b3.png"
               alt="Jugabilidad inmersiva"
               className="img-fluid"
             />
@@ -78,7 +78,7 @@ export default function Battlefield() {
           {/* Tarjeta 4 */}
           <div className="col-md-4 feature-card">
             <img
-              src="blog/b3.png"
+              src="/blog/b3.png"
               alt="Experiencia inmersiva"
               className="img-fluid"
             />
@@ -92,7 +92,7 @@ export default function Battlefield() {
           {/* Tarjeta 5 */}
           <div className="col-md-4 feature-card">
             <img
-              src="blog/b4.png"
+              src="/blog/b4.png"
               alt="Narrativa profunda"
               className="img-fluid"
             />
@@ -107,7 +107,7 @@ export default function Battlefield() {
           {/* Tarjeta 6 */}
           <div className="col-md-4 feature-card">
             <img
-              src="blog/b5.png"
+              src="/blog/b5.png"
               alt="Arquetipos"
               className="img-fluid"
             />

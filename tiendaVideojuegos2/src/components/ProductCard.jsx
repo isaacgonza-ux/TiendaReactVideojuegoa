@@ -28,7 +28,7 @@ export default function ProductCard({ product }) {
   };
   return (
     <div className="col-12 col-sm-6 col-md-4 col-lg-3">
-      <div className="card h-100 shadow">
+      <div className="card h-100 shadow product-card">
         <img src={product.img} className="card-img-top" alt={product.title} />
         <div className="card-body">
           <h5 className="card-title">{product.title}</h5>

@@ -9,67 +9,56 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; 
 import "../css/InicioSesion.css"
 
-export default function Login() { 
+export default function Login({ setIsAdminLogged }) { 
   const [email, setEmail] = useState("");  // Estado local para el email
   const [password, setPassword] = useState(""); // Estado local para la contraseña
   const navigate = useNavigate(); // Para redirigir
 
- const handleSubmit = async(e) => { // Maneja el envío del formulario
-  e.preventDefault(); // Previene el envío por defecto
+  const handleSubmit = (e) => { // Maneja el envío del formulario
+    e.preventDefault(); // Previene el envío por defecto
 
-  if (email.trim() === "" || password.trim() === "") { // Validación básica
-    alert("⚠️ Por favor completa todos los campos.");
-    return; // Detiene la ejecución si hay campos vacíos
-  }
-
-  try {
-    const response = await fetch("http://localhost:8080/auth/login", { // Llama al endpoint de login
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ // Envía email y contraseña en el cuerpo
-        email: email,   
-        password: password
-      }),
-    });
-    
-    if (!response.ok) { // Si la respuesta no es OK
-      const errorData = await response.json(); // Extrae el mensaje de error
-      alert(`❌ ${errorData.message || 'Usuario o contraseña incorrectos'}`); // Muestra el mensaje de error
-      return; // Detiene la ejecución
+    if (email.trim() === "" || password.trim() === "") { // Validación básica
+      alert("⚠️ Por favor completa todos los campos.");
+      return; // Detiene la ejecución si hay campos vacíos
     }
 
-    const data = await response.json(); // Extrae los datos de la respuesta
-    console.log("✅ Respuesta completa del servidor:", data);
-    console.log("✅ Usuario:", data.user);
-    console.log("✅ Role:", data.user.role);
+    // Cargar usuarios desde localStorage y añadir admin
+    const registeredUsers = JSON.parse(localStorage.getItem("users")) || [];
+    const users = [
+      { email: "admin@gmail.com", password: "admin", role: "ADMIN", name: "Admin" },
+      ...registeredUsers
+    ];
 
-    // Guardar en localStorage
-    localStorage.setItem("token", data.token); // Guardar token de acceso
-    localStorage.setItem("refreshToken", data.refreshToken); // Guardar token de refresco
-    localStorage.setItem("user", JSON.stringify(data.user)); // Guardar datos del usuario
+    const foundUser = users.find(user => user.email === email && user.password === password);
 
-    console.log("✅ Guardado en localStorage");
-    console.log("Token guardado:", localStorage.getItem("token"));
-    console.log("User guardado:", localStorage.getItem("user"));
+    if (foundUser) {
+      // Guardar en localStorage
+      localStorage.setItem("token", "dummy-token-for-" + foundUser.email); // Guardar token de acceso
+      localStorage.setItem("user", JSON.stringify(foundUser)); // Guardar datos del usuario
 
-    alert("✅ Inicio de sesión exitoso!");
+      alert("✅ Inicio de sesión exitoso!");
 
-    // Redirigir según el rol
-    if (data.user.role === "ADMIN") {
-      console.log("🎯 Redirigiendo a /admin");
-      navigate("/admin");
+      // Normalizar rol y actualizar estado de admin en App
+      const role = (foundUser.role) ? String(foundUser.role).toUpperCase() : "";
+      if (typeof setIsAdminLogged === "function") {
+        setIsAdminLogged(role === "ADMIN");
+      }
+
+      // Redirigir según el rol
+      if (role === "ADMIN") {
+        navigate("/admin");
+      }
+      
+      if ( role ==="USER"){
+        navigate("/")
+
+      }else {
+        navigate("/");
+      }
     } else {
-      console.log("🎯 Redirigiendo a /");
-      navigate("/");
+      alert("❌ Usuario o contraseña incorrectos");
     }
-
-  } catch (error) {
-    alert("⚠️ Error al conectar con el servidor.");
-    console.error("Error completo:", error);
-  }
-};
+  };
 
   return (
       <div className="fondo-iniciar-Sesion d-flex justify-content-center align-items-center vh-100">

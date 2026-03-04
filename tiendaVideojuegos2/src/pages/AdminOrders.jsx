@@ -8,8 +8,35 @@ export default function AdminOrders({ isAdminLogged }) {  // Componente de admin
   const [orders, setOrders] = useState([]); // Estado local para almacenar las órdenes
 
   useEffect(() => {
-    const stored = localStorage.getItem('orders');  // Recupera las órdenes desde localStorage
-    if (stored) setOrders(JSON.parse(stored));  // Parsea y establece las órdenes en el estado
+    let stored = localStorage.getItem('orders');  // Recupera las órdenes desde localStorage
+    if (!stored || JSON.parse(stored).length === 0) {
+      const mockOrders = [
+        {
+          id: 1,
+          date: new Date().toISOString(),
+          checkout: { nombre: 'Juan', apellido: 'Perez', email: 'juan.perez@example.com' },
+          items: [
+            { id: 1, quantity: 1, title: 'God of War Ragnarok' },
+            { id: 2, quantity: 2, title: 'FIFA 23' }
+          ],
+          total: 54970,
+          status: 'paid'
+        },
+        {
+          id: 2,
+          date: new Date(Date.now() - 86400000).toISOString(), // Yesterday
+          checkout: { nombre: 'Maria', apellido: 'Gonzalez', email: 'maria.gonzalez@example.com' },
+          items: [
+            { id: 3, quantity: 1, title: 'The Last of Us Part I' }
+          ],
+          total: 22990,
+          status: 'shipped'
+        }
+      ];
+      stored = JSON.stringify(mockOrders);
+      localStorage.setItem('orders', stored);
+    }
+    setOrders(JSON.parse(stored));  // Parsea y establece las órdenes en el estado
   }, []);
 
   const markShipped = (id) => {  // Marca una orden como enviada
@@ -31,7 +58,7 @@ export default function AdminOrders({ isAdminLogged }) {  // Componente de admin
 
         // Tabla de órdenes
         <div className="table-responsive mt-3">
-          <table className="table table-striped">
+          <table className="table table-striped table-dark">
             <thead>
               <tr>
                 <th>ID</th>

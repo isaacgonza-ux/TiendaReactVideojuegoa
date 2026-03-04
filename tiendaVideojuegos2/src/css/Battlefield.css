@@ -1,23 +1,11 @@
  /*fondo*/
     .battlefield-blog {
-        background-image: url('https://wallpapers.com/images/hd/commander-in-battlefield-game-sgwljgqafr12h74w.jpg');
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://wallpapers.com/images/hd/commander-in-battlefield-game-sgwljgqafr12h74w.jpg');
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
         background-repeat: no-repeat;
         color: #fff; /* Asegura que el texto sea legible sobre el fondo */
-    }
-
-    /*capa oscura*/
-    .battlefield-blog::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Ajusta el nivel de oscuridad aquí */
-    z-index: -1;
     }
 
     /* Portada */

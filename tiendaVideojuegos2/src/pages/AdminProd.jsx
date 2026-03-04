@@ -1,175 +1,259 @@
 import React, { useEffect, useState } from "react";
 
-const API_BASE_URL = "http://localhost:8080/api/v1/productos";
+const productos = [
+  {
+    id: 1,
+    name: "Red Dead Redemption2",
+    price: 15990,
+    img: "/img/red.png",
+    description: "",
+    stockQuantity: 100,
+    category: "PlayStation 4"
+  },
+  {
+    id: 2,
+    name: "The Last of Us Part 1",
+    price: 22990,
+    img: "/img/thelast.png",
+    description: "",
+    stockQuantity: 100,
+    category: "PlayStation 5"
+  },
+  {
+    id: 3,
+    name: "The Last of Us Part II",
+    price: 18990,
+    img: "/img/thelast2.png",
+    description: "",
+    stockQuantity: 100,
+    category: "PlayStation 4"
+  },
+  {
+    id: 4,
+    name: "Juego 4",
+    price: 19990,
+    img: "/img/1.png",
+    stockQuantity: 100,
+    category: "PC"
+  },
+  {
+    id: 5,
+    name: "Juego 5",
+    price: 25990,
+    img: "/img/11.png",
+    stockQuantity: 100,
+    category: "Xbox Series X"
+  },
+  {
+    id: 6,
+    name: "The Walking Dead",
+    price: 25990,
+    img: "/img/walking.png",
+    stockQuantity: 100,
+    category: "PlayStation 4"
+  },
+  {
+    id: 7,
+    name: "Beyond Two Souls",
+    price: 25990,
+    img: "/img/beyond.png",
+    stockQuantity: 100,
+    category: "PlayStation 4"
+  },
+  {
+    id: 8,
+    name: "Detroit Become Human",
+    price: 25990,
+    img: "/img/detroit.png",
+    stockQuantity: 100,
+    category: "PlayStation 4"
+  },
+  {
+    id: 9,
+    name: "Heavy Rain",
+    price: 25990,
+    img: "/img/heavy.png",
+    stockQuantity: 100,
+    category: "PlayStation 4"
+  },
+  {
+    id: 10,
+    name: "Crash Bandicoot 4",
+    price: 25990,
+    img: "/img/crash.png",
+    stockQuantity: 100,
+    category: "PlayStation 5"
+  },
+  {
+    id: 11,
+    name: "FIFA 23",
+    price: 25990,
+    img: "/img/fifa 23.png",
+    stockQuantity: 100,
+    category: "Xbox Series S"
+  },
+  {
+    id: 12,
+    name: "Ghost of Tsushima",
+    price: 25990,
+    img: "/img/ghost.png",
+    stockQuantity: 100,
+    category: "PlayStation 5"
+  },
+  {
+    id: 13,
+    name: "Yotei Chronicles",
+    price: 25990,
+    img: "/img/yotei.png",
+    stockQuantity: 100,
+    category: "PC"
+  },
+  {
+    id: 14,
+    name: "PES 2022",
+    price: 25990,
+    img: "/img/pes.png",
+    stockQuantity: 100,
+    category: "PlayStation 4"
+  },
+  {
+    id: 15,
+    name: "Street Fighter VI",
+    price: 25990,
+    img: "/img/street.png",
+    description: "DetalleProductoGow.html",
+    stockQuantity: 100,
+    category: "PlayStation 5"
+  },
+  {
+    id: 16,
+    name: "God of War (PS4)",
+    price: 25990,
+    img: "/img/gow1.png",
+    stockQuantity: 100,
+    category: "PlayStation 4"
+  },
+  {
+    id: 17,
+    name: "God of War II",
+    price: 25990,
+    img: "/img/gow2.png",
+    stockQuantity: 100,
+    category: "PlayStation 4"
+  },
+  {
+    id: 18,
+    name: "God of War III",
+    price: 25990,
+    img: "/img/gow3.png",
+    stockQuantity: 100,
+    category: "PlayStation 4"
+  },
+  {
+    id: 19,
+    name: "Juego 19",
+    price: 25990,
+    img: "/img/5.png",
+    stockQuantity: 100,
+    category: "Nintendo Switch"
+  },
+  {
+    id: 20,
+    name: "God of War Ragnarok",
+    price: 20990,
+    img: "/img/6.png",
+    description: "DetalleProductoGow.html",
+    stockQuantity: 100,
+    category: "PlayStation 5"
+  },
+  {
+    id: 21,
+    name: "The Last of Us: Left Behind",
+    price: 25990,
+    img: "/img/left behind.png",
+    stockQuantity: 100,
+    category: "PlayStation 4"
+  },
+  {
+    id: 22,
+    name: "The Last of Us PS3",
+    price: 25990,
+    img: "/img/thelastps3.png",
+    stockQuantity: 100,
+    category: "PlayStation 3"
+  },
+  {
+    id: 23,
+    name: "Stray",
+    price: 25990,
+    img: "/img/stray.png",
+    stockQuantity: 100,
+    category: "PlayStation 5"
+  },
+  {
+    id: 24,
+    name: "Red Dead Redemption",
+    price: 25990,
+    img: "/img/reddead1.png",
+    stockQuantity: 100,
+    category: "PlayStation 4"
+  },
+  {
+    id: 25,
+    name: "Grand Theft Auto VI",
+    price: 25990,
+    img: "/img/7.png",
+    description: "D_Gtavl.html",
+    stockQuantity: 100,
+    category: "PlayStation 5"
+  }
+];
 
 const api = {
+  _getProducts() {
+    const products = localStorage.getItem("products");
+    if (!products) {
+      localStorage.setItem("products", JSON.stringify(productos));
+      return productos;
+    }
+    return JSON.parse(products);
+  },
+  _saveProducts(products) {
+    localStorage.setItem("products", JSON.stringify(products));
+  },
+  getAll() {
+    return Promise.resolve(this._getProducts());
+  },
+  create(product) {
+    const products = this._getProducts();
+    const newProduct = {
+      ...product,
+      id: Date.now(),
+    };
+    products.unshift(newProduct);
+    this._saveProducts(products);
+    return Promise.resolve(newProduct);
+  },
+  update(id, product) {
+    const products = this._getProducts();
+    const index = products.findIndex((p) => p.id === id);
+    if (index === -1) {
+      return Promise.reject(new Error("ProductNotFound"));
+    }
+    const updatedProduct = { ...products[index], ...product };
+    products[index] = updatedProduct;
+    this._saveProducts(products);
+    return Promise.resolve(updatedProduct);
+  },
+  delete(id) {
+    let products = this._getProducts();
+    products = products.filter((p) => p.id !== id);
+    this._saveProducts(products);
+    return Promise.resolve();
+  },
   getToken() {
-    return (
-      localStorage.getItem("token") ||
-      localStorage.getItem("authToken") ||
-      localStorage.getItem("accessToken") ||
-      null
-    );
-  },
-
-  getAuthHeader() {
-    const token = this.getToken();
-    return {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    };
-  },
-
-  getHeaders() {
-    return {
-      Accept: "application/hal+json, application/json, */*",
-      ...this.getAuthHeader(),
-    };
-  },
-
-  async handleResponse(res) {
-    const text = await res.text().catch(() => "");
-    let json = null;
-    try {
-      if (text) json = JSON.parse(text);
-    } catch (e) {
-      json = null;
-    }
-    return { ok: res.ok, status: res.status, json, text };
-  },
-
-  async getAll() {
-    const res = await fetch(API_BASE_URL, {
-      method: "GET",
-      headers: this.getHeaders(),
-    });
-    const { ok, status, json, text } = await this.handleResponse(res);
-    if (!ok) {
-      console.error("GET /productos error", status, text);
-      if (status === 401) throw new Error("Unauthorized");
-      throw new Error(`Error HTTP ${status}`);
-    }
-    const data = json;
-    console.log("Respuesta HATEOAS completa:", data);
-
-    let productos = [];
-    if (data?._embedded) {
-      const embedded = data._embedded;
-      productos =
-        embedded.productosHateoas ||
-        embedded.productModels ||
-        embedded.productModelList ||
-        embedded.productModel ||
-        embedded.productos ||
-        [];
-      if (Array.isArray(productos) && productos.length > 0 && productos[0].content) {
-        productos = productos.map((it) => it.content);
-      }
-    } else if (Array.isArray(data)) {
-      productos = data;
-    } else if (data?.content) {
-      productos = data.content;
-    }
-
-    console.log("Productos parseados:", productos);
-    return productos.map((item) => ({
-      id: item.id,
-      name: item.name ?? item.titulo ?? "",
-      price: item.price ?? item.precio ?? 0,
-      description: item.description ?? item.descripcion ?? "",
-      stockQuantity: item.stockQuantity ?? item.stock ?? 0,
-      category: item.category ?? "General"
-    }));
-  },
-
-  async create(product) {
-    const body = {
-      name: product.name,
-      description: product.description || "Videojuego",
-      price: product.price,
-      stockQuantity: product.stockQuantity || 100,
-      category: product.category || "General"
-    };
-    console.log("POST /productos - request body:", body);
-    const res = await fetch(API_BASE_URL, {
-      method: "POST",
-      headers: this.getHeaders(),
-      body: JSON.stringify(body),
-    });
-    const { ok, status, json, text } = await this.handleResponse(res);
-    console.log("POST /productos - response", { status, text, json });
-    if (!ok) {
-      console.error("POST /productos error", status, text);
-      if (status === 401) throw new Error("Unauthorized");
-      if (status === 404) throw new Error("NotFound");
-      throw new Error("Error al crear producto");
-    }
-    const data = json;
-    const product_data = data?.content || data;
-    return {
-      id: product_data.id,
-      name: product_data.name,
-      price: product_data.price,
-      description: product_data.description,
-      stockQuantity: product_data.stockQuantity ?? product_data.stock_quantity,
-      category: product_data.category || "General"
-    };
-  },
-
- async update(id, product) {
-    // Asegurarse de usar siempre la URL del gateway, no las URLs HATEOAS del microservicio
-    const url = `${API_BASE_URL}/${Number(id)}`;
-    
-    const body = {
-      name: product.name,
-      description: product.description || "Videojuego",
-      price: product.price,
-      stockQuantity: product.stockQuantity || 100,
-      category: product.category || "General"
-    };
-    console.log(`PUT ${url} - request body:`, body);
-    const res = await fetch(url, {
-      method: "PUT",
-      headers: this.getHeaders(),
-      body: JSON.stringify(body),
-    });
-    const { ok, status, json, text } = await this.handleResponse(res);
-    console.log(`PUT ${url} - response`, { status, text, json });
-    if (!ok) {
-      console.error(`PUT ${url} error`, status, text);
-      if (status === 401) throw new Error("Unauthorized");
-      if (status === 404) throw new Error("ProductNotFound");
-      throw new Error("Error al actualizar producto");
-    }
-    const data = json;
-    const product_data = data?.content || data;
-    return {
-      id: product_data.id,
-      name: product_data.name,
-      price: product_data.price,
-      description: product_data.description,
-      stockQuantity: product_data.stockQuantity ?? product_data.stock_quantity,
-      category: product_data.category || "General"
-    };
-  },
-
-  async delete(id) {
-    // Asegurarse de usar siempre la URL del gateway
-    const url = `${API_BASE_URL}/${Number(id)}`;
-    console.log(`DELETE ${url}`);
-    const res = await fetch(url, {
-      method: "DELETE",
-      headers: this.getHeaders(),
-    });
-    const { ok, status, text } = await this.handleResponse(res);
-    console.log(`DELETE ${url} - response`, { status, text });
-    if (!ok && status !== 204) {
-      console.error(`DELETE ${url} error`, status, text);
-      if (status === 401) throw new Error("Unauthorized");
-      if (status === 404) throw new Error("ProductNotFound");
-      throw new Error("Error al eliminar producto");
-    }
-  },
+    return localStorage.getItem("token");
+  }
 };
 export default function Admin() {
   const [products, setProducts] = useState([]);

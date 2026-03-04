@@ -31,7 +31,7 @@ export default function RegistroUsuario() {
 
 
   // Maneja el envío del formulario
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();  // Previene el envío por defecto
 
     const { email, name, username, password, confirmPassword } = formData;  // Desestructura los datos del formulario
@@ -57,49 +57,26 @@ export default function RegistroUsuario() {
       setLoading(false);
       return;
     }
- try {
-      console.log("📤 [Registro] Enviando datos:", { email, name, username });
+    
+    // Simulación de registro
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+    const userExists = users.find(user => user.email === email);
 
-      const response = await fetch("http://localhost:8080/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          name: name,
-          username: username,
-          password: password,
-        }),
-      });
-
-      const data = await response.json();
-      console.log("📥 [Registro] Respuesta:", data);
-
-      if (!response.ok) {
-        throw new Error(data.message || "Error al registrarse");
-      }
-
-      // Registro exitoso - Guardar tokens automáticamente
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("refreshToken", data.refreshToken);
-      localStorage.setItem("user", JSON.stringify(data.user));
-
-      alert("✅ Registro exitoso! Bienvenido " + data.user.name);
-
-      // Redirigir según el rol (aunque por defecto será USER)
-      if (data.user.role === "ADMIN") {
-        navigate("/admin");
-      } else {
-        navigate("/");
-      }
-
-    } catch (error) {
-      console.error("❌ [Registro] Error:", error);
-      alert("❌ " + error.message);
-    } finally {
-      setLoading(false);
+    if (userExists) {
+      alert("❌ El correo electrónico ya está en uso.");
+      return;
     }
+
+    const newUser = { email, name, username, password, role: "USER" };
+    users.push(newUser);
+    localStorage.setItem("users", JSON.stringify(users));
+
+    // Iniciar sesión automáticamente
+    localStorage.setItem("token", "dummy-token-for-" + email);
+    localStorage.setItem("user", JSON.stringify(newUser));
+
+    alert("✅ Registro exitoso! Bienvenido " + name);
+    navigate("/");
   };
 
   const handleCancel = () => {

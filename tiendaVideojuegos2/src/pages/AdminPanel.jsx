@@ -25,7 +25,7 @@ import AdminProd from "../pages/AdminProd";
 import AdminUser from "../pages/AdminUser";
 import AdminOrders from "../pages/AdminOrders";
 
-export default function AdminPanel() {
+export default function AdminPanel({ isAdminLogged }) {
   return (
     <div className="container py-5">
       <h2 className="mb-4 text-center">Panel de Administración</h2>
@@ -61,12 +61,13 @@ export default function AdminPanel() {
           <Route path="/" element={<Navigate to="productos" />} />
           
           {/* Vista de gestión de productos (catálogo) */}
-          <Route path="productos" element={<AdminProd />} />
+          <Route path="productos" element={<AdminProd isAdminLogged={isAdminLogged} />} />
           
           {/* Vista de gestión de usuarios */}
-          <Route path="usuarios" element={<AdminUser />} />
+          <Route path="usuarios" element={<AdminUser isAdminLogged={isAdminLogged} />} />
           
-          {/* Nota: la ruta /admin/orders está definida en App.jsx */}
+          {/* Vista de gestión de órdenes */}
+          <Route path="orders" element={<AdminOrders isAdminLogged={isAdminLogged} />} />
         </Routes>
       </div>
     </div>
