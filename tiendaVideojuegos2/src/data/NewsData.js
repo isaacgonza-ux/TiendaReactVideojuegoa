@@ -16,7 +16,7 @@ export const noticias = [
     id: 3,
     title: "EA Sports FC 26 comparte más novedades",
     img: "https://tierragamer.com/wp-content/uploads/2025/08/ea-sports-fc-26-detalles-modo-carrera.webp",
-    link: "blogFc26.html"
+    link: "/blog/Fc26"
   }
   
 ];

@@ -18,6 +18,7 @@ import Nosotros from "./pages/Nosotros.jsx";
 import Descuentos from "./pages/Descuentos.jsx"; 
 import B_Battlefield from "./Blog/B_Battlefield.jsx";
 import Tlast1Blog from "./Blog/TlastBlog.jsx";
+import Fc26Blog  from "./Blog/Fc26Blog.jsx";
 
 // Autenticación y Admin
 import InicioSesion from "./pages/InicioSesion.jsx";
@@ -114,6 +115,7 @@ function App() {
        
           <Route path="/blog/battlefield" element={<B_Battlefield />} />
           <Route path="/blog/tlast1" element={<Tlast1Blog />} />
+          <Route path="/blog/Fc26" element={<Fc26Blog/>} />
 
       
 
