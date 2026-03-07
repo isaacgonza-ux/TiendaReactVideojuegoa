@@ -10,17 +10,30 @@ import { useNavigate } from "react-router-dom";
 import "../css/InicioSesion.css"
 
 export default function Login({ setIsAdminLogged }) { 
+  const [mensajeExito, setMensajeExito] = useState("");
+  const [cargando, setCargando] = useState(false);
+  const [mensajeError, setMensajeError] = useState("");
   const [email, setEmail] = useState("");  // Estado local para el email
   const [password, setPassword] = useState(""); // Estado local para la contraseña
   const navigate = useNavigate(); // Para redirigir
 
-  const handleSubmit = (e) => { // Maneja el envío del formulario
-    e.preventDefault(); // Previene el envío por defecto
+  const handleSubmit = async (e) => { // Maneja el envío del formulario
+    e.preventDefault(); // Previene el envío por defecto 
+
+    setMensajeError("");
 
     if (email.trim() === "" || password.trim() === "") { // Validación básica
-      alert("⚠️ Por favor completa todos los campos.");
+      setMensajeError("⚠️ Por favor completa todos los campos.");
       return; // Detiene la ejecución si hay campos vacíos
     }
+
+
+
+    setCargando(true);
+
+    try{
+
+    await new Promise((resolve) => setTimeout(resolve, 1500));
 
     // Cargar usuarios desde localStorage y añadir admin
     const registeredUsers = JSON.parse(localStorage.getItem("users")) || [];
@@ -36,7 +49,7 @@ export default function Login({ setIsAdminLogged }) {
       localStorage.setItem("token", "dummy-token-for-" + foundUser.email); // Guardar token de acceso
       localStorage.setItem("user", JSON.stringify(foundUser)); // Guardar datos del usuario
 
-      alert("✅ Inicio de sesión exitoso!");
+      setMensajeExito("✅ Inicio de sesión exitoso!");
 
       // Normalizar rol y actualizar estado de admin en App
       const role = (foundUser.role) ? String(foundUser.role).toUpperCase() : "";
@@ -44,21 +57,32 @@ export default function Login({ setIsAdminLogged }) {
         setIsAdminLogged(role === "ADMIN");
       }
 
-      // Redirigir según el rol
-      if (role === "ADMIN") {
-        navigate("/admin");
-        
-      } else {
-        navigate("/");
-      }
+      // Retrasamos la redirección 1.5 segundos para que se alcance a ver el mensaje
+        setTimeout(() => {
+          if (role === "ADMIN") {
+            navigate("/admin");
+          } else {
+            navigate("/");
+          }
+        }, 1500);
+
+      
+     
     } else {
-      alert("❌ Usuario o contraseña incorrectos");
+      setMensajeError("❌ Usuario o contraseña incorrectos");
+      setCargando(false);
+    }
+  } catch (error) {
+    console.error("Error en el inicio de sesión:", error);
+    setMensajeError("Error al iniciar sesión.")
+    setCargando(false);
+
     }
   };
 
   return (
       <div className="fondo-iniciar-Sesion d-flex justify-content-center align-items-center vh-100">
-      <div className="card p-4" style={{ maxWidth: "400px", width: "100%" }}>
+      <div className="card p-4" style={{ maxWidth: "400px"}}>
         <h2 className="text-center mb-4">Iniciar sesión</h2>
         <form onSubmit={handleSubmit}>
           {/* Campo Email */}
@@ -89,19 +113,38 @@ export default function Login({ setIsAdminLogged }) {
             />
           </div>
 
+          {mensajeError && (
+            <div className="alert alert-danger text-center mb-3" role="alert">
+              {mensajeError}
+            </div>
+          )}
+
+          {mensajeExito && (
+            <div className="alert alert-success text-center mb-3" role="alert">
+              {mensajeExito}
+            </div>
+          )}
+
           {/* Botón Iniciar sesión */}
-          <div className="d-grid mb-3">
-            <button type="submit" className="btn btn-warning text-center">
-              Iniciar sesión
-            </button>
-          </div>
+         <div className="d-grid mb-3">
+          <button type="submit" className="btn btn-warning text-center" disabled={cargando}>
+            {cargando ? (
+              <>
+                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Cargando...
+              </>
+            ) : (
+              "Iniciar sesión"
+            )}
+          </button>
+        </div>
 
           {/* Enlaces adicionales */}
-          <div className="d-flex justify-content-between">
-            <a href="#" className="text-muted">
+          <div className="d-flex flex-column flex-md-row justify-content-between text-center mt-3 gap-2">
+            <a href="#" className="text-muted small text-decoration-none">
               ¿Has olvidado la contraseña?
             </a>
-            <a href="/RegistroUsuario" className="text-muted">
+            <a href="/RegistroUsuario" className="text-muted small text-decoration-none">
               ¿Eres un usuario nuevo? Crear cuenta
             </a>
           </div>

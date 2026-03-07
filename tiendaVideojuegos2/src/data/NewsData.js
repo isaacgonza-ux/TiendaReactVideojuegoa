@@ -10,7 +10,7 @@ export const noticias = [
     id: 2,
     title: "The last of us part l sin duda debes jugarlo",
     img: "https://image.api.playstation.com/vulcan/ap/rnd/202206/0720/eEczyEMDd2BLa3dtkGJVE9Id.png",
-    link: "BlogTlou1.html"
+    link: "/blog/tlast1"
   },
   {
     id: 3,
