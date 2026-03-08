@@ -19,6 +19,8 @@ import Descuentos from "./pages/Descuentos.jsx";
 import B_Battlefield from "./Blog/B_Battlefield.jsx";
 import Tlast1Blog from "./Blog/TlastBlog.jsx";
 import Fc26Blog  from "./Blog/Fc26Blog.jsx";
+import Perfil from "./pages/PerfilUsuario.jsx";
+
 
 // Autenticación y Admin
 import InicioSesion from "./pages/InicioSesion.jsx";
@@ -100,6 +102,7 @@ function App() {
           <Route path="/catalogo" element={<Catalogo />} /> 
           <Route path="/nosotros" element={<Nosotros />} /> 
           <Route path="/descuentos" element={<Descuentos />} />  
+          <Route path="perfilUsuario" element={<Perfil />} />  
 
           {/* Autenticación */}
           <Route path="/inicioSesion" element={<InicioSesion setIsAdminLogged={setIsAdminLogged} />} /> 

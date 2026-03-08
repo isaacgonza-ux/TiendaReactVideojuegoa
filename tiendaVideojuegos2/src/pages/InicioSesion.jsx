@@ -62,7 +62,7 @@ export default function Login({ setIsAdminLogged }) {
           if (role === "ADMIN") {
             navigate("/admin");
           } else {
-            navigate("/");
+            navigate("/perfilUsuario");
           }
         }, 1500);
 
