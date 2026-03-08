@@ -6,21 +6,40 @@ export default function AdminUsuarios({ isAdminLogged }) {
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({ username: "", password: "", name: "", email: "", role: "USER" });
 
-  const API_URL = "http://localhost:8080/admin"; 
+  const BASE_URL = "http://localhost:8080/admin"; 
   
-  // 🔑 Función para obtener el token SIEMPRE actualizado en el momento de la petición
+  // Obtener el token actualizado
   const getToken = () => localStorage.getItem("token");
+
+  // Helper para los Headers con el JWT
+  const getAuthHeaders = () => ({
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${getToken()}`
+  });
 
   // -----------------------
   //  CARGAR USUARIOS (GET)
   // -----------------------
   const loadUsers = async () => {
-    const localUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const allUsers = [
-        { id: 0, name: "Admin", email: "admin@gmail.com", username: "admin", role: "ADMIN" },
-        ...localUsers.map((u, index) => ({...u, id: u.id || index + 1}))
-    ];
-    setUsers(allUsers);
+    try {
+      // Usamos tu ruta específica: /admin/get_users
+      const response = await fetch(`${BASE_URL}/get_users`, {
+        method: "GET",
+        headers: getAuthHeaders()
+      });
+
+      if (!response.ok) throw new Error("Error al obtener usuarios");
+
+      const data = await response.json();
+      
+      // ⚠️ IMPORTANTE: Spring Boot devuelve un 'Page', la lista está en data.content
+      // Si data.content no existe (por si lo cambias a List en el futuro), usamos data directamente.
+      const usersList = data.content ? data.content : data;
+      setUsers(usersList); 
+      
+    } catch (error) {
+      console.error("Error al cargar los usuarios:", error);
+    }
   };
 
   useEffect(() => {
@@ -46,23 +65,27 @@ export default function AdminUsuarios({ isAdminLogged }) {
   const handleAdd = async (e) => {
     e.preventDefault(); 
 
-    if (!form.username || !form.password || !form.name || !form.email || !form.role) {
-      return alert("Todos los campos son obligatorios.");
+    try {
+      
+      const response = await fetch(`${BASE_URL}/create_users`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(form) // Esto coincide con CreateUserByAdminRequest.java
+      });
+
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        // Extraemos los errores de validación de Spring o el MessageResponse
+        const errorMessage = err.message || Object.values(err)[0] || "Error al crear";
+        throw new Error(errorMessage);
+      }
+      
+      alert("✅ Usuario creado con éxito");
+      await loadUsers(); 
+      setForm({ username: "", password: "", name: "", email: "", role: "USER" }); 
+    } catch (error) {
+      alert(`❌ Error: ${error.message}`);
     }
-    
-    let localUsers = JSON.parse(localStorage.getItem("users")) || [];
-    if(localUsers.find(u => u.email === form.email)){
-        alert("El correo electronico ya esta en uso");
-        return;
-    }
-    
-    const newUser = { ...form, id: Date.now() };
-    localUsers.push(newUser);
-    localStorage.setItem("users", JSON.stringify(localUsers));
-    
-    alert("✅ Usuario creado con éxito");
-    await loadUsers(); 
-    setForm({ username: "", password: "", name: "", email: "", role: "USER" }); 
   };
 
   // -----------------------
@@ -82,28 +105,31 @@ export default function AdminUsuarios({ isAdminLogged }) {
   const saveEdit = async (e) => {
     e.preventDefault(); 
 
-    if (!editForm.username || !editForm.name || !editForm.email || !editForm.role) {
-      return alert("Faltan campos obligatorios.");
+    const payload = { ...editForm };
+    if (!payload.password || payload.password.trim() === "") {
+      delete payload.password; 
     }
     
-    let localUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const userIndex = localUsers.findIndex(u => u.id === editingId);
+    try {
+   
+      const response = await fetch(`${BASE_URL}/users/${editingId}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(payload)
+      });
 
-    if (userIndex > -1) {
-        const updatedUser = { ...localUsers[userIndex], ...editForm };
-        if (editForm.password && editForm.password.trim() !== "") {
-            updatedUser.password = editForm.password;
-        } else {
-            updatedUser.password = localUsers[userIndex].password;
-        }
-        localUsers[userIndex] = updatedUser;
-        localStorage.setItem("users", JSON.stringify(localUsers));
-        
-        alert("✅ Usuario editado con éxito");
-        cancelEdit();
-        await loadUsers();
-    } else {
-        alert("Error al guardar cambios. No se encontró el usuario.");
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        const errorMessage = err.message || Object.values(err)[0] || "Error al actualizar";
+        throw new Error(errorMessage);
+      }
+
+      alert("✅ Usuario editado con éxito");
+      cancelEdit();
+      await loadUsers(); 
+
+    } catch (error) {
+      alert(`❌ Error: ${error.message}`);
     }
   };
 
@@ -118,18 +144,25 @@ export default function AdminUsuarios({ isAdminLogged }) {
   const handleDelete = async (id) => { 
     if (!window.confirm("¿Estás seguro de eliminar este usuario?")) return; 
 
-    let localUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const updatedUsers = localUsers.filter(u => u.id !== id);
-    
-    if (updatedUsers.length < localUsers.length) {
-        localStorage.setItem("users", JSON.stringify(updatedUsers));
-        alert("🗑️ Usuario eliminado con éxito");
-        await loadUsers();
-    } else {
-        alert("No se pudo eliminar el usuario.");
+    try {
+      
+      const response = await fetch(`${BASE_URL}/users/${id}`, {
+        method: "DELETE",
+        headers: getAuthHeaders()
+      });
+
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.message || "No se pudo eliminar el usuario");
+      }
+
+      alert("🗑️ Usuario eliminado con éxito");
+      await loadUsers(); 
+
+    } catch (error) {
+      alert(`❌ Error: ${error.message}`);
     }
   };
-
   return (
     <div className="container py-5"> 
       <h2 className="mb-4">Gestión de Usuarios</h2> 

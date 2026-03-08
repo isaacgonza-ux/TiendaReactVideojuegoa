@@ -17,67 +17,61 @@ export default function Login({ setIsAdminLogged }) {
   const [password, setPassword] = useState(""); // Estado local para la contraseña
   const navigate = useNavigate(); // Para redirigir
 
-  const handleSubmit = async (e) => { // Maneja el envío del formulario
-    e.preventDefault(); // Previene el envío por defecto 
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setMensajeError("");
+    setMensajeExito("");
 
-    if (email.trim() === "" || password.trim() === "") { // Validación básica
+    if (email.trim() === "" || password.trim() === "") {
       setMensajeError("⚠️ Por favor completa todos los campos.");
-      return; // Detiene la ejecución si hay campos vacíos
+      return;
     }
-
-
 
     setCargando(true);
 
-    try{
+    try {
+      const response = await fetch("http://localhost:8080/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        setMensajeError(`❌ ${errorData.message || 'Usuario o contraseña incorrectos'}`);
+        return;
+      }
 
-    // Cargar usuarios desde localStorage y añadir admin
-    const registeredUsers = JSON.parse(localStorage.getItem("users")) || [];
-    const users = [
-      { email: "admin@gmail.com", password: "admin", role: "ADMIN", name: "Admin" },
-      ...registeredUsers
-    ];
+      const data = await response.json();
 
-    const foundUser = users.find(user => user.email === email && user.password === password);
-
-    if (foundUser) {
       // Guardar en localStorage
-      localStorage.setItem("token", "dummy-token-for-" + foundUser.email); // Guardar token de acceso
-      localStorage.setItem("user", JSON.stringify(foundUser)); // Guardar datos del usuario
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
       setMensajeExito("✅ Inicio de sesión exitoso!");
-      setCargando(false);
 
-      // Normalizar rol y actualizar estado de admin en App
-      const role = (foundUser.role) ? String(foundUser.role).toUpperCase() : "";
+      const role = (data.user && data.user.role) ? String(data.user.role).toUpperCase() : "";
       if (typeof setIsAdminLogged === "function") {
         setIsAdminLogged(role === "ADMIN");
       }
-
-      // Retrasamos la redirección 1.5 segundos para que se alcance a ver el mensaje
-        setTimeout(() => {
-          if (role === "ADMIN") {
-            navigate("/admin");
-          } else {
-            navigate("/perfilUsuario");
-          }
-        }, 1500);
-
       
-     
-    } else {
-      setMensajeError("❌ Usuario o contraseña incorrectos");
-      setCargando(false);
-    }
-  } catch (error) {
-    console.error("Error en el inicio de sesión:", error);
-    setMensajeError("Error al iniciar sesión.")
-    setCargando(false);
+      // Redireccionar después de un momento
+      setTimeout(() => {
+        if (role === "ADMIN") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
+      }, 1500);
 
+    } catch (error) {
+      console.error("Error en el inicio de sesión:", error);
+      setMensajeError("⚠️ Error al conectar con el servidor.");
+    } finally {
+      setCargando(false);
     }
   };
 
