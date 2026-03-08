@@ -26,7 +26,7 @@ import Perfil from "./pages/PerfilUsuario.jsx";
 import InicioSesion from "./pages/InicioSesion.jsx";
 import RegistroUsuario from "./pages/RegistroUsuario.jsx"; 
 import AdminPanel from "./pages/AdminPanel.jsx";
-// (Si no usas AdminProd, AdminUser, AdminOrders directamente aquí porque están dentro de AdminPanel, puedes quitarlos, si no, déjalos)
+
 
 // Pagos
 import Checkout from './pages/Checkout.jsx';
@@ -34,8 +34,8 @@ import Pago from "./pages/Pago.jsx";
 import PagoError from "./pages/PagoError.jsx";
 import PagoExitoso from "./pages/PagoExitoso.jsx";
 
-// --- IMPORTACIÓN DEL COMPONENTE REUTILIZABLE ---
-import ProductDetail from './components/ProductDetail'; // Ajusta la ruta si es necesario
+
+import ProductDetail from './components/ProductDetail'; 
 
 // --- IMPORTACIÓN DE DATOS DE JUEGOS ---
 import { 
@@ -47,7 +47,7 @@ import {
  tlas2Data,
  redDeadRedemption2Data,
  gow2018Data
-} from './data/ProductData'; // Ajusta la ruta si es necesario
+} from './data/ProductData'; 
 
 
 function App() {
