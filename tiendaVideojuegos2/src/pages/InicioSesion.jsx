@@ -50,6 +50,7 @@ export default function Login({ setIsAdminLogged }) {
       localStorage.setItem("user", JSON.stringify(foundUser)); // Guardar datos del usuario
 
       setMensajeExito("✅ Inicio de sesión exitoso!");
+      setCargando(false);
 
       // Normalizar rol y actualizar estado de admin en App
       const role = (foundUser.role) ? String(foundUser.role).toUpperCase() : "";

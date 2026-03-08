@@ -59,6 +59,8 @@ function App() {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user && user.role === 'ADMIN') {
       setIsAdminLogged(true);
+    } else {
+      setIsAdminLogged(false);
     }
   }, []);
 
@@ -79,7 +81,7 @@ function App() {
       <>
         <ScrollToTop />
         <Menu toggleCart={toggleCart} />
-        <MenuLateral />
+        <MenuLateral setIsAdminLogged={setIsAdminLogged} />
 
         <Routes>
           <Route path="/" element={<Home />} />

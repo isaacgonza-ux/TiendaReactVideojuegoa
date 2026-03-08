@@ -6,16 +6,22 @@
   Nota: markup preparado para integrarse con Bootstrap offcanvas.
 */
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import CategoryLink from './CategoryLink';
 import "../css/MenuLateral.css";
 
+export default function MenuLateral({ setIsAdminLogged }) {
+  const navigate = useNavigate();
 
-
-
-
-export default function MenuLateral() {
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    if (typeof setIsAdminLogged === "function") {
+      setIsAdminLogged(false);
+    }
+    navigate("/inicioSesion");
+  };
   // use CategoryLink component for category navigation which closes the offcanvas and navigates
     return (
       /* Menu lateral (Offcanvas) */
@@ -122,6 +128,13 @@ export default function MenuLateral() {
               <a href="#" className="categoria-link">
                 <i className="bi bi-trophy-fill me-2 text-warning"></i>PREMIOS
               </a>
+            </li>
+
+            <li>
+              <Link to="/inicioSesion" className="categoria-link" onClick={handleLogout}>
+                <i className="bi bi-box-arrow-right me-2 text-danger"></i>
+                Cerrar Sesión
+              </Link>
             </li>
           </ul>
         </div>
